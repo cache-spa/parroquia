@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Persona creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('persona') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
+    
+{% block javascripts %}
+    <script>
+        $( ".date" ).datepicker( "option", "yearRange", "c-100:c" );
+    </script>
+{% endblock %}

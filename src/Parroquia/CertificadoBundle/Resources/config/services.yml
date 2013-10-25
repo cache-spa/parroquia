@@ -1,0 +1,7 @@
+parameters:
+#    parroquia_certificado.example.class: Parroquia\CertificadoBundle\Example
+
+services:
+#    parroquia_certificado.example:
+#        class: %parroquia_certificado.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

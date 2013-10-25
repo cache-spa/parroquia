@@ -1,0 +1,30 @@
+persona:
+    pattern:  /
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:index" }
+
+persona_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:show" }
+
+persona_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:new" }
+
+persona_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:create" }
+    requirements: { _method: post }
+
+persona_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:edit" }
+
+persona_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:update" }
+    requirements: { _method: post|put }
+
+persona_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:delete" }
+    requirements: { _method: post|delete }

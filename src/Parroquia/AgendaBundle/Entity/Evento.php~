@@ -1,0 +1,44 @@
+<?php
+
+namespace Parroquia\AgendaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table
+ */
+class Evento
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $nombre;
+    
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $inicio;
+    
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $termino;    
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $lugar;
+    
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $detalle;    
+}

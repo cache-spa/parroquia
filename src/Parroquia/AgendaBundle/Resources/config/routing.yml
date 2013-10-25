@@ -1,0 +1,3 @@
+parroquia_agenda_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: ParroquiaAgendaBundle:Default:index }

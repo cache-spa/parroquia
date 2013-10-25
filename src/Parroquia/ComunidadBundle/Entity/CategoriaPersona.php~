@@ -1,0 +1,32 @@
+<?php
+
+namespace Parroquia\ComunidadBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table
+ */
+class CategoriaPersona
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="personas")
+     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id", nullable=false)
+     * */
+    protected $categoria;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Persona", inversedBy="categorias")
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id", nullable=false) 
+     * */
+    protected $persona;    
+
+}

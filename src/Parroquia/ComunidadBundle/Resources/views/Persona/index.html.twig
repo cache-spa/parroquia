@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Persona list</h1>
+
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellido_p</th>
+                <th>Apellido_m</th>
+                <th>Rut</th>
+                <th>Sexo</th>
+                <th>Fecha_nacimiento</th>
+                <th>Padre</th>
+                <th>Madre</th>
+                <th>Telefono</th>
+                <th>Celular</th>
+                <th>Email</th>
+                <th>Direccion</th>
+                <th>Estado_civil</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('persona_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombres }}</td>
+                <td>{{ entity.apellidop }}</td>
+                <td>{{ entity.apellidom }}</td>
+                <td>{{ entity.rut }}</td>
+                <td>{{ entity.sexo }}</td>
+                <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }}{% endif %}</td>
+                <td>{{ entity.padre }}</td>
+                <td>{{ entity.madre }}</td>
+                <td>{{ entity.telefono }}</td>
+                <td>{{ entity.celular }}</td>
+                <td>{{ entity.email }}</td>
+                <td>{{ entity.direccion }}</td>
+                <td>{{ entity.estadocivil }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('persona_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('persona_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('persona_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
