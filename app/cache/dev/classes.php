@@ -2770,7 +2770,7 @@ namespace
 {
 class Twig_Environment
 {
-const VERSION ='1.14.0';
+const VERSION ='1.14.1';
 protected $charset;
 protected $loader;
 protected $debug;
@@ -2993,9 +2993,9 @@ public function setParser(Twig_ParserInterface $parser)
 {
 $this->parser = $parser;
 }
-public function parse(Twig_TokenStream $tokens)
+public function parse(Twig_TokenStream $stream)
 {
-return $this->getParser()->parse($tokens);
+return $this->getParser()->parse($stream);
 }
 public function getCompiler()
 {
@@ -3020,7 +3020,7 @@ return $this->compile($this->parse($this->tokenize($source, $name)));
 $e->setTemplateFile($name);
 throw $e;
 } catch (Exception $e) {
-throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the compilation of a template ("%s").', $e->getMessage()), -1, $name, $e);
+throw new Twig_Error_Syntax(sprintf('An exception has been thrown during the compilation of a template ("%s").', $e->getMessage()), -1, $name, $e);
 }
 }
 public function setLoader(Twig_LoaderInterface $loader)
@@ -3401,7 +3401,7 @@ throw new RuntimeException(sprintf("Unable to create the cache directory (%s).",
 } elseif (!is_writable($dir)) {
 throw new RuntimeException(sprintf("Unable to write in the cache directory (%s).", $dir));
 }
-$tmpFile = tempnam(dirname($file), basename($file));
+$tmpFile = tempnam($dir, basename($file));
 if (false !== @file_put_contents($tmpFile, $content)) {
 if (@rename($tmpFile, $file) || (@copy($tmpFile, $file) && unlink($tmpFile))) {
 @chmod($file, 0666 & ~umask());
@@ -3715,12 +3715,14 @@ $defaultTimezone = new DateTimeZone($timezone);
 } else {
 $defaultTimezone = $timezone;
 }
-if ($date instanceof DateTime) {
-$date = clone $date;
+if ($date instanceof DateTime || $date instanceof DateTimeInterface) {
+$returningDate = new DateTime($date->format('c'));
 if (false !== $timezone) {
-$date->setTimezone($defaultTimezone);
+$returningDate->setTimezone($defaultTimezone);
+} else {
+$returningDate->setTimezone($date->getTimezone());
 }
-return $date;
+return $returningDate;
 }
 $asString = (string) $date;
 if (ctype_digit($asString) || (!empty($asString) &&'-'=== $asString[0] && ctype_digit(substr($asString, 1)))) {

@@ -16,6 +16,11 @@
       <parameter key="AsseticBundle">Symfony\Bundle\AsseticBundle\AsseticBundle</parameter>
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
+      <parameter key="ParroquiaComunidadBundle">Parroquia\ComunidadBundle\ParroquiaComunidadBundle</parameter>
+      <parameter key="ParroquiaCertificadoBundle">Parroquia\CertificadoBundle\ParroquiaCertificadoBundle</parameter>
+      <parameter key="ParroquiaAgendaBundle">Parroquia\AgendaBundle\ParroquiaAgendaBundle</parameter>
+      <parameter key="KnpSnappyBundle">Knp\Bundle\SnappyBundle\KnpSnappyBundle</parameter>
+      <parameter key="KnpMenuBundle">Knp\Bundle\MenuBundle\KnpMenuBundle</parameter>
       <parameter key="AcmeDemoBundle">Acme\DemoBundle\AcmeDemoBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -33,9 +38,8 @@
     <parameter key="mailer_host">127.0.0.1</parameter>
     <parameter key="mailer_user">null</parameter>
     <parameter key="mailer_password">null</parameter>
-    <parameter key="locale">en</parameter>
+    <parameter key="locale">es</parameter>
     <parameter key="secret">174b318f1370e15fd02e57e44c2b9ceeb2e78949</parameter>
-    <parameter key="database_path">null</parameter>
     <parameter key="controller_resolver.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver</parameter>
     <parameter key="controller_name_converter.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser</parameter>
     <parameter key="response_listener.class">Symfony\Component\HttpKernel\EventListener\ResponseListener</parameter>
@@ -88,7 +92,7 @@
     <parameter key="kernel.http_method_override">true</parameter>
     <parameter key="kernel.trusted_hosts" type="collection"/>
     <parameter key="kernel.trusted_proxies" type="collection"/>
-    <parameter key="kernel.default_locale">en</parameter>
+    <parameter key="kernel.default_locale">es</parameter>
     <parameter key="session.class">Symfony\Component\HttpFoundation\Session\Session</parameter>
     <parameter key="session.flashbag.class">Symfony\Component\HttpFoundation\Session\Flash\FlashBag</parameter>
     <parameter key="session.attribute_bag.class">Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag</parameter>
@@ -400,6 +404,11 @@
     <parameter key="assetic.node.bin">/usr/bin/node</parameter>
     <parameter key="assetic.ruby.bin">/usr/bin/ruby</parameter>
     <parameter key="assetic.sass.bin">/usr/bin/sass</parameter>
+    <parameter key="assetic.filter.lessphp.class">Assetic\Filter\LessphpFilter</parameter>
+    <parameter key="assetic.filter.lessphp.presets" type="collection"/>
+    <parameter key="assetic.filter.lessphp.paths" type="collection"/>
+    <parameter key="assetic.filter.lessphp.formatter">null</parameter>
+    <parameter key="assetic.filter.lessphp.preserve_comments">null</parameter>
     <parameter key="assetic.filter.cssrewrite.class">Assetic\Filter\CssRewriteFilter</parameter>
     <parameter key="assetic.twig_extension.functions" type="collection"/>
     <parameter key="assetic.controller.class">Symfony\Bundle\AsseticBundle\Controller\AsseticController</parameter>
@@ -473,6 +482,31 @@
     <parameter key="sensio_framework_extra.converter.doctrine.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter</parameter>
     <parameter key="sensio_framework_extra.converter.datetime.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter</parameter>
     <parameter key="sensio_framework_extra.view.listener.class">Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener</parameter>
+    <parameter key="knp_snappy.pdf.internal_generator.class">Knp\Snappy\Pdf</parameter>
+    <parameter key="knp_snappy.pdf.class">Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator</parameter>
+    <parameter key="knp_snappy.pdf.binary">C:/xampp/htdocs/Parroquia/app/../vendor/h4cc/wkhtmltopdf/wkhtmltopdf</parameter>
+    <parameter key="knp_snappy.pdf.options" type="collection"/>
+    <parameter key="knp_snappy.pdf.env" type="collection"/>
+    <parameter key="knp_snappy.image.internal_generator.class">Knp\Snappy\Image</parameter>
+    <parameter key="knp_snappy.image.class">Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator</parameter>
+    <parameter key="knp_snappy.image.binary">C:/xampp/htdocs/Parroquia/app/../vendor/h4cc/wkhtmltopdf/wkhtmltoimage</parameter>
+    <parameter key="knp_snappy.image.options" type="collection"/>
+    <parameter key="knp_snappy.image.env" type="collection"/>
+    <parameter key="knp_menu.factory.class">Knp\Menu\MenuFactory</parameter>
+    <parameter key="knp_menu.factory_extension.routing.class">Knp\Menu\Silex\RoutingExtension</parameter>
+    <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
+    <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
+    <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
+    <parameter key="knp_menu.menu_provider.container_aware.class">Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider</parameter>
+    <parameter key="knp_menu.menu_provider.builder_alias.class">Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider</parameter>
+    <parameter key="knp_menu.renderer_provider.class">Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider</parameter>
+    <parameter key="knp_menu.renderer.list.class">Knp\Menu\Renderer\ListRenderer</parameter>
+    <parameter key="knp_menu.renderer.list.options" type="collection"/>
+    <parameter key="knp_menu.twig.extension.class">Knp\Menu\Twig\MenuExtension</parameter>
+    <parameter key="knp_menu.renderer.twig.class">Knp\Menu\Renderer\TwigRenderer</parameter>
+    <parameter key="knp_menu.renderer.twig.options" type="collection"/>
+    <parameter key="knp_menu.renderer.twig.template">knp_menu.html.twig</parameter>
+    <parameter key="knp_menu.default_renderer">twig</parameter>
     <parameter key="web_profiler.controller.profiler.class">Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController</parameter>
     <parameter key="web_profiler.controller.router.class">Symfony\Bundle\WebProfilerBundle\Controller\RouterController</parameter>
     <parameter key="web_profiler.controller.exception.class">Symfony\Bundle\WebProfilerBundle\Controller\ExceptionController</parameter>
@@ -542,7 +576,7 @@
     </service>
     <service id="locale_listener" class="Symfony\Component\HttpKernel\EventListener\LocaleListener">
       <tag name="kernel.event_subscriber"/>
-      <argument>en</argument>
+      <argument>es</argument>
       <argument type="service" id="router" on-invalid="ignore"/>
       <call method="setRequest">
         <argument type="service" id="request" on-invalid="null" strict="false"/>
@@ -578,6 +612,14 @@
         <argument>kernel.request</argument>
         <argument type="collection">
           <argument>assetic.request_listener</argument>
+          <argument>onKernelRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument>knp_menu.listener.voters</argument>
           <argument>onKernelRequest</argument>
         </argument>
         <argument>0</argument>
@@ -2002,6 +2044,19 @@
         </argument>
       </call>
       <call method="addExtension">
+        <argument type="service">
+          <service class="Knp\Menu\Twig\MenuExtension" public="false">
+            <tag name="twig.extension"/>
+            <argument type="service">
+              <service class="Knp\Menu\Twig\Helper" public="false">
+                <argument type="service" id="knp_menu.renderer_provider"/>
+                <argument type="service" id="knp_menu.menu_provider"/>
+              </service>
+            </argument>
+          </service>
+        </argument>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.acme.demo"/>
       </call>
       <call method="addGlobal">
@@ -2052,12 +2107,18 @@
     <service id="assetic.filter_manager" class="Symfony\Bundle\AsseticBundle\FilterManager">
       <argument type="service" id="service_container"/>
       <argument type="collection">
+        <argument key="lessphp">assetic.filter.lessphp</argument>
         <argument key="cssrewrite">assetic.filter.cssrewrite</argument>
       </argument>
     </service>
     <service id="assetic.asset_manager" class="Assetic\Factory\LazyAssetManager">
       <argument type="service" id="assetic.asset_factory"/>
       <argument type="collection">
+        <argument key="config" type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Loader\ConfigurationLoader" public="false">
+            <tag name="assetic.formula_loader" alias="config"/>
+          </service>
+        </argument>
         <argument key="twig" type="service">
           <service class="Assetic\Factory\Loader\CachedFormulaLoader" public="false">
             <tag name="assetic.formula_loader" alias="twig"/>
@@ -2077,6 +2138,25 @@
           </service>
         </argument>
       </argument>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\ConfigurationResource" public="false">
+            <tag name="assetic.formula_resource" loader="config"/>
+            <argument type="collection">
+              <argument key="jquery" type="collection">
+                <argument type="collection">
+                  <argument>C:/xampp/htdocs/Parroquia/app/../vendor/jquery/jquery/jquery-1.9.1.js</argument>
+                </argument>
+                <argument type="collection"/>
+                <argument type="collection">
+                  <argument key="output">js/jquery.js</argument>
+                </argument>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>config</argument>
+      </call>
       <call method="addResource">
         <argument type="service">
           <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource" public="false">
@@ -2101,6 +2181,15 @@
       <argument>true</argument>
       <call method="addWorker">
         <argument type="service">
+          <service class="Assetic\Factory\Worker\EnsureFilterWorker" public="false">
+            <tag name="assetic.factory_worker"/>
+            <argument>/\.less$/</argument>
+            <argument type="service" id="assetic.filter.lessphp"/>
+          </service>
+        </argument>
+      </call>
+      <call method="addWorker">
+        <argument type="service">
           <service class="Symfony\Bundle\AsseticBundle\Factory\Worker\UseControllerWorker" public="false">
             <tag name="assetic.factory_worker"/>
           </service>
@@ -2109,6 +2198,22 @@
     </service>
     <service id="assetic.value_supplier.default" class="Symfony\Bundle\AsseticBundle\DefaultValueSupplier" public="false">
       <argument type="service" id="service_container"/>
+    </service>
+    <service id="assetic.filter.lessphp" class="Assetic\Filter\LessphpFilter">
+      <tag name="assetic.filter" alias="lessphp"/>
+      <file>C:/xampp/htdocs/Parroquia/app/../vendor/leafo/lessphp/lessc.inc.php</file>
+      <call method="setPresets">
+        <argument type="collection"/>
+      </call>
+      <call method="setLoadPaths">
+        <argument type="collection"/>
+      </call>
+      <call method="setFormatter">
+        <argument>null</argument>
+      </call>
+      <call method="setPreserveComments">
+        <argument>null</argument>
+      </call>
     </service>
     <service id="assetic.filter.cssrewrite" class="Assetic\Filter\CssRewriteFilter">
       <tag name="assetic.filter" alias="cssrewrite"/>
@@ -2209,7 +2314,11 @@
       <argument type="service">
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument key="ParroquiaComunidadBundle">Parroquia\ComunidadBundle\Entity</argument>
+              <argument key="ParroquiaCertificadoBundle">Parroquia\CertificadoBundle\Entity</argument>
+              <argument key="ParroquiaAgendaBundle">Parroquia\AgendaBundle\Entity</argument>
+            </argument>
           </call>
           <call method="setMetadataCacheImpl">
             <argument type="service">
@@ -2240,7 +2349,47 @@
           </call>
           <call method="setMetadataDriverImpl">
             <argument type="service">
-              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false"/>
+              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false">
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\ComunidadBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\CertificadoBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\AgendaBundle\Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Parroquia\ComunidadBundle\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\ComunidadBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\CertificadoBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\AgendaBundle\Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Parroquia\CertificadoBundle\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\ComunidadBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\CertificadoBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\AgendaBundle\Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Parroquia\AgendaBundle\Entity</argument>
+                </call>
+              </service>
             </argument>
           </call>
           <call method="setProxyDir">
@@ -2303,6 +2452,81 @@
     </service>
     <service id="sensio_framework_extra.cache.listener" class="Sensio\Bundle\FrameworkExtraBundle\EventListener\CacheListener">
       <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="parroquia_comunidad.menu_builder" class="Parroquia\ComunidadBundle\Menu\MenuBuilder">
+      <argument type="service" id="knp_menu.factory"/>
+    </service>
+    <service id="parroquia_comunidad.menu.main" class="Knp\Menu\MenuItem" factory-method="createMainMenu" factory-service="parroquia_comunidad.menu_builder" scope="request">
+      <tag name="knp_menu.menu" alias="main"/>
+      <argument type="service" id="request"/>
+    </service>
+    <service id="knp_snappy.pdf" class="Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator">
+      <tag name="monolog.logger" channel="snappy"/>
+      <argument type="service">
+        <service class="Knp\Snappy\Pdf" public="false">
+          <argument>C:/xampp/htdocs/Parroquia/app/../vendor/h4cc/wkhtmltopdf/wkhtmltopdf</argument>
+          <argument type="collection"/>
+          <argument type="collection"/>
+        </service>
+      </argument>
+      <argument type="service" id="monolog.logger.snappy" on-invalid="null"/>
+    </service>
+    <service id="knp_snappy.image" class="Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator">
+      <tag name="monolog.logger" channel="snappy"/>
+      <argument type="service">
+        <service class="Knp\Snappy\Image" public="false">
+          <argument>C:/xampp/htdocs/Parroquia/app/../vendor/h4cc/wkhtmltopdf/wkhtmltoimage</argument>
+          <argument type="collection"/>
+          <argument type="collection"/>
+        </service>
+      </argument>
+      <argument type="service" id="monolog.logger.snappy" on-invalid="null"/>
+    </service>
+    <service id="knp_menu.factory" class="Knp\Menu\MenuFactory">
+      <call method="addExtension">
+        <argument type="service">
+          <service class="Knp\Menu\Silex\RoutingExtension" public="false">
+            <tag name="knp_menu.factory_extension"/>
+            <argument type="service" id="router"/>
+          </service>
+        </argument>
+        <argument>0</argument>
+      </call>
+    </service>
+    <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher">
+      <call method="addVoter">
+        <argument type="service" id="knp_menu.voter.router"/>
+      </call>
+    </service>
+    <service id="knp_menu.renderer_provider" class="Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider">
+      <argument type="service" id="service_container"/>
+      <argument>twig</argument>
+      <argument type="collection">
+        <argument key="list">knp_menu.renderer.list</argument>
+        <argument key="twig">knp_menu.renderer.twig</argument>
+      </argument>
+    </service>
+    <service id="knp_menu.renderer.list" class="Knp\Menu\Renderer\ListRenderer">
+      <tag name="knp_menu.renderer" alias="list"/>
+      <argument type="service" id="knp_menu.matcher"/>
+      <argument type="collection"/>
+      <argument>UTF-8</argument>
+    </service>
+    <service id="knp_menu.listener.voters" class="Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener">
+      <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+      <call method="addVoter">
+        <argument type="service" id="knp_menu.voter.router"/>
+      </call>
+    </service>
+    <service id="knp_menu.voter.router" class="Knp\Menu\Silex\Voter\RouteVoter">
+      <tag name="knp_menu.voter" request="1"/>
+    </service>
+    <service id="knp_menu.renderer.twig" class="Knp\Menu\Renderer\TwigRenderer">
+      <tag name="knp_menu.renderer" alias="twig"/>
+      <argument type="service" id="twig"/>
+      <argument>knp_menu.html.twig</argument>
+      <argument type="service" id="knp_menu.matcher"/>
+      <argument type="collection"/>
     </service>
     <service id="twig.extension.acme.demo" class="Acme\DemoBundle\Twig\Extension\DemoExtension" public="false">
       <tag name="twig.extension"/>
@@ -2519,6 +2743,21 @@
         <argument type="service" id="monolog.handler.debug"/>
       </call>
     </service>
+    <service id="monolog.logger.snappy" class="Symfony\Bridge\Monolog\Logger">
+      <argument>snappy</argument>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.chromephp"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.firephp"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.debug"/>
+      </call>
+    </service>
     <service id="monolog.handler.debug" class="Symfony\Bridge\Monolog\Handler\DebugHandler">
       <argument>100</argument>
       <argument>true</argument>
@@ -2630,6 +2869,18 @@
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
+        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\ComunidadBundle/Resources/views</argument>
+        <argument>ParroquiaComunidad</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\CertificadoBundle/Resources/views</argument>
+        <argument>ParroquiaCertificado</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\xampp\htdocs\Parroquia\src\Parroquia\AgendaBundle/Resources/views</argument>
+        <argument>ParroquiaAgenda</argument>
+      </call>
+      <call method="addPath">
         <argument>C:\xampp\htdocs\Parroquia\src\Acme\DemoBundle/Resources/views</argument>
         <argument>AcmeDemo</argument>
       </call>
@@ -2646,6 +2897,9 @@
       </call>
       <call method="addPath">
         <argument>C:\xampp\htdocs\Parroquia\vendor\symfony\symfony\src\Symfony\Bridge\Twig/Resources/views/Form</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\xampp\htdocs\Parroquia\vendor\knplabs\knp-menu\src\Knp\Menu/Resources/views</argument>
       </call>
     </service>
     <service id="logger" class="Symfony\Bridge\Monolog\Logger">
@@ -2721,6 +2975,27 @@
       <call method="setSourceIp">
         <argument>null</argument>
       </call>
+    </service>
+    <service id="knp_menu.menu_provider" class="Knp\Menu\Provider\ChainProvider">
+      <argument type="collection">
+        <argument type="service">
+          <service class="Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider" public="false">
+            <tag name="knp_menu.provider"/>
+            <argument type="service" id="service_container"/>
+            <argument type="collection">
+              <argument key="main">parroquia_comunidad.menu.main</argument>
+            </argument>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider" public="false">
+            <tag name="knp_menu.provider"/>
+            <argument type="service" id="kernel"/>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="knp_menu.factory"/>
+          </service>
+        </argument>
+      </argument>
     </service>
     <service id="session.storage" alias="session.storage.native"/>
     <service id="debug.templating.engine.twig" alias="templating"/>

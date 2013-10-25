@@ -25,6 +25,19 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         $allow = array();
         $pathinfo = rawurldecode($pathinfo);
 
+        if (0 === strpos($pathinfo, '/js/jquery')) {
+            // _assetic_jquery
+            if ($pathinfo === '/js/jquery.js') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => 'jquery',  'pos' => NULL,  '_format' => 'js',  '_route' => '_assetic_jquery',);
+            }
+
+            // _assetic_jquery_0
+            if ($pathinfo === '/js/jquery_jquery-1.9.1_1.js') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => 'jquery',  'pos' => 0,  '_format' => 'js',  '_route' => '_assetic_jquery_0',);
+            }
+
+        }
+
         if (0 === strpos($pathinfo, '/_')) {
             // _wdt
             if (0 === strpos($pathinfo, '/_wdt') && preg_match('#^/_wdt/(?P<token>[^/]++)$#s', $pathinfo, $matches)) {
@@ -130,6 +143,144 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 }
 
             }
+
+        }
+
+        if (0 === strpos($pathinfo, '/hello')) {
+            // parroquia_agenda_homepage
+            if (preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'parroquia_agenda_homepage')), array (  '_controller' => 'Parroquia\\AgendaBundle\\Controller\\DefaultController::indexAction',));
+            }
+
+            // parroquia_certificado_homepage
+            if (preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'parroquia_certificado_homepage')), array (  '_controller' => 'Parroquia\\CertificadoBundle\\Controller\\DefaultController::indexAction',));
+            }
+
+            // parroquia_comunidad_homepage
+            if (preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'parroquia_comunidad_homepage')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\DefaultController::indexAction',));
+            }
+
+        }
+
+        if (0 === strpos($pathinfo, '/persona')) {
+            // persona
+            if (rtrim($pathinfo, '/') === '/persona') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'persona');
+                }
+
+                return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::indexAction',  '_route' => 'persona',);
+            }
+
+            // persona_show
+            if (preg_match('#^/persona/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'persona_show')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::showAction',));
+            }
+
+            // persona_new
+            if ($pathinfo === '/persona/new') {
+                return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::newAction',  '_route' => 'persona_new',);
+            }
+
+            // persona_create
+            if ($pathinfo === '/persona/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_persona_create;
+                }
+
+                return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::createAction',  '_route' => 'persona_create',);
+            }
+            not_persona_create:
+
+            // persona_edit
+            if (preg_match('#^/persona/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'persona_edit')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::editAction',));
+            }
+
+            // persona_update
+            if (preg_match('#^/persona/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_persona_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'persona_update')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::updateAction',));
+            }
+            not_persona_update:
+
+            // persona_delete
+            if (preg_match('#^/persona/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_persona_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'persona_delete')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::deleteAction',));
+            }
+            not_persona_delete:
+
+        }
+
+        if (0 === strpos($pathinfo, '/categoria')) {
+            // categoria
+            if (rtrim($pathinfo, '/') === '/categoria') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'categoria');
+                }
+
+                return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::indexAction',  '_route' => 'categoria',);
+            }
+
+            // categoria_show
+            if (preg_match('#^/categoria/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'categoria_show')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::showAction',));
+            }
+
+            // categoria_new
+            if ($pathinfo === '/categoria/new') {
+                return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::newAction',  '_route' => 'categoria_new',);
+            }
+
+            // categoria_create
+            if ($pathinfo === '/categoria/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_categoria_create;
+                }
+
+                return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::createAction',  '_route' => 'categoria_create',);
+            }
+            not_categoria_create:
+
+            // categoria_edit
+            if (preg_match('#^/categoria/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'categoria_edit')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::editAction',));
+            }
+
+            // categoria_update
+            if (preg_match('#^/categoria/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_categoria_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'categoria_update')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::updateAction',));
+            }
+            not_categoria_update:
+
+            // categoria_delete
+            if (preg_match('#^/categoria/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_categoria_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'categoria_delete')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\CategoriaController::deleteAction',));
+            }
+            not_categoria_delete:
 
         }
 
