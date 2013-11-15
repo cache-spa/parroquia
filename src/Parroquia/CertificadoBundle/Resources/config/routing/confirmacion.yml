@@ -1,0 +1,30 @@
+confirmacion:
+    pattern:  /
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:index" }
+
+confirmacion_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:show" }
+
+confirmacion_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:new" }
+
+confirmacion_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:create" }
+    requirements: { _method: post }
+
+confirmacion_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:edit" }
+
+confirmacion_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:update" }
+    requirements: { _method: post|put }
+
+confirmacion_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaCertificadoBundle:Confirmacion:delete" }
+    requirements: { _method: post|delete }

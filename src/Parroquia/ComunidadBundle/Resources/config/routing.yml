@@ -1,11 +1,11 @@
 parroquia_comunidad_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: ParroquiaComunidadBundle:Default:index }
 
 ParroquiaComunidadBundle_persona:
     resource: "@ParroquiaComunidadBundle/Resources/config/routing/persona.yml"
-    prefix:   /persona
+    prefix:   /personas
     
-ParroquiaComunidadBundle_categoria:
-    resource: "@ParroquiaComunidadBundle/Resources/config/routing/categoria.yml"
-    prefix:   /categoria    
+ParroquiaComunidadBundle_grupo:
+    resource: "@ParroquiaComunidadBundle/Resources/config/routing/grupo.yml"
+    prefix:   /grupos  

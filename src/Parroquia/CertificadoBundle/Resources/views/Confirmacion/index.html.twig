@@ -1,0 +1,8 @@
+{% extends 'ParroquiaCertificadoBundle::sacramento_index.html.twig' %}
+
+{% set nombre_sacramento = 'Confirmaciones' %}
+{% set path_sacramento = 'confirmacion' %}
+
+{% block personas_header %}<th>Confirmado</th>{% endblock %}
+
+{% block personas_content %}<td>{{ entity.persona }}</td>{% endblock %}

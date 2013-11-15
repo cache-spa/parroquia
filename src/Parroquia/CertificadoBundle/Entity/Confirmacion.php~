@@ -30,7 +30,7 @@ class Confirmacion
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $insc;
+    protected $inscripcion;
     
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -48,20 +48,33 @@ class Confirmacion
     protected $notas;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $padrino;    
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ministro;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Parroquia\ComunidadBunble\Entity\Persona", inversedBy="confirmacion")
+     * @ORM\OneToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="confirmacion")
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id", nullable=false) 
+     * 
      **/   
-    protected $persona;    
+    protected $persona;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ConfirmacionPadrino", mappedBy="confirmacion", cascade={"all"})
+     **/
+    protected $confirmaciones_padrinos;
+        
+    /**
+     * @ORM\OneToMany(targetEntity="ConfirmacionCelebrante", mappedBy="confirmacion", cascade={"all"})
+     **/
+    protected $confirmaciones_celebrantes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ConfirmacionCatequista", mappedBy="confirmacion", cascade={"all"})
+     **/
+    protected $confirmaciones_catequistas;    
 
+    public function __construct() {
+        $this->confirmaciones_padrinos = new ArrayCollection();
+        $this->confirmaciones_celebrantes = new ArrayCollection();        
+        $this->confirmaciones_catequistas = new ArrayCollection();         
+    }    
+    
     /**
      * Get id
      *
@@ -119,26 +132,26 @@ class Confirmacion
     }
 
     /**
-     * Set insc
+     * Set inscripcion
      *
-     * @param integer $insc
+     * @param integer $inscripcion
      * @return Confirmacion
      */
-    public function setInsc($insc)
+    public function setInscripcion($inscripcion)
     {
-        $this->insc = $insc;
+        $this->inscripcion = $inscripcion;
     
         return $this;
     }
 
     /**
-     * Get insc
+     * Get inscripcion
      *
      * @return integer 
      */
-    public function getInsc()
+    public function getInscripcion()
     {
-        return $this->insc;
+        return $this->inscripcion;
     }
 
     /**
@@ -211,48 +224,25 @@ class Confirmacion
     }
 
     /**
-     * Set padrino
+     * Set persona
      *
-     * @param string $padrino
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $persona
      * @return Confirmacion
      */
-    public function setPadrino($padrino)
+    public function setPersona(\Parroquia\ComunidadBundle\Entity\Persona $persona = null)
     {
-        $this->padrino = $padrino;
+        $this->persona = $persona;
     
         return $this;
     }
 
     /**
-     * Get padrino
+     * Get persona
      *
-     * @return string 
+     * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getPadrino()
+    public function getPersona()
     {
-        return $this->padrino;
-    }
-
-    /**
-     * Set ministro
-     *
-     * @param string $ministro
-     * @return Confirmacion
-     */
-    public function setMinistro($ministro)
-    {
-        $this->ministro = $ministro;
-    
-        return $this;
-    }
-
-    /**
-     * Get ministro
-     *
-     * @return string 
-     */
-    public function getMinistro()
-    {
-        return $this->ministro;
+        return $this->persona;
     }
 }

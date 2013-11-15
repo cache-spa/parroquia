@@ -3,12 +3,13 @@
 namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table
  */
-class Matrimonio
+class Matrimonio extends Sacramento
 {
     /**
      * @ORM\Column(type="integer")
@@ -16,51 +17,11 @@ class Matrimonio
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $libro;
-    
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $hoja;
     
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $insc;
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $lugar;
-    
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    protected $fecha;
-    
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $notas;
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $testigos;    
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ministro;
-    
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $insc_civil;
+    protected $inscripcion_civil;
     
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -68,16 +29,43 @@ class Matrimonio
     protected $fecha_civil;    
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_1")
-     * @ORM\JoinColumn(name="persona_1_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_hombre")
+     * @ORM\JoinColumn(name="hombre_id", referencedColumnName="id")
      * */
-    protected $persona_1;
+    protected $hombre;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_2")
-     * @ORM\JoinColumn(name="persona_2_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_mujer")
+     * @ORM\JoinColumn(name="mujer_id", referencedColumnName="id")
      * */
-    protected $persona_2;    
+    protected $mujer;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioPadrino", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_padrinos;
+        
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioCelebrante", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_celebrantes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioCatequista", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_catequistas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioTestigo", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_testigos;    
+
+    public function __construct() {
+        $this->matrimonios_padrinos = new ArrayCollection();
+        $this->matrimonios_celebrantes = new ArrayCollection();        
+        $this->matrimonios_catequistas = new ArrayCollection();
+        $this->matrimonios_testigos = new ArrayCollection();        
+    }    
     
 
     /**
@@ -91,210 +79,26 @@ class Matrimonio
     }
 
     /**
-     * Set libro
+     * Set inscripcion_civil
      *
-     * @param integer $libro
+     * @param integer $inscripcionCivil
      * @return Matrimonio
      */
-    public function setLibro($libro)
+    public function setInscripcionCivil($inscripcionCivil)
     {
-        $this->libro = $libro;
+        $this->inscripcion_civil = $inscripcionCivil;
     
         return $this;
     }
 
     /**
-     * Get libro
+     * Get inscripcion_civil
      *
      * @return integer 
      */
-    public function getLibro()
+    public function getInscripcionCivil()
     {
-        return $this->libro;
-    }
-
-    /**
-     * Set hoja
-     *
-     * @param integer $hoja
-     * @return Matrimonio
-     */
-    public function setHoja($hoja)
-    {
-        $this->hoja = $hoja;
-    
-        return $this;
-    }
-
-    /**
-     * Get hoja
-     *
-     * @return integer 
-     */
-    public function getHoja()
-    {
-        return $this->hoja;
-    }
-
-    /**
-     * Set insc
-     *
-     * @param integer $insc
-     * @return Matrimonio
-     */
-    public function setInsc($insc)
-    {
-        $this->insc = $insc;
-    
-        return $this;
-    }
-
-    /**
-     * Get insc
-     *
-     * @return integer 
-     */
-    public function getInsc()
-    {
-        return $this->insc;
-    }
-
-    /**
-     * Set lugar
-     *
-     * @param string $lugar
-     * @return Matrimonio
-     */
-    public function setLugar($lugar)
-    {
-        $this->lugar = $lugar;
-    
-        return $this;
-    }
-
-    /**
-     * Get lugar
-     *
-     * @return string 
-     */
-    public function getLugar()
-    {
-        return $this->lugar;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     * @return Matrimonio
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-    
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime 
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * Set notas
-     *
-     * @param string $notas
-     * @return Matrimonio
-     */
-    public function setNotas($notas)
-    {
-        $this->notas = $notas;
-    
-        return $this;
-    }
-
-    /**
-     * Get notas
-     *
-     * @return string 
-     */
-    public function getNotas()
-    {
-        return $this->notas;
-    }
-
-    /**
-     * Set testigos
-     *
-     * @param string $testigos
-     * @return Matrimonio
-     */
-    public function setTestigos($testigos)
-    {
-        $this->testigos = $testigos;
-    
-        return $this;
-    }
-
-    /**
-     * Get testigos
-     *
-     * @return string 
-     */
-    public function getTestigos()
-    {
-        return $this->testigos;
-    }
-
-    /**
-     * Set ministro
-     *
-     * @param string $ministro
-     * @return Matrimonio
-     */
-    public function setMinistro($ministro)
-    {
-        $this->ministro = $ministro;
-    
-        return $this;
-    }
-
-    /**
-     * Get ministro
-     *
-     * @return string 
-     */
-    public function getMinistro()
-    {
-        return $this->ministro;
-    }
-
-    /**
-     * Set insc_civil
-     *
-     * @param integer $inscCivil
-     * @return Matrimonio
-     */
-    public function setInscCivil($inscCivil)
-    {
-        $this->insc_civil = $inscCivil;
-    
-        return $this;
-    }
-
-    /**
-     * Get insc_civil
-     *
-     * @return integer 
-     */
-    public function getInscCivil()
-    {
-        return $this->insc_civil;
+        return $this->inscripcion_civil;
     }
 
     /**
@@ -321,48 +125,185 @@ class Matrimonio
     }
 
     /**
-     * Set persona_1
+     * Set hombre
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Persona $persona1
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hombre
      * @return Matrimonio
      */
-    public function setPersona1(\Parroquia\ComunidadBundle\Entity\Persona $persona1 = null)
+    public function setHombre(\Parroquia\ComunidadBundle\Entity\Persona $hombre = null)
     {
-        $this->persona_1 = $persona1;
+        $this->hombre = $hombre;
     
         return $this;
     }
 
     /**
-     * Get persona_1
+     * Get hombre
      *
      * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getPersona1()
+    public function getHombre()
     {
-        return $this->persona_1;
+        return $this->hombre;
     }
 
     /**
-     * Set persona_2
+     * Set mujer
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Persona $persona2
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $mujer
      * @return Matrimonio
      */
-    public function setPersona2(\Parroquia\ComunidadBundle\Entity\Persona $persona2 = null)
+    public function setMujer(\Parroquia\ComunidadBundle\Entity\Persona $mujer = null)
     {
-        $this->persona_2 = $persona2;
+        $this->mujer = $mujer;
     
         return $this;
     }
 
     /**
-     * Get persona_2
+     * Get mujer
      *
      * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getPersona2()
+    public function getMujer()
     {
-        return $this->persona_2;
+        return $this->mujer;
     }
+
+    /**
+     * Add matrimonios_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos
+     * @return Matrimonio
+     */
+    public function addMatrimoniosPadrino(\Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos)
+    {
+        $matrimoniosPadrinos->setMatrimonio($this);
+        $this->matrimonios_padrinos[] = $matrimoniosPadrinos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos
+     */
+    public function removeMatrimoniosPadrino(\Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos)
+    {
+        $this->matrimonios_padrinos->removeElement($matrimoniosPadrinos);
+    }
+
+    /**
+     * Get matrimonios_padrinos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosPadrinos()
+    {
+        return $this->matrimonios_padrinos;
+    }
+
+    /**
+     * Add matrimonios_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes
+     * @return Matrimonio
+     */
+    public function addMatrimoniosCelebrante(\Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes)
+    {
+        $matrimoniosCelebrantes->setMatrimonio($this);
+        $this->matrimonios_celebrantes[] = $matrimoniosCelebrantes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes
+     */
+    public function removeMatrimoniosCelebrante(\Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes)
+    {
+        $this->matrimonios_celebrantes->removeElement($matrimoniosCelebrantes);
+    }
+
+    /**
+     * Get matrimonios_celebrantes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosCelebrantes()
+    {
+        return $this->matrimonios_celebrantes;
+    }
+
+    /**
+     * Add matrimonios_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas
+     * @return Matrimonio
+     */
+    public function addMatrimoniosCatequista(\Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas)
+    {
+        $matrimoniosCatequistas->setMatrimonio($this);
+        $this->matrimonios_catequistas[] = $matrimoniosCatequistas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas
+     */
+    public function removeMatrimoniosCatequista(\Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas)
+    {
+        $this->matrimonios_catequistas->removeElement($matrimoniosCatequistas);
+    }
+
+    /**
+     * Get matrimonios_catequistas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosCatequistas()
+    {
+        return $this->matrimonios_catequistas;
+    }
+
+    /**
+     * Add matrimonios_testigos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos
+     * @return Matrimonio
+     */
+    public function addMatrimoniosTestigo(\Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos)
+    {
+        $matrimoniosTestigos->setMatrimonio($this);
+        $this->matrimonios_testigos[] = $matrimoniosTestigos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_testigos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos
+     */
+    public function removeMatrimoniosTestigo(\Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos)
+    {
+        $this->matrimonios_testigos->removeElement($matrimoniosTestigos);
+    }
+
+    /**
+     * Get matrimonios_testigos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosTestigos()
+    {
+        return $this->matrimonios_testigos;
+    }    
+    
 }

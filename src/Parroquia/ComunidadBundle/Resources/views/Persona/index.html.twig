@@ -1,26 +1,30 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Persona list</h1>
+{% set menu_title = 'Comunidad' %}
 
-    <table class="table table-hover table-condensed">
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Comunidad']) }}
+{% endblock %}
+           
+{% block body -%}
+    <div class="title-wrapper"><h1>Personas</h1></div>
+
+    <table class="table table-hover table-condensed" id="personas_table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Nombres</th>
-                <th>Apellido_p</th>
-                <th>Apellido_m</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
                 <th>Rut</th>
                 <th>Sexo</th>
-                <th>Fecha_nacimiento</th>
-                <th>Padre</th>
-                <th>Madre</th>
-                <th>Telefono</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Teléfono</th>
                 <th>Celular</th>
                 <th>Email</th>
-                <th>Direccion</th>
-                <th>Estado_civil</th>
-                <th>Actions</th>
+                <th>Estado Civil</th>
+                <th>Grupos</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -33,20 +37,24 @@
                 <td>{{ entity.rut }}</td>
                 <td>{{ entity.sexo }}</td>
                 <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }}{% endif %}</td>
-                <td>{{ entity.padre }}</td>
-                <td>{{ entity.madre }}</td>
                 <td>{{ entity.telefono }}</td>
                 <td>{{ entity.celular }}</td>
                 <td>{{ entity.email }}</td>
-                <td>{{ entity.direccion }}</td>
                 <td>{{ entity.estadocivil }}</td>
+                <td>
+                    <ul>
+                    {% for grupo in entity.grupos %}
+                        <li>{{ grupo }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>                 
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('persona_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('persona_show', { 'id': entity.id }) }}">ver</a>
                     </li>
                     <li>
-                        <a href="{{ path('persona_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('persona_edit', { 'id': entity.id }) }}">editar</a>
                     </li>
                 </ul>
                 </td>
@@ -55,11 +63,37 @@
         </tbody>
     </table>
 
-        <ul>
+    <ul style="clear:both;">
         <li>
             <a href="{{ path('persona_new') }}">
-                Create a new entry
+                Agregar nuevo
             </a>
         </li>
     </ul>
     {% endblock %}
+
+{# ----Sólo en caso de usar paginación---- #
+    {% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/demo_table.css') }}">
+    {% endblock %}
+    
+    {% block javascripts %}
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script>
+    $(document).ready(function(){
+	$('#personas_table').dataTable({
+            "oLanguage": {
+                "sUrl": "{{ asset('js/dataTables.spanish.txt') }}"
+            },
+            "aLengthMenu": [
+                        [2, 25, 50, 100, -1],
+                        [2, 25, 50, 100, "Todos"]
+                    ], 
+            "iDisplayLength" : -1 ,
+            "sPaginationType": "full_numbers"
+        });
+    });
+    </script>
+    {% endblock %}
+#}

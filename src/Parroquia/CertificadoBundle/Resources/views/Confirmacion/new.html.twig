@@ -1,0 +1,37 @@
+{% extends 'ParroquiaCertificadoBundle::sacramento_new.html.twig' %}
+
+{% set nombre_sacramento = 'Confirmación' %}
+{% set path_sacramento = 'confirmacion' %}
+
+{% block personas %}
+    {{ form_row(form.persona) }}
+{% endblock %}
+
+{% block collections %}
+        <div>
+            <label>Padrinos</label>
+            <ul class="padrinos" data-prototype="{{ form_widget(form.confirmaciones_padrinos.vars.prototype)|e }}">                
+                {% for padrino in form.confirmaciones_padrinos %}
+                    <li>{{ form_row(padrino.padrino) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <div>
+            <label>Celebrantes</label>
+            <ul class="celebrantes" data-prototype="{{ form_widget(form.confirmaciones_celebrantes.vars.prototype)|e }}">                
+                {% for celebrante in form.confirmaciones_celebrantes %}
+                    <li>{{ form_row(celebrante.celebrante) }}</li>
+                {% endfor %}
+            </ul>
+        </div>    
+
+        <div>
+            <label>Catequistas</label>
+            <ul class="catequistas" data-prototype="{{ form_widget(form.confirmaciones_catequistas.vars.prototype)|e }}">                
+                {% for catequista in form.confirmaciones_catequistas %}
+                    <li>{{ form_row(catequista.catequista) }}</li>
+                {% endfor %}
+            </ul>
+        </div>    
+{% endblock %}

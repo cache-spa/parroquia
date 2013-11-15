@@ -1,0 +1,30 @@
+matrimonio:
+    pattern:  /
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:index" }
+
+matrimonio_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:show" }
+
+matrimonio_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:new" }
+
+matrimonio_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:create" }
+    requirements: { _method: post }
+
+matrimonio_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:edit" }
+
+matrimonio_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:update" }
+    requirements: { _method: post|put }
+
+matrimonio_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaCertificadoBundle:Matrimonio:delete" }
+    requirements: { _method: post|delete }

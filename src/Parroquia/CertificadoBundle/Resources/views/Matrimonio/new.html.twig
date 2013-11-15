@@ -1,0 +1,52 @@
+{% extends 'ParroquiaCertificadoBundle::sacramento_new.html.twig' %}
+
+{% set nombre_sacramento = 'Matrimonio' %}
+{% set path_sacramento = 'matrimonio' %}
+
+{% block personas %}
+    {{ form_row(form.hombre) }}
+    {{ form_row(form.mujer) }}
+{% endblock %}
+
+{% block otros %}
+    {{ form_row(form.inscripcion_civil) }}
+    {{ form_row(form.fecha_civil) }}
+{% endblock %}
+
+{% block collections %}
+        <div>
+            <label>Padrinos</label>
+            <ul class="padrinos" data-prototype="{{ form_widget(form.matrimonios_padrinos.vars.prototype)|e }}">                
+                {% for padrino in form.matrimonios_padrinos %}
+                    <li>{{ form_row(padrino.padrino) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <div>
+            <label>Celebrantes</label>
+            <ul class="celebrantes" data-prototype="{{ form_widget(form.matrimonios_celebrantes.vars.prototype)|e }}">                
+                {% for celebrante in form.matrimonios_celebrantes %}
+                    <li>{{ form_row(celebrante.celebrante) }}</li>
+                {% endfor %}
+            </ul>
+        </div>    
+
+        <div>
+            <label>Catequistas</label>
+            <ul class="catequistas" data-prototype="{{ form_widget(form.matrimonios_catequistas.vars.prototype)|e }}">                
+                {% for catequista in form.matrimonios_catequistas %}
+                    <li>{{ form_row(catequista.catequista) }}</li>
+                {% endfor %}
+            </ul>
+        </div>    
+    
+        <div>
+            <label>Testigos</label>
+            <ul class="testigos" data-prototype="{{ form_widget(form.matrimonios_testigos.vars.prototype)|e }}">                
+                {% for testigo in form.matrimonios_testigos %}
+                    <li>{{ form_row(testigo.testigo) }}</li>
+                {% endfor %}
+            </ul>
+        </div>     
+{% endblock %}    

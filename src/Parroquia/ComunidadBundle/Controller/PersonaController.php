@@ -68,7 +68,7 @@ class PersonaController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear'));
 
         return $form;
     }
@@ -147,7 +147,7 @@ class PersonaController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Actualizar'));
 
         return $form;
     }
@@ -165,10 +165,10 @@ class PersonaController extends Controller
             throw $this->createNotFoundException('Unable to find Persona entity.');
         }
 
-        $originalCategorias = array();
+        $originalGrupos = array();
 
-        foreach ($entity->getCategorias() as $categoria) {
-            $originalCategorias[] = $categoria;
+        foreach ($entity->getGrupos() as $grupo) {
+            $originalGrupos[] = $grupo;
         }
         
         $deleteForm = $this->createDeleteForm($id);
@@ -177,25 +177,25 @@ class PersonaController extends Controller
         
         if ($editForm->isValid()) {
 
-            foreach ($editForm->get('categorias')->getData() as $categoria) {
-                foreach ($originalCategorias as $key => $toDel) {
-                    if ($toDel->getId() === $categoria->getId()) {
-                        unset($originalCategorias[$key]);
+            foreach ($editForm->get('grupos')->getData() as $grupo) {
+                foreach ($originalGrupos as $key => $toDel) {
+                    if ($toDel->getId() === $grupo->getId()) {
+                        unset($originalGrupos[$key]);
                     }
                 }
             }
             
-            foreach ($originalCategorias as $categoria)
+            foreach ($originalGrupos as $grupo)
             {            
-                $categorias_personas = $entity->getCategoriasPersonas()->filter(
-                        function($entry) use ($categoria) {
-                            return $entry->getCategoria() == $categoria;
+                $grupos_personas = $entity->getGruposPersonas()->filter(
+                        function($entry) use ($grupo) {
+                            return $entry->getGrupo() == $grupo;
                          });
 
-                foreach($categorias_personas as $categoria_persona)
+                foreach($grupos_personas as $grupo_persona)
                 {
-                    $entity->removeCategoriasPersona($categoria_persona);
-                    $em->remove($categoria_persona);
+                    $entity->removeGruposPersona($grupo_persona);
+                    $em->remove($grupo_persona);
                 }               
             }
             
@@ -246,7 +246,7 @@ class PersonaController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('persona_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Borrar'))
             ->getForm()
         ;
     }

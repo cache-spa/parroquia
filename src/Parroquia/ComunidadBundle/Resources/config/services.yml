@@ -2,15 +2,3 @@ parameters:
 #    parroquia_comunidad.example.class: Parroquia\ComunidadBundle\Example
 
 services:
-    parroquia_comunidad.menu_builder:
-        class: Parroquia\ComunidadBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
-
-    parroquia_comunidad.menu.main:
-        class: Knp\Menu\MenuItem
-        factory_service: parroquia_comunidad.menu_builder
-        factory_method: createMainMenu
-        arguments: ["@request"]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: main }

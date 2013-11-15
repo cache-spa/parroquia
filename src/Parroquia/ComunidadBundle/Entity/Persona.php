@@ -41,7 +41,7 @@ class Persona
     protected $rut;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      */
     protected $sexo;
     
@@ -96,30 +96,66 @@ class Persona
     protected $confirmacion;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="persona_1")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="hombre")
      **/
-    protected $matrimonios_1;
+    protected $matrimonios_hombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="persona_2")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="mujer")
      **/
-    protected $matrimonios_2;
+    protected $matrimonios_mujer;
     
     /**
-     * @ORM\OneToMany(targetEntity="CategoriaPersona", mappedBy="persona", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="GrupoPersona", mappedBy="persona", cascade={"all"})
      **/
-    protected $categorias_personas;
+    protected $grupos_personas;
     
     /**
      * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="emisor")
      **/
-    protected $certificados_emitidos; 
+    protected $certificados_emitidos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\BautizoPadrino", mappedBy="padrino", cascade={"all"})
+     **/
+    protected $bautizos_padrinos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\BautizoCelebrante", mappedBy="celebrante", cascade={"all"})
+     **/
+    protected $bautizos_celebrantes;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\BautizoCatequista", mappedBy="catequista", cascade={"all"})
+     **/
+    protected $bautizos_catequistas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino", mappedBy="padrino", cascade={"all"})
+     **/
+    protected $confirmaciones_padrinos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante", mappedBy="celebrante", cascade={"all"})
+     **/
+    protected $confirmaciones_celebrantes;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista", mappedBy="catequista", cascade={"all"})
+     **/
+    protected $confirmaciones_catequistas;     
     
     public function __construct() {
-        $this->matrimonios_1 = new ArrayCollection();
-        $this->matrimonios_2 = new ArrayCollection();
-        $this->categorias_personas = new ArrayCollection();
+        $this->matrimonios_hombre = new ArrayCollection();
+        $this->matrimonios_mujer = new ArrayCollection();
+        $this->grupos_personas = new ArrayCollection();
         $this->certificados_emitidos = new ArrayCollection();
+        $this->bautizos_padrinos = new ArrayCollection();
+        $this->bautizos_celebrantes = new ArrayCollection();        
+        $this->bautizos_catequistas = new ArrayCollection();
+        $this->confirmaciones_padrinos = new ArrayCollection();
+        $this->confirmaciones_celebrantes = new ArrayCollection();        
+        $this->confirmaciones_catequistas = new ArrayCollection();         
     }  
     
     /**
@@ -478,69 +514,69 @@ class Persona
     }
 
     /**
-     * Add matrimonios_1
+     * Add matrimonios_hombre
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios1
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre
      * @return Persona
      */
-    public function addMatrimonios1(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios1)
+    public function addMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
     {
-        $this->matrimonios_1[] = $matrimonios1;
+        $this->matrimonios_hombre[] = $matrimonioshombre;
     
         return $this;
     }
 
     /**
-     * Remove matrimonios_1
+     * Remove matrimonios_hombre
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios1
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre
      */
-    public function removeMatrimonios1(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios1)
+    public function removeMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
     {
-        $this->matrimonios_1->removeElement($matrimonios1);
+        $this->matrimonios_hombre->removeElement($matrimonioshombre);
     }
 
     /**
-     * Get matrimonios_1
+     * Get matrimonios_hombre
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMatrimonios1()
+    public function getMatrimoniosHombre()
     {
-        return $this->matrimonios_1;
+        return $this->matrimonios_hombre;
     }
 
     /**
-     * Add matrimonios_2
+     * Add matrimonios_mujer
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios2
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer
      * @return Persona
      */
-    public function addMatrimonios2(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios2)
+    public function addMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
     {
-        $this->matrimonios_2[] = $matrimonios2;
+        $this->matrimonios_mujer[] = $matrimoniosmujer;
     
         return $this;
     }
 
     /**
-     * Remove matrimonios_2
+     * Remove matrimonios_mujer
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios2
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer
      */
-    public function removeMatrimonios2(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonios2)
+    public function removeMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
     {
-        $this->matrimonios_2->removeElement($matrimonios2);
+        $this->matrimonios_mujer->removeElement($matrimoniosmujer);
     }
 
     /**
-     * Get matrimonios_2
+     * Get matrimonios_mujer
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMatrimonios2()
+    public function getMatrimoniosMujer()
     {
-        return $this->matrimonios_2;
+        return $this->matrimonios_mujer;
     }
         
     /**
@@ -577,36 +613,36 @@ class Persona
     }    
 
     /**
-     * Add categorias_personas
+     * Add grupos_personas
      *
-     * @param \Parroquia\ComunidadBundle\Entity\CategoriaPersona $categoriasPersonas
+     * @param \Parroquia\ComunidadBundle\Entity\GrupoPersona $gruposPersonas
      * @return Persona
      */
-    public function addCategoriasPersona(\Parroquia\ComunidadBundle\Entity\CategoriaPersona $categoriasPersonas)
+    public function addGruposPersona(\Parroquia\ComunidadBundle\Entity\GrupoPersona $gruposPersonas)
     {
-        $this->categorias_personas[] = $categoriasPersonas;
+        $this->grupos_personas[] = $gruposPersonas;
     
         return $this;
     }
 
     /**
-     * Remove categorias_personas
+     * Remove grupos_personas
      *
-     * @param \Parroquia\ComunidadBundle\Entity\CategoriaPersona $categoriasPersonas
+     * @param \Parroquia\ComunidadBundle\Entity\GrupoPersona $gruposPersonas
      */
-    public function removeCategoriasPersona(\Parroquia\ComunidadBundle\Entity\CategoriaPersona $categoriasPersonas)
+    public function removeGruposPersona(\Parroquia\ComunidadBundle\Entity\GrupoPersona $gruposPersonas)
     {
-        $this->categorias_personas->removeElement($categoriasPersonas);
+        $this->grupos_personas->removeElement($gruposPersonas);
     }
 
     /**
-     * Get categorias_personas
+     * Get grupos_personas
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getCategoriasPersonas()
+    public function getGruposPersonas()
     {
-        return $this->categorias_personas;
+        return $this->grupos_personas;
     }    
     
     public function __toString()
@@ -614,30 +650,30 @@ class Persona
         return $this->nombres.' '.$this->apellido_p.' '.$this->apellido_m;
     }    
     
-    public function getCategorias()
+    public function getGrupos()
     {
-        $categorias = new ArrayCollection();
+        $grupos = new ArrayCollection();
         
-        foreach($this->categorias_personas as $categoria_persona)
+        foreach($this->grupos_personas as $grupo_persona)
         {
-            $categorias[] = $categoria_persona->getCategoria();
+            $grupos[] = $grupo_persona->getGrupo();
         }
 
-        return $categorias;
+        return $grupos;
     }
     
-    public function setCategorias($categorias)
+    public function setGrupos($grupos)
     {
-        foreach($categorias as $categoria)
+        foreach($grupos as $grupo)
         {
-            if(!$this->getCategorias()->contains($categoria))
+            if(!$this->getGrupos()->contains($grupo))
             {
-                $categoria_persona = new CategoriaPersona();
+                $grupo_persona = new GrupoPersona();
 
-                $categoria_persona->setPersona($this);
-                $categoria_persona->setCategoria($categoria);
+                $grupo_persona->setPersona($this);
+                $grupo_persona->setGrupo($grupo);
 
-                $this->addCategoriasPersona($categoria_persona);
+                $this->addGruposPersona($grupo_persona);
             }
         }
 

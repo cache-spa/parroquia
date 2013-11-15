@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Comunidad' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Comunidad']) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>Editar Grupo</h1></div>
+
+    {{ form(edit_form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('grupo') }}">
+            Volver a la lista
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

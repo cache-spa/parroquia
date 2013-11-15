@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Certificados' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Certificados']) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>{{ nombre_sacramento }}</h1></div>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                {% block personas_header %}{% endblock %}
+                <th>Libro</th>
+                <th>Hoja</th>
+                <th>Inscripción</th>
+                <th>Lugar</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('bautizo_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                {% block personas_content %}{% endblock %}
+                <td>{{ entity.libro }}</td>
+                <td>{{ entity.hoja }}</td>
+                <td>{{ entity.inscripcion }}</td>
+                <td>{{ entity.lugar }}</td>
+                <td>{% if entity.fecha %}{{ entity.fecha|date('d-m-Y') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path(path_sacramento ~ '_show', { 'id': entity.id }) }}">ver</a>
+                    </li>
+                    <li>
+                        <a href="{{ path(path_sacramento ~ '_edit', { 'id': entity.id }) }}">editar</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path(path_sacramento ~ '_new') }}">
+                Agregar nuevo
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

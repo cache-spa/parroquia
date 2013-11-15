@@ -1,0 +1,69 @@
+{% extends 'ParroquiaCertificadoBundle::sacramento_show.html.twig' %}
+
+{% set nombre_sacramento = 'Matrimonio' %}
+{% set path_sacramento = 'matrimonio' %}
+
+{% block personas %}
+<tr>
+    <th>Hombre</th>
+    <td>{{ entity.hombre }}</td>
+</tr>
+<tr>
+    <th>Mujer</th>
+    <td>{{ entity.mujer }}</td>
+</tr>
+{% endblock %}
+
+{% block otros %}
+<tr>
+    <th>Inscripcion_civil</th>
+    <td>{{ entity.inscripcioncivil }}</td>
+</tr>
+<tr>
+    <th>Fecha_civil</th>
+    <td>{% if entity.fechacivil %}{{ entity.fechacivil|date('d-m-Y') }}{% endif %}</td>
+</tr>
+{% endblock %}
+            
+{% block collections %}
+<tr>
+    <th>Padrinos ({{ entity.matrimoniospadrinos|length }})</th>
+    <td>
+        <ul>
+        {% for padrino in entity.matrimoniospadrinos %}
+            <li>{{ padrino.padrino }}</li>
+        {% endfor %}
+        </ul>
+    </td>
+</tr>
+<tr>
+    <th>Celebrantes ({{ entity.matrimonioscelebrantes|length }})</th>
+    <td>
+        <ul>
+        {% for celebrante in entity.matrimonioscelebrantes %}
+            <li>{{ celebrante.celebrante }}</li>
+        {% endfor %}
+        </ul>
+    </td>
+</tr>
+<tr>
+    <th>Catequistas ({{ entity.matrimonioscatequistas|length }})</th>
+    <td>
+        <ul>
+        {% for catequista in entity.matrimonioscatequistas %}
+            <li>{{ catequista.catequista }}</li>
+        {% endfor %}
+        </ul>
+    </td>
+</tr>
+<tr>
+    <th>Testigos ({{ entity.matrimoniostestigos|length }})</th>
+    <td>
+        <ul>
+        {% for testigo in entity.matrimoniostestigos %}
+            <li>{{ testigo.testigo }}</li>
+        {% endfor %}
+        </ul>
+    </td>
+</tr>      
+{% endblock %}

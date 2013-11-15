@@ -3,6 +3,7 @@
 namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -15,7 +16,7 @@ class Bautizo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected $id;   
 
     /**
      * @ORM\Column(type="integer")
@@ -30,7 +31,7 @@ class Bautizo
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $insc;
+    protected $inscripcion;
     
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -45,23 +46,35 @@ class Bautizo
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $notas;
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $padrinos;    
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ministro;
-    
+    protected $notas;   
+  
     /**
      * @ORM\OneToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="bautizo")
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id", nullable=false) 
      **/   
     protected $persona;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="BautizoPadrino", mappedBy="bautizo", cascade={"all"})
+     **/
+    protected $bautizos_padrinos;
+        
+    /**
+     * @ORM\OneToMany(targetEntity="BautizoCelebrante", mappedBy="bautizo", cascade={"all"})
+     **/
+    protected $bautizos_celebrantes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="BautizoCatequista", mappedBy="bautizo", cascade={"all"})
+     **/
+    protected $bautizos_catequistas;
+    
+    public function __construct() {
+        $this->bautizos_padrinos = new ArrayCollection();
+        $this->bautizos_celebrantes = new ArrayCollection();        
+        $this->bautizos_catequistas = new ArrayCollection();      
+    }    
+    
     /**
      * Get id
      *
@@ -119,26 +132,26 @@ class Bautizo
     }
 
     /**
-     * Set insc
+     * Set inscripcion
      *
-     * @param integer $insc
+     * @param integer $inscripcion
      * @return Bautizo
      */
-    public function setInsc($insc)
+    public function setInscripcion($inscripcion)
     {
-        $this->insc = $insc;
+        $this->inscripcion = $inscripcion;
     
         return $this;
     }
 
     /**
-     * Get insc
+     * Get inscripcion
      *
      * @return integer 
      */
-    public function getInsc()
+    public function getInscripcion()
     {
-        return $this->insc;
+        return $this->inscripcion;
     }
 
     /**
@@ -208,52 +221,6 @@ class Bautizo
     public function getNotas()
     {
         return $this->notas;
-    }
-
-    /**
-     * Set padrinos
-     *
-     * @param string $padrinos
-     * @return Bautizo
-     */
-    public function setPadrinos($padrinos)
-    {
-        $this->padrinos = $padrinos;
-    
-        return $this;
-    }
-
-    /**
-     * Get padrinos
-     *
-     * @return string 
-     */
-    public function getPadrinos()
-    {
-        return $this->padrinos;
-    }
-
-    /**
-     * Set ministro
-     *
-     * @param string $ministro
-     * @return Bautizo
-     */
-    public function setMinistro($ministro)
-    {
-        $this->ministro = $ministro;
-    
-        return $this;
-    }
-
-    /**
-     * Get ministro
-     *
-     * @return string 
-     */
-    public function getMinistro()
-    {
-        return $this->ministro;
     }
 
     /**

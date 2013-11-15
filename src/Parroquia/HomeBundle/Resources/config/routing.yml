@@ -1,0 +1,3 @@
+parroquia_home_homepage:
+    pattern:  /
+    defaults: { _controller: ParroquiaHomeBundle:Default:index }

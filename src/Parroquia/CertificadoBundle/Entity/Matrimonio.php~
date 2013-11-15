@@ -3,6 +3,7 @@
 namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -30,7 +31,7 @@ class Matrimonio
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $insc;
+    protected $inscripcion;
     
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -48,19 +49,9 @@ class Matrimonio
     protected $notas;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $testigos;    
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ministro;
-    
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $insc_civil;
+    protected $inscripcion_civil;
     
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -68,16 +59,43 @@ class Matrimonio
     protected $fecha_civil;    
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_1")
-     * @ORM\JoinColumn(name="persona_1_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_hombre")
+     * @ORM\JoinColumn(name="hombre_id", referencedColumnName="id")
      * */
-    protected $persona_1;
+    protected $hombre;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_2")
-     * @ORM\JoinColumn(name="persona_2_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_mujer")
+     * @ORM\JoinColumn(name="mujer_id", referencedColumnName="id")
      * */
-    protected $persona_2;    
+    protected $mujer;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioPadrino", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_padrinos;
+        
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioCelebrante", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_celebrantes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioCatequista", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_catequistas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MatrimonioTestigo", mappedBy="matrimonio", cascade={"all"})
+     **/
+    protected $matrimonios_testigos;    
+
+    public function __construct() {
+        $this->matrimonios_padrinos = new ArrayCollection();
+        $this->matrimonios_celebrantes = new ArrayCollection();        
+        $this->matrimonios_catequistas = new ArrayCollection();
+        $this->matrimonios_testigos = new ArrayCollection();        
+    }    
     
 
     /**
@@ -137,26 +155,26 @@ class Matrimonio
     }
 
     /**
-     * Set insc
+     * Set inscripcion
      *
-     * @param integer $insc
+     * @param integer $inscripcion
      * @return Matrimonio
      */
-    public function setInsc($insc)
+    public function setInscripcion($inscripcion)
     {
-        $this->insc = $insc;
+        $this->inscripcion = $inscripcion;
     
         return $this;
     }
 
     /**
-     * Get insc
+     * Get inscripcion
      *
      * @return integer 
      */
-    public function getInsc()
+    public function getInscripcion()
     {
-        return $this->insc;
+        return $this->inscripcion;
     }
 
     /**
@@ -275,26 +293,26 @@ class Matrimonio
     }
 
     /**
-     * Set insc_civil
+     * Set inscripcion_civil
      *
-     * @param integer $inscCivil
+     * @param integer $inscripcionCivil
      * @return Matrimonio
      */
-    public function setInscCivil($inscCivil)
+    public function setInscripcionCivil($inscripcionCivil)
     {
-        $this->insc_civil = $inscCivil;
+        $this->inscripcion_civil = $inscripcionCivil;
     
         return $this;
     }
 
     /**
-     * Get insc_civil
+     * Get inscripcion_civil
      *
      * @return integer 
      */
-    public function getInscCivil()
+    public function getInscripcionCivil()
     {
-        return $this->insc_civil;
+        return $this->inscripcion_civil;
     }
 
     /**
@@ -321,48 +339,48 @@ class Matrimonio
     }
 
     /**
-     * Set persona_1
+     * Set hombre
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Persona $persona1
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hombre
      * @return Matrimonio
      */
-    public function setPersona1(\Parroquia\ComunidadBundle\Entity\Persona $persona1 = null)
+    public function setHombre(\Parroquia\ComunidadBundle\Entity\Persona $hombre = null)
     {
-        $this->persona_1 = $persona1;
+        $this->hombre = $hombre;
     
         return $this;
     }
 
     /**
-     * Get persona_1
+     * Get hombre
      *
      * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getPersona1()
+    public function getHombre()
     {
-        return $this->persona_1;
+        return $this->hombre;
     }
 
     /**
-     * Set persona_2
+     * Set mujer
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Persona $persona2
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $mujer
      * @return Matrimonio
      */
-    public function setPersona2(\Parroquia\ComunidadBundle\Entity\Persona $persona2 = null)
+    public function setMujer(\Parroquia\ComunidadBundle\Entity\Persona $mujer = null)
     {
-        $this->persona_2 = $persona2;
+        $this->mujer = $mujer;
     
         return $this;
     }
 
     /**
-     * Get persona_2
+     * Get mujer
      *
      * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getPersona2()
+    public function getMujer()
     {
-        return $this->persona_2;
+        return $this->mujer;
     }
 }

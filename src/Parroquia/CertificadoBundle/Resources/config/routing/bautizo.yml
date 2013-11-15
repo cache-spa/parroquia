@@ -1,0 +1,30 @@
+bautizo:
+    pattern:  /
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:index" }
+
+bautizo_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:show" }
+
+bautizo_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:new" }
+
+bautizo_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:create" }
+    requirements: { _method: post }
+
+bautizo_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:edit" }
+
+bautizo_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:update" }
+    requirements: { _method: post|put }
+
+bautizo_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaCertificadoBundle:Bautizo:delete" }
+    requirements: { _method: post|delete }

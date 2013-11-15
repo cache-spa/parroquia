@@ -1,3 +1,19 @@
 parroquia_certificado_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: ParroquiaCertificadoBundle:Default:index }
+
+parroquia_certificado_test:
+    pattern: /test
+    defaults: { _controller: ParroquiaCertificadoBundle:Default:test }
+    
+ParroquiaCertificadoBundle_bautizo:
+    resource: "@ParroquiaCertificadoBundle/Resources/config/routing/bautizo.yml"
+    prefix:   /bautizo
+    
+ParroquiaCertificadoBundle_confirmacion:
+    resource: "@ParroquiaCertificadoBundle/Resources/config/routing/confirmacion.yml"
+    prefix:   /confirmacion
+    
+ParroquiaCertificadoBundle_matrimonio:
+    resource: "@ParroquiaCertificadoBundle/Resources/config/routing/matrimonio.yml"
+    prefix:   /matrimonio    

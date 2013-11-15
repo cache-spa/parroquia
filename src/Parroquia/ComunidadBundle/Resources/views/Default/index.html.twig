@@ -1,1 +1,19 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Comunidad' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Comunidad'],{ 'depth' : 1 }) }}
+{% endblock %}
+
+{% block body -%}
+<div class="title-wrapper"><h1>Comunidad</h1></div>
+
+En esta sección podrás:
+
+<ul>
+    <li><a href="{{ path('persona') }}">Buscar Personas</a></li>
+    <li><a href="{{ path('persona_new') }}">Agregar nuevas Personas</a></li>
+    <li><a href="{{ path('grupo') }}">Crear, Editar y Borrar Grupos</a></li>
+</ul>
+{% endblock %}

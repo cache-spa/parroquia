@@ -1,0 +1,30 @@
+grupo:
+    pattern:  /
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:index" }
+
+grupo_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:show" }
+
+grupo_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:new" }
+
+grupo_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:create" }
+    requirements: { _method: post }
+
+grupo_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:edit" }
+
+grupo_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:update" }
+    requirements: { _method: post|put }
+
+grupo_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:delete" }
+    requirements: { _method: post|delete }

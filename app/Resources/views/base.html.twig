@@ -2,19 +2,79 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Parroquia Santa Teresa de Los Andes{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
+            <!--<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" media="screen">-->
+            <link rel="stylesheet" href="{{ asset('css/ui-lightness/jquery-ui-1.10.3.custom.min.css') }}">
+            <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!--[if lt IE 9]>
+              <script src="{{ asset('assets/js/html5shiv.js') }}"></script>
+              <script src="{{ asset('assets/js/respond.min.js') }}"></script>
+            <![endif]-->             
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" media="screen">
-        <link rel="stylesheet" href="{{ asset('css/ui-lightness/jquery-ui-1.10.3.custom.min.css') }}">
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="{{ asset('assets/js/html5shiv.js') }}"></script>
-          <script src="{{ asset('assets/js/respond.min.js') }}"></script>
-        <![endif]-->        
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div id="page-wrapper">
+            <div id="header-wrapper">
+                <div id="logo-title-wrapper">
+                    <a href="{{ path('parroquia_home_homepage') }}">
+                        <img id="logo" src="" width="100" height="100" alt="" />
+                    </a>
+                    <div id="title-wrapper">
+                        <h1>Parroquia Santa Teresa de Los Andes</h1>
+                        Sistema de Gestión Parroquial
+                    </div>
+                </div>
+
+                {{ knp_menu_render('user') }}
+                    
+                {{ knp_menu_render('main', { 'depth' : 1 }) }}
+                
+            </div>
+                
+            <div id="cont-wrapper">
+
+                {% if block('leftsidebar') %}
+                <div id="page-side-content">
+                    <div class="page-side-list-title">{{ menu_title is defined ? menu_title : '' }}</div>
+                    <div class="page-side-list">
+                        {% block leftsidebar %}{% endblock %}
+                    </div>
+                </div>
+                {% endif %}
+                <div id="cont">
+                    {% if app.session.started %}
+                    <ul id="notif">
+                        {% for flashMessage in app.session.flashbag.get('notice') %}
+                            <li class="flash-notice">
+                                {{ flashMessage }}<button class="close"></button>
+                            </li>
+                        {% endfor %}
+                        {% for flashMessage in app.session.flashbag.get('error') %}
+                            <li class="flash-error">
+                                {{ flashMessage }}<button class="close"></button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}                    
+                    
+                    <div id="breadcrumbs">{{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }}</div>
+                    
+                    {% block body %}{% endblock %}
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div id="footer-wrapper">
+                <h4>Parroquia Santa Teresa de Los Andes</h4>
+            
+                Av. Bernardo Larraín Cotapos 11.785 - Lo Barnechea - Región Metropolitana - Chile.
+                
+                Teléfono 2242 4299. E-mail <a href="mailto:parroquiasantateresa@iglesia.cl">parroquiasantateresa@iglesia.cl</a>
+            </div>
+        </div>
         <script src="//code.jquery.com/jquery.js"></script>
         <script>window.jQuery || document.write('<script src="{{ asset('js/jquery.js') }}"><\/script>');</script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -40,6 +100,6 @@
             $.datepicker.setDefaults($.datepicker.regional['es']);
             $('.date').datepicker({ 'changeYear' : true });
         </script>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}{% endblock %}            
     </body>
 </html>

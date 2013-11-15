@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class Rut extends Constraint
 {
-    public $message = 'The rut "%rut%" is not a valid value.';
+    public $message = 'El rut "%rut%" no es válido.';
 }

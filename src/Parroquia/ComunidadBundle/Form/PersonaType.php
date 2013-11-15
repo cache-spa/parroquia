@@ -16,14 +16,15 @@ class PersonaType extends AbstractType
     {
         $builder
             ->add('nombres')
-            ->add('apellido_p')
-            ->add('apellido_m')
+            ->add('apellido_p',null,array('label' => 'Apellido Paterno'))
+            ->add('apellido_m',null,array('label' => 'Apellido Materno'))
             ->add('rut')
             ->add('sexo','choice',array(
                         'choices' => array('M' => 'Masculino', 'F' => 'Femenino'),
                         'required' => false,
                     ))
             ->add('fecha_nacimiento','birthday',array(
+                        'label' => 'Fecha de Nacimiento',
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                         'required' => false,
@@ -31,18 +32,21 @@ class PersonaType extends AbstractType
                     ))
             ->add('padre')
             ->add('madre')
-            ->add('telefono')
+            ->add('telefono',null,array('label' => 'Teléfono'))
             ->add('celular')
             ->add('email')
-            ->add('direccion')
+            ->add('direccion',null,array('label' => 'Dirección'))
             ->add('estado_civil','choice',array(
+                        'label' => 'Estado Civil',
                         'choices' => array('Soltero'=>'Soltero','Casado'=>'Casado','Divorciado'=>'Divorciado','Viudo'=>'Viudo'),
                         'required' => false
                     ))
-            ->add('categorias','entity',array(
-                      'class'    => 'ParroquiaComunidadBundle:Categoria' ,
-                      'expanded' => true ,
-                      'multiple' => true , 
+            ->add('grupos','entity',array(
+                        'label' => 'Grupos',
+                        'class'    => 'ParroquiaComunidadBundle:Grupo' ,
+                        'expanded' => true ,
+                        'multiple' => true ,
+                        'required' => false
                     ))
         ;
     }

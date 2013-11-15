@@ -141,8 +141,10 @@ class appDevDebugProjectContainer extends Container
             'monolog.logger.security' => 'getMonolog_Logger_SecurityService',
             'monolog.logger.snappy' => 'getMonolog_Logger_SnappyService',
             'monolog.logger.templating' => 'getMonolog_Logger_TemplatingService',
-            'parroquia_comunidad.menu.main' => 'getParroquiaComunidad_Menu_MainService',
-            'parroquia_comunidad.menu_builder' => 'getParroquiaComunidad_MenuBuilderService',
+            'parroquia_home.menu.breadcrumb' => 'getParroquiaHome_Menu_BreadcrumbService',
+            'parroquia_home.menu.main' => 'getParroquiaHome_Menu_MainService',
+            'parroquia_home.menu.user' => 'getParroquiaHome_Menu_UserService',
+            'parroquia_home.menu_builder' => 'getParroquiaHome_MenuBuilderService',
             'profiler' => 'getProfilerService',
             'profiler_listener' => 'getProfilerListenerService',
             'property_accessor' => 'getPropertyAccessorService',
@@ -1425,7 +1427,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getKnpMenu_MenuProviderService()
     {
-        return $this->services['knp_menu.menu_provider'] = new \Knp\Menu\Provider\ChainProvider(array(0 => new \Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider($this, array('main' => 'parroquia_comunidad.menu.main')), 1 => new \Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider($this->get('kernel'), $this, $this->get('knp_menu.factory'))));
+        return $this->services['knp_menu.menu_provider'] = new \Knp\Menu\Provider\ChainProvider(array(0 => new \Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider($this, array('main' => 'parroquia_home.menu.main', 'user' => 'parroquia_home.menu.user', 'breadcrumb' => 'parroquia_home.menu.breadcrumb')), 1 => new \Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider($this->get('kernel'), $this, $this->get('knp_menu.factory'))));
     }
 
     /**
@@ -1796,35 +1798,73 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'parroquia_comunidad.menu.main' service.
+     * Gets the 'parroquia_home.menu.breadcrumb' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
      *
      * @return Knp\Menu\MenuItem A Knp\Menu\MenuItem instance.
      * 
-     * @throws InactiveScopeException when the 'parroquia_comunidad.menu.main' service is requested while the 'request' scope is not active
+     * @throws InactiveScopeException when the 'parroquia_home.menu.breadcrumb' service is requested while the 'request' scope is not active
      */
-    protected function getParroquiaComunidad_Menu_MainService()
+    protected function getParroquiaHome_Menu_BreadcrumbService()
     {
         if (!isset($this->scopedServices['request'])) {
-            throw new InactiveScopeException('parroquia_comunidad.menu.main', 'request');
+            throw new InactiveScopeException('parroquia_home.menu.breadcrumb', 'request');
         }
 
-        return $this->services['parroquia_comunidad.menu.main'] = $this->scopedServices['request']['parroquia_comunidad.menu.main'] = $this->get('parroquia_comunidad.menu_builder')->createMainMenu($this->get('request'));
+        return $this->services['parroquia_home.menu.breadcrumb'] = $this->scopedServices['request']['parroquia_home.menu.breadcrumb'] = $this->get('parroquia_home.menu_builder')->createBreadcrumbMenu($this->get('request'));
     }
 
     /**
-     * Gets the 'parroquia_comunidad.menu_builder' service.
+     * Gets the 'parroquia_home.menu.main' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return Parroquia\ComunidadBundle\Menu\MenuBuilder A Parroquia\ComunidadBundle\Menu\MenuBuilder instance.
+     * @return Knp\Menu\MenuItem A Knp\Menu\MenuItem instance.
+     * 
+     * @throws InactiveScopeException when the 'parroquia_home.menu.main' service is requested while the 'request' scope is not active
      */
-    protected function getParroquiaComunidad_MenuBuilderService()
+    protected function getParroquiaHome_Menu_MainService()
     {
-        return $this->services['parroquia_comunidad.menu_builder'] = new \Parroquia\ComunidadBundle\Menu\MenuBuilder($this->get('knp_menu.factory'));
+        if (!isset($this->scopedServices['request'])) {
+            throw new InactiveScopeException('parroquia_home.menu.main', 'request');
+        }
+
+        return $this->services['parroquia_home.menu.main'] = $this->scopedServices['request']['parroquia_home.menu.main'] = $this->get('parroquia_home.menu_builder')->createMainMenu($this->get('request'));
+    }
+
+    /**
+     * Gets the 'parroquia_home.menu.user' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Knp\Menu\MenuItem A Knp\Menu\MenuItem instance.
+     * 
+     * @throws InactiveScopeException when the 'parroquia_home.menu.user' service is requested while the 'request' scope is not active
+     */
+    protected function getParroquiaHome_Menu_UserService()
+    {
+        if (!isset($this->scopedServices['request'])) {
+            throw new InactiveScopeException('parroquia_home.menu.user', 'request');
+        }
+
+        return $this->services['parroquia_home.menu.user'] = $this->scopedServices['request']['parroquia_home.menu.user'] = $this->get('parroquia_home.menu_builder')->createUserMenu($this->get('request'));
+    }
+
+    /**
+     * Gets the 'parroquia_home.menu_builder' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Parroquia\HomeBundle\Menu\MenuBuilder A Parroquia\HomeBundle\Menu\MenuBuilder instance.
+     */
+    protected function getParroquiaHome_MenuBuilderService()
+    {
+        return $this->services['parroquia_home.menu_builder'] = new \Parroquia\HomeBundle\Menu\MenuBuilder($this->get('knp_menu.factory'));
     }
 
     /**
@@ -3049,7 +3089,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\RoutingExtension($this->get('router')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\YamlExtension());
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($this->get('fragment.handler')));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\FormExtension(new \Symfony\Bridge\Twig\Form\TwigRenderer(new \Symfony\Bridge\Twig\Form\TwigRendererEngine(array(0 => 'form_div_layout.html.twig')), $this->get('form.csrf_provider', ContainerInterface::NULL_ON_INVALID_REFERENCE))));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\FormExtension(new \Symfony\Bridge\Twig\Form\TwigRenderer(new \Symfony\Bridge\Twig\Form\TwigRendererEngine(array(0 => 'form_div_layout.html.twig', 1 => 'ParroquiaHomeBundle:Form:fields.html.twig')), $this->get('form.csrf_provider', ContainerInterface::NULL_ON_INVALID_REFERENCE))));
         $instance->addExtension(new \Twig_Extension_Debug());
         $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), true, array(), array(), $this->get('assetic.value_supplier.default', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
@@ -3106,6 +3146,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\src\\Parroquia\\ComunidadBundle/Resources/views', 'ParroquiaComunidad');
         $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\src\\Parroquia\\CertificadoBundle/Resources/views', 'ParroquiaCertificado');
         $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\src\\Parroquia\\AgendaBundle/Resources/views', 'ParroquiaAgenda');
+        $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\src\\Parroquia\\HomeBundle/Resources/views', 'ParroquiaHome');
         $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\src\\Acme\\DemoBundle/Resources/views', 'AcmeDemo');
         $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\WebProfilerBundle/Resources/views', 'WebProfiler');
         $instance->addPath('C:\\xampp\\htdocs\\Parroquia\\vendor\\sensio\\distribution-bundle\\Sensio\\Bundle\\DistributionBundle/Resources/views', 'SensioDistribution');
@@ -3546,7 +3587,7 @@ class appDevDebugProjectContainer extends Container
             'kernel.root_dir' => 'C:/xampp/htdocs/Parroquia/app',
             'kernel.environment' => 'dev',
             'kernel.debug' => true,
-            'kernel.name' => 'app',
+            'kernel.name' => 'ap_',
             'kernel.cache_dir' => 'C:/xampp/htdocs/Parroquia/app/cache/dev',
             'kernel.logs_dir' => 'C:/xampp/htdocs/Parroquia/app/logs',
             'kernel.bundles' => array(
@@ -3563,6 +3604,8 @@ class appDevDebugProjectContainer extends Container
                 'ParroquiaAgendaBundle' => 'Parroquia\\AgendaBundle\\ParroquiaAgendaBundle',
                 'KnpSnappyBundle' => 'Knp\\Bundle\\SnappyBundle\\KnpSnappyBundle',
                 'KnpMenuBundle' => 'Knp\\Bundle\\MenuBundle\\KnpMenuBundle',
+                'ParroquiaHomeBundle' => 'Parroquia\\HomeBundle\\ParroquiaHomeBundle',
+                'DoctrineFixturesBundle' => 'Doctrine\\Bundle\\FixturesBundle\\DoctrineFixturesBundle',
                 'AcmeDemoBundle' => 'Acme\\DemoBundle\\AcmeDemoBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
@@ -3853,6 +3896,7 @@ class appDevDebugProjectContainer extends Container
             'twig.exception_listener.controller' => 'twig.controller.exception:showAction',
             'twig.form.resources' => array(
                 0 => 'form_div_layout.html.twig',
+                1 => 'ParroquiaHomeBundle:Form:fields.html.twig',
             ),
             'debug.templating.engine.twig.class' => 'Symfony\\Bundle\\TwigBundle\\Debug\\TimedTwigEngine',
             'twig.options' => array(

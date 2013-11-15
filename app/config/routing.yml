@@ -1,12 +1,16 @@
+parroquia_home:
+    resource: "@ParroquiaHomeBundle/Resources/config/routing.yml"
+    prefix:   /
+
 parroquia_agenda:
     resource: "@ParroquiaAgendaBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   agenda/
 
 parroquia_certificado:
     resource: "@ParroquiaCertificadoBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   certificados/
 
 parroquia_comunidad:
     resource: "@ParroquiaComunidadBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   comunidad/
 

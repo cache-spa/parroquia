@@ -1,14 +1,20 @@
 {% extends '::base.html.twig' %}
 
+{% set menu_title = 'Comunidad' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Comunidad']) }}
+{% endblock %}
+
 {% block body -%}
-    <h1>Persona creation</h1>
+    <div class="title-wrapper"><h1>Nueva Persona</h1></div>
 
     {{ form(form) }}
 
         <ul class="record_actions">
     <li>
         <a href="{{ path('persona') }}">
-            Back to the list
+            Volver a la lista
         </a>
     </li>
 </ul>

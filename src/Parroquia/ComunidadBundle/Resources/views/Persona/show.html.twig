@@ -1,7 +1,13 @@
 {% extends '::base.html.twig' %}
 
+{% set menu_title = 'Comunidad' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Comunidad']) }}
+{% endblock %}
+
 {% block body -%}
-    <h1>Persona</h1>
+    <div class="title-wrapper"><h1>Persona</h1></div>
 
     <table class="record_properties">
         <tbody>
@@ -14,11 +20,11 @@
                 <td>{{ entity.nombres }}</td>
             </tr>
             <tr>
-                <th>Apellido_p</th>
+                <th>Apellido Paterno</th>
                 <td>{{ entity.apellidop }}</td>
             </tr>
             <tr>
-                <th>Apellido_m</th>
+                <th>Apellido Materno</th>
                 <td>{{ entity.apellidom }}</td>
             </tr>
             <tr>
@@ -30,7 +36,7 @@
                 <td>{{ entity.sexo }}</td>
             </tr>
             <tr>
-                <th>Fecha_nacimiento</th>
+                <th>Fecha de Nacimiento</th>
                 <td>{{ entity.fechanacimiento|date('d-m-Y') }}</td>
             </tr>
             <tr>
@@ -42,7 +48,7 @@
                 <td>{{ entity.madre }}</td>
             </tr>
             <tr>
-                <th>Telefono</th>
+                <th>Teléfono</th>
                 <td>{{ entity.telefono }}</td>
             </tr>
             <tr>
@@ -54,25 +60,35 @@
                 <td>{{ entity.email }}</td>
             </tr>
             <tr>
-                <th>Direccion</th>
+                <th>Dirección</th>
                 <td>{{ entity.direccion }}</td>
             </tr>
             <tr>
-                <th>Estado_civil</th>
+                <th>Estado Civil</th>
                 <td>{{ entity.estadocivil }}</td>
             </tr>
+            <tr>
+                <th>Grupos ({{ entity.grupospersonas|length }})</th>
+                <td>
+                    <ul>
+                    {% for grupo in entity.grupos %}
+                        <li>{{ grupo }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>             
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
         <a href="{{ path('persona') }}">
-            Back to the list
+            Volver a la lista
         </a>
     </li>
     <li>
         <a href="{{ path('persona_edit', { 'id': entity.id }) }}">
-            Edit
+            Editar
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>

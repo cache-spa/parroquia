@@ -21,6 +21,8 @@ class AppKernel extends Kernel
             new Parroquia\AgendaBundle\ParroquiaAgendaBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Parroquia\HomeBundle\ParroquiaHomeBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

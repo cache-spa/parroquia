@@ -1,0 +1,14 @@
+{% extends 'ParroquiaCertificadoBundle::sacramento_index.html.twig' %}
+
+{% set nombre_sacramento = 'Matrimonios' %}
+{% set path_sacramento = 'matrimonio' %}
+
+{% block personas_header %}
+<th>Hombre</th>
+<th>Mujer</th>
+{% endblock %}
+
+{% block personas_content %}
+<td>{{ entity.hombre }}</td>
+<td>{{ entity.mujer }}</td>
+{% endblock %}

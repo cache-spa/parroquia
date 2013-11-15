@@ -3,6 +3,7 @@
 namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -18,7 +19,7 @@ class Certificado
     protected $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     protected $fecha_emision;
     
@@ -27,6 +28,17 @@ class Certificado
      * @ORM\JoinColumn(name="emisor_id", referencedColumnName="id")
      * */     
     protected $emisor;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    public $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;    
 
     /**
      * Get id
@@ -60,4 +72,56 @@ class Certificado
     {
         return $this->fecha_emision;
     }
+
+    /**
+     * Set emisor
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $emisor
+     * @return Certificado
+     */
+    public function setEmisor(\Parroquia\ComunidadBundle\Entity\Persona $emisor = null)
+    {
+        $this->emisor = $emisor;
+    
+        return $this;
+    }
+
+    /**
+     * Get emisor
+     *
+     * @return \Parroquia\ComunidadBundle\Entity\Persona 
+     */
+    public function getEmisor()
+    {
+        return $this->emisor;
+    }
+    
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'certificados';
+    }    
+    
 }

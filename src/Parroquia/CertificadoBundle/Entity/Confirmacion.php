@@ -3,12 +3,13 @@
 namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="confirmacion_persona_idx", columns={"id", "persona_id"})})
  */
-class Confirmacion
+class Confirmacion extends Sacramento
 {
     /**
      * @ORM\Column(type="integer")
@@ -16,52 +17,35 @@ class Confirmacion
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $libro;
-    
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $hoja;
-    
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $insc;
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $lugar;
-    
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    protected $fecha;
-    
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $notas;
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $padrino;    
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ministro;
     
     /**
      * @ORM\OneToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="confirmacion")
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id", nullable=false) 
+     * 
      **/   
-    protected $persona;    
+    protected $persona;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ConfirmacionPadrino", mappedBy="confirmacion", cascade={"all"})
+     **/
+    protected $confirmaciones_padrinos;
+        
+    /**
+     * @ORM\OneToMany(targetEntity="ConfirmacionCelebrante", mappedBy="confirmacion", cascade={"all"})
+     **/
+    protected $confirmaciones_celebrantes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ConfirmacionCatequista", mappedBy="confirmacion", cascade={"all"})
+     **/
+    protected $confirmaciones_catequistas;    
 
+    public function __construct() {
+        $this->confirmaciones_padrinos = new ArrayCollection();
+        $this->confirmaciones_celebrantes = new ArrayCollection();        
+        $this->confirmaciones_catequistas = new ArrayCollection();         
+    }    
+    
     /**
      * Get id
      *
@@ -70,190 +54,6 @@ class Confirmacion
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set libro
-     *
-     * @param integer $libro
-     * @return Confirmacion
-     */
-    public function setLibro($libro)
-    {
-        $this->libro = $libro;
-    
-        return $this;
-    }
-
-    /**
-     * Get libro
-     *
-     * @return integer 
-     */
-    public function getLibro()
-    {
-        return $this->libro;
-    }
-
-    /**
-     * Set hoja
-     *
-     * @param integer $hoja
-     * @return Confirmacion
-     */
-    public function setHoja($hoja)
-    {
-        $this->hoja = $hoja;
-    
-        return $this;
-    }
-
-    /**
-     * Get hoja
-     *
-     * @return integer 
-     */
-    public function getHoja()
-    {
-        return $this->hoja;
-    }
-
-    /**
-     * Set insc
-     *
-     * @param integer $insc
-     * @return Confirmacion
-     */
-    public function setInsc($insc)
-    {
-        $this->insc = $insc;
-    
-        return $this;
-    }
-
-    /**
-     * Get insc
-     *
-     * @return integer 
-     */
-    public function getInsc()
-    {
-        return $this->insc;
-    }
-
-    /**
-     * Set lugar
-     *
-     * @param string $lugar
-     * @return Confirmacion
-     */
-    public function setLugar($lugar)
-    {
-        $this->lugar = $lugar;
-    
-        return $this;
-    }
-
-    /**
-     * Get lugar
-     *
-     * @return string 
-     */
-    public function getLugar()
-    {
-        return $this->lugar;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     * @return Confirmacion
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-    
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime 
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * Set notas
-     *
-     * @param string $notas
-     * @return Confirmacion
-     */
-    public function setNotas($notas)
-    {
-        $this->notas = $notas;
-    
-        return $this;
-    }
-
-    /**
-     * Get notas
-     *
-     * @return string 
-     */
-    public function getNotas()
-    {
-        return $this->notas;
-    }
-
-    /**
-     * Set padrino
-     *
-     * @param string $padrino
-     * @return Confirmacion
-     */
-    public function setPadrino($padrino)
-    {
-        $this->padrino = $padrino;
-    
-        return $this;
-    }
-
-    /**
-     * Get padrino
-     *
-     * @return string 
-     */
-    public function getPadrino()
-    {
-        return $this->padrino;
-    }
-
-    /**
-     * Set ministro
-     *
-     * @param string $ministro
-     * @return Confirmacion
-     */
-    public function setMinistro($ministro)
-    {
-        $this->ministro = $ministro;
-    
-        return $this;
-    }
-
-    /**
-     * Get ministro
-     *
-     * @return string 
-     */
-    public function getMinistro()
-    {
-        return $this->ministro;
     }
 
     /**
@@ -278,4 +78,107 @@ class Confirmacion
     {
         return $this->persona;
     }
+
+    /**
+     * Add confirmaciones_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos
+     * @return Confirmacion
+     */
+    public function addConfirmacionesPadrino(\Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos)
+    {
+        $confirmacionesPadrinos->setConfirmacion($this);
+        $this->confirmaciones_padrinos[] = $confirmacionesPadrinos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove confirmaciones_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos
+     */
+    public function removeConfirmacionesPadrino(\Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos)
+    {
+        $this->confirmaciones_padrinos->removeElement($confirmacionesPadrinos);
+    }
+
+    /**
+     * Get confirmaciones_padrinos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfirmacionesPadrinos()
+    {
+        return $this->confirmaciones_padrinos;
+    }
+
+    /**
+     * Add confirmaciones_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes
+     * @return Confirmacion
+     */
+    public function addConfirmacionesCelebrante(\Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes)
+    {
+        $confirmacionesCelebrantes->setConfirmacion($this);
+        $this->confirmaciones_celebrantes[] = $confirmacionesCelebrantes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove confirmaciones_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes
+     */
+    public function removeConfirmacionesCelebrante(\Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes)
+    {
+        $this->confirmaciones_celebrantes->removeElement($confirmacionesCelebrantes);
+    }
+
+    /**
+     * Get confirmaciones_celebrantes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfirmacionesCelebrantes()
+    {
+        return $this->confirmaciones_celebrantes;
+    }
+
+    /**
+     * Add confirmaciones_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas
+     * @return Confirmacion
+     */
+    public function addConfirmacionesCatequista(\Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas)
+    {
+        $confirmacionesCatequistas->setConfirmacion($this);
+        $this->confirmaciones_catequistas[] = $confirmacionesCatequistas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove confirmaciones_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas
+     */
+    public function removeConfirmacionesCatequista(\Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas)
+    {
+        $this->confirmaciones_catequistas->removeElement($confirmacionesCatequistas);
+    }
+
+    /**
+     * Get confirmaciones_catequistas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfirmacionesCatequistas()
+    {
+        return $this->confirmaciones_catequistas;
+    }
+    
 }

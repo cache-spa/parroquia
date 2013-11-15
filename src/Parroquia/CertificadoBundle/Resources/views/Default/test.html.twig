@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{# Es necesario poner ruta absoluta a css. Se logra con el uso de app.request.getSchemeAndHttpHost()
+{% block stylesheets %}
+    <link href="{{ app.request.getSchemeAndHttpHost() ~ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+#}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Certificados']) }}
+{% endblock %}
+            
+{% block body -%}
+    <div class="title-wrapper"><h1>Certificados {{ vars }}</h1></div>
+    
+    En esta sección podrás obtener certificados de:
+
+    <ul>
+        <li>Bautizo</li>
+        <li>Confirmación</li>
+        <li>Matrimonio</li>
+    </ul>    
+    
+{% endblock %}
+
