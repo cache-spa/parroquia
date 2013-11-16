@@ -201,4 +201,18 @@ class Grupo
         return $this->padre;
     }
 
+    /**
+     * Retorna nombre del padre para agrupar en campos select (group_by)
+     *
+     * @return string 
+     */   
+    public function getPadreNombre()
+    {
+        if (null === $this->getPadre()) {
+            return null;
+        }
+
+        return $this->getPadre()->getNombre();
+    }
+
 }

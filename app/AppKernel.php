@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Parroquia\HomeBundle\ParroquiaHomeBundle(),
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),            
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

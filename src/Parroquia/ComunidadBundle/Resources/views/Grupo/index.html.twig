@@ -6,10 +6,16 @@
     {{ knp_menu_render(['main','Comunidad']) }}
 {% endblock %}
 
+{% block filters %}
+<div class="filter">
+    {{ render(controller('ParroquiaComunidadBundle:Grupo:filter')) }}
+</div>
+{% endblock %}
+
 {% block body -%}
     <div class="title-wrapper"><h1>Grupos</h1></div>
 
-    <table class="table table-hover table-condensed">
+    <table class="records_list">
         <thead>
             <tr>
                 <th>Id</th>

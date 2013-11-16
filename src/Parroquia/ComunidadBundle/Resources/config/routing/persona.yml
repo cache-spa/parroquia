@@ -28,3 +28,8 @@ persona_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ParroquiaComunidadBundle:Persona:delete" }
     requirements: { _method: post|delete }
+
+persona_filter:
+    pattern:  /filter
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:filter" }
+    requirements: { _method: post }

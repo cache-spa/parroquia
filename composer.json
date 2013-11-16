@@ -25,7 +25,9 @@
         "h4cc/wkhtmltopdf-i386": "0.11.0-RC1",
         "h4cc/wkhtmltoimage-i386": "0.11.0-RC1",
         "knplabs/knp-menu": "2.0.*@dev",
-        "knplabs/knp-menu-bundle":"dev-master"     
+        "knplabs/knp-menu-bundle":"dev-master",
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "lexik/form-filter-bundle": "v2.0.0"        
     },
     "scripts": {
         "post-install-cmd": [

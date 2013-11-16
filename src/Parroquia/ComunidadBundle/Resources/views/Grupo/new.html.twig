@@ -19,3 +19,24 @@
     </li>
 </ul>
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.multiselect2side.js') }}"></script>
+    
+    <script>
+    $().ready(function() {
+            $('#parroquia_comunidadbundle_grupo_personas').multiselect2side({
+                search : 'Buscar: ',
+                labeldx : 'Seleccionados',
+                moveOptions : false,
+                autoSort : true,
+                autoSortAvailable: true
+            });
+    });        
+    </script>
+{% endblock %}
+    
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/jquery.multiselect2side.css') }}" type="text/css" rel="stylesheet" media="screen" />
+{% endblock %}    

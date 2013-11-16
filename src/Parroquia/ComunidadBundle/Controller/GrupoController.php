@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Parroquia\ComunidadBundle\Entity\Grupo;
 use Parroquia\ComunidadBundle\Form\GrupoType;
+use Parroquia\ComunidadBundle\Form\GrupoFilterType;
 
 /**
  * Grupo controller.
@@ -249,4 +250,43 @@ class GrupoController extends Controller
             ->getForm()
         ;
     }
+    
+    public function filterAction(Request $request)
+    {
+        $form = $this->createFilterForm();
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            
+            $filterBuilder = $em
+                ->getRepository('ParroquiaComunidadBundle:Grupo')
+                ->createQueryBuilder('g');     
+
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+
+            $entities = $filterBuilder->getQuery()->getResult();
+       
+            return $this->render('ParroquiaComunidadBundle:Grupo:index.html.twig', array(
+                'entities' => $entities,
+            ));
+        }
+
+        return $this->render('ParroquiaComunidadBundle:Grupo:filter.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+    
+    private function createFilterForm()
+    {
+        $form = $this->createForm(new GrupoFilterType(), null, array(
+            'action' => $this->generateUrl('grupo_filter'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Buscar'));
+
+        return $form;
+    }        
 }

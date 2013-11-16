@@ -4,10 +4,10 @@ namespace Parroquia\ComunidadBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 
 use Parroquia\ComunidadBundle\Entity\Persona;
 use Parroquia\ComunidadBundle\Form\PersonaType;
+use Parroquia\ComunidadBundle\Form\PersonaFilterType;
 
 /**
  * Persona controller.
@@ -250,4 +250,43 @@ class PersonaController extends Controller
             ->getForm()
         ;
     }
+    
+    public function filterAction(Request $request)
+    {
+        $form = $this->createFilterForm();
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            
+            $filterBuilder = $em
+                ->getRepository('ParroquiaComunidadBundle:Persona')
+                ->createQueryBuilder('p');
+
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+
+            $entities = $filterBuilder->getQuery()->getResult();
+       
+            return $this->render('ParroquiaComunidadBundle:Persona:index.html.twig', array(
+                'entities' => $entities,
+            ));
+        }
+
+        return $this->render('ParroquiaComunidadBundle:Persona:filter.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+    
+    private function createFilterForm()
+    {
+        $form = $this->createForm(new PersonaFilterType(), null, array(
+            'action' => $this->generateUrl('persona_filter'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Buscar'));
+
+        return $form;
+    }    
 }

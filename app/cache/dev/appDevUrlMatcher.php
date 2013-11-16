@@ -426,6 +426,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                     }
                     not_persona_delete:
 
+                    // persona_filter
+                    if ($pathinfo === '/comunidad/personas/filter') {
+                        if ($this->context->getMethod() != 'POST') {
+                            $allow[] = 'POST';
+                            goto not_persona_filter;
+                        }
+
+                        return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\PersonaController::filterAction',  '_route' => 'persona_filter',);
+                    }
+                    not_persona_filter:
+
                 }
 
                 if (0 === strpos($pathinfo, '/comunidad/grupos')) {
@@ -485,6 +496,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                         return $this->mergeDefaults(array_replace($matches, array('_route' => 'grupo_delete')), array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\GrupoController::deleteAction',));
                     }
                     not_grupo_delete:
+
+                    // grupo_filter
+                    if ($pathinfo === '/comunidad/grupos/filter') {
+                        if ($this->context->getMethod() != 'POST') {
+                            $allow[] = 'POST';
+                            goto not_grupo_filter;
+                        }
+
+                        return array (  '_controller' => 'Parroquia\\ComunidadBundle\\Controller\\GrupoController::filterAction',  '_route' => 'grupo_filter',);
+                    }
+                    not_grupo_filter:
 
                 }
 

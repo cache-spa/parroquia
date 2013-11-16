@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th>Fecha de Nacimiento</th>
-                <td>{{ entity.fechanacimiento|date('d-m-Y') }}</td>
+                <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Padre</th>

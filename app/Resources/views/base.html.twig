@@ -36,15 +36,18 @@
                 
             <div id="cont-wrapper">
 
-                {% if block('leftsidebar') %}
+                {% if block('leftsidebar') or block('filters') %}
                 <div id="page-side-content">
+                    {% if block('leftsidebar') %}
                     <div class="page-side-list-title">{{ menu_title is defined ? menu_title : '' }}</div>
                     <div class="page-side-list">
                         {% block leftsidebar %}{% endblock %}
                     </div>
+                    {% endif %}
+                    {% block filters %}{% endblock %}
                 </div>
                 {% endif %}
-                <div id="cont">
+                <div id="cont">{#
                     {% if app.session.started %}
                     <ul id="notif">
                         {% for flashMessage in app.session.flashbag.get('notice') %}
@@ -58,7 +61,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    {% endif %}                    
+                    {% endif %} #}                   
                     
                     <div id="breadcrumbs">{{ knp_menu_render('breadcrumb',{'currentAsLink':false}) }}</div>
                     

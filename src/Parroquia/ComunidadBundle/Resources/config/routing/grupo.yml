@@ -28,3 +28,8 @@ grupo_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ParroquiaComunidadBundle:Grupo:delete" }
     requirements: { _method: post|delete }
+
+grupo_filter:
+    pattern:  /filter
+    defaults: { _controller: "ParroquiaComunidadBundle:Grupo:filter" }
+    requirements: { _method: post }

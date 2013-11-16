@@ -6,6 +6,12 @@
     {{ knp_menu_render(['main','Comunidad'],{ 'depth' : 1 }) }}
 {% endblock %}
 
+{% block filters %}
+<div class="filter">
+    {{ render(controller('ParroquiaComunidadBundle:Persona:filter')) }}
+</div>
+{% endblock %}
+
 {% block body -%}
 <div class="title-wrapper"><h1>Comunidad</h1></div>
 
