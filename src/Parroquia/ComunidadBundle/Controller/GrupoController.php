@@ -45,9 +45,15 @@ class GrupoController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $message = $this->container->getParameter('message_success');        
+            $this->get('session')->getFlashBag()->add('success',$message);            
+            
             return $this->redirect($this->generateUrl('grupo_show', array('id' => $entity->getId())));
         }
 
+        $message = $this->container->getParameter('message_error');
+        $this->get('session')->getFlashBag()->add('error',$message);        
+        
         return $this->render('ParroquiaComunidadBundle:Grupo:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -200,10 +206,16 @@ class GrupoController extends Controller
             }
             
             $em->flush();
+            
+            $message = $this->container->getParameter('message_success');        
+            $this->get('session')->getFlashBag()->add('success',$message);            
 
-            return $this->redirect($this->generateUrl('grupo_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('grupo_show', array('id' => $id)));
         }
 
+        $message = $this->container->getParameter('message_error');
+        $this->get('session')->getFlashBag()->add('error',$message);
+        
         return $this->render('ParroquiaComunidadBundle:Grupo:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
@@ -229,6 +241,9 @@ class GrupoController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $message = $this->container->getParameter('message_delete');
+            $this->get('session')->getFlashBag()->add('success',$message);            
         }
 
         return $this->redirect($this->generateUrl('grupo'));

@@ -4,10 +4,12 @@ namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="confirmacion_persona_idx", columns={"id", "persona_id"})})
+ * @ORM\Table
+ * @UniqueEntity("persona")
  */
 class Confirmacion extends Sacramento
 {
@@ -20,7 +22,7 @@ class Confirmacion extends Sacramento
     
     /**
      * @ORM\OneToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="confirmacion")
-     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id", nullable=false) 
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id", nullable=false, unique=true) 
      * 
      **/   
     protected $persona;

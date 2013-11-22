@@ -5,6 +5,10 @@ namespace Parroquia\ComunidadBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
+use Parroquia\CertificadoBundle\Form\BautizoType;
+use Parroquia\CertificadoBundle\Form\ConfirmacionType;
+use Parroquia\CertificadoBundle\Form\MatrimonioType;
 
 class PersonaType extends AbstractType
 {
@@ -18,11 +22,11 @@ class PersonaType extends AbstractType
             ->add('nombres')
             ->add('apellido_p',null,array('label' => 'Apellido Paterno'))
             ->add('apellido_m',null,array('label' => 'Apellido Materno'))
-            ->add('rut')
             ->add('sexo','choice',array(
                         'choices' => array('M' => 'Masculino', 'F' => 'Femenino'),
-                        'required' => false,
+                        'required' => true,
                     ))
+            ->add('rut')                
             ->add('fecha_nacimiento','birthday',array(
                         'label' => 'Fecha de Nacimiento',
                         'widget' => 'single_text',
@@ -30,8 +34,26 @@ class PersonaType extends AbstractType
                         'required' => false,
                         'attr' => array('class' => 'date')
                     ))
-            ->add('padre')
-            ->add('madre')
+            ->add('padre','entity',array(
+                        'class'    => 'ParroquiaComunidadBundle:Persona',
+                        'required' => false,
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                        ->where('p.sexo = :s')
+                                        ->setParameter('s',"m");
+                            },
+                        'property' => 'nombreRut'
+                    ))
+            ->add('madre','entity',array(
+                        'class'    => 'ParroquiaComunidadBundle:Persona',
+                        'required' => false,
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                        ->where('p.sexo = :s')
+                                        ->setParameter('s',"f");
+                            },
+                        'property' => 'nombreRut'
+                    ))
             ->add('telefono',null,array('label' => 'Teléfono'))
             ->add('celular')
             ->add('email')
@@ -48,6 +70,17 @@ class PersonaType extends AbstractType
                         'multiple' => true ,
                         'required' => false
                     ))
+             ->add('bautizo', new BautizoType())
+             ->add('confirmacion', new ConfirmacionType())
+             ->add('matrimonios_hombre','collection',array(
+                        'label' => ' ',                
+                        'type' => new MatrimonioType(),
+                        'allow_add' => true,
+                        'allow_delete' => true,
+                        'by_reference' => false,
+                        'required' => false,
+                        'options' => array('data_class' => 'Parroquia\CertificadoBundle\Entity\Matrimonio')
+                    ))
         ;
     }
     
@@ -57,7 +90,8 @@ class PersonaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Parroquia\ComunidadBundle\Entity\Persona'
+            'data_class' => 'Parroquia\ComunidadBundle\Entity\Persona',
+            'cascade_validation' => true
         ));
     }
 

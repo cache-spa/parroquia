@@ -14,38 +14,38 @@
 {% endblock %}
 
 {% block collections %}
-        <div>
+        <div class="collection">
             <label>Padrinos</label>
             <ul class="padrinos" data-prototype="{{ form_widget(edit_form.matrimonios_padrinos.vars.prototype)|e }}">                
                 {% for padrino in edit_form.matrimonios_padrinos %}
-                    <li>{{ form_row(padrino.padrino) }}</li>
+                    <li><div>{{ form_row(padrino.padrino) }}</div></li>
                 {% endfor %}
             </ul>
         </div>
     
-        <div>
+        <div class="collection">
             <label>Celebrantes</label>
             <ul class="celebrantes" data-prototype="{{ form_widget(edit_form.matrimonios_celebrantes.vars.prototype)|e }}">                
                 {% for celebrante in edit_form.matrimonios_celebrantes %}
-                    <li>{{ form_row(celebrante.celebrante) }}</li>
+                    <li><div>{{ form_row(celebrante.celebrante) }}</div></li>
                 {% endfor %}
             </ul>
         </div>    
 
-        <div>
+        <div class="collection">
             <label>Catequistas</label>
             <ul class="catequistas" data-prototype="{{ form_widget(edit_form.matrimonios_catequistas.vars.prototype)|e }}">                
                 {% for catequista in edit_form.matrimonios_catequistas %}
-                    <li>{{ form_row(catequista.catequista) }}</li>
+                    <li><div>{{ form_row(catequista.catequista) }}</div></li>
                 {% endfor %}
             </ul>
         </div>
     
-        <div>
+        <div class="collection">
             <label>Testigos</label>
             <ul class="testigos" data-prototype="{{ form_widget(edit_form.matrimonios_testigos.vars.prototype)|e }}">                
                 {% for testigo in edit_form.matrimonios_testigos %}
-                    <li>{{ form_row(testigo.testigo) }}</li>
+                    <li><div>{{ form_row(testigo.testigo) }}</div></li>
                 {% endfor %}
             </ul>
         </div>    

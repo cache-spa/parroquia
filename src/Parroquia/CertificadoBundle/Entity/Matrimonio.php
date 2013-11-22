@@ -4,10 +4,12 @@ namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table
+ * @UniqueEntity(fields={"hombre","mujer"})
  */
 class Matrimonio extends Sacramento
 {

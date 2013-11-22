@@ -44,9 +44,15 @@ class BautizoController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $message = $this->container->getParameter('message_success');        
+            $this->get('session')->getFlashBag()->add('success',$message);            
+            
             return $this->redirect($this->generateUrl('bautizo_show', array('id' => $entity->getId())));
         }
 
+        $message = $this->container->getParameter('message_error');
+        $this->get('session')->getFlashBag()->add('error',$message);        
+        
         return $this->render('ParroquiaCertificadoBundle:Bautizo:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -225,8 +231,14 @@ class BautizoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('bautizo_edit', array('id' => $id)));
+            $message = $this->container->getParameter('message_success');        
+            $this->get('session')->getFlashBag()->add('success',$message);            
+            
+            return $this->redirect($this->generateUrl('bautizo_show', array('id' => $id)));
         }
+        
+        $message = $this->container->getParameter('message_error');
+        $this->get('session')->getFlashBag()->add('error',$message);
 
         return $this->render('ParroquiaCertificadoBundle:Bautizo:edit.html.twig', array(
             'entity'      => $entity,
@@ -253,6 +265,9 @@ class BautizoController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $message = $this->container->getParameter('message_delete');
+            $this->get('session')->getFlashBag()->add('success',$message);            
         }
 
         return $this->redirect($this->generateUrl('bautizo'));

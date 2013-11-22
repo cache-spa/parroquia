@@ -5,6 +5,7 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Parroquia\CertificadoBundle\Form\EventListener\AddConfirmadoFieldSubscriber;
 
 class ConfirmacionType extends AbstractType
 {
@@ -14,8 +15,9 @@ class ConfirmacionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('persona',null,array('label' => 'Confirmado'))
+        $builder->addEventSubscriber(new AddConfirmadoFieldSubscriber());        
+        
+        $builder            
             ->add('libro')
             ->add('hoja')
             ->add('inscripcion')
@@ -63,7 +65,8 @@ class ConfirmacionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Parroquia\CertificadoBundle\Entity\Confirmacion'
+            'data_class' => 'Parroquia\CertificadoBundle\Entity\Confirmacion',
+            'cascade_validation' => true
         ));
     }
 

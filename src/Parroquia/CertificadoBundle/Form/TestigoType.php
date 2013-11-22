@@ -11,7 +11,7 @@ class TestigoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('testigo',null,array('label' => ' '));
+                ->add('testigo',null,array('label' => ' ', 'property' => 'nombreRut'));
     }
     
     public function getName()

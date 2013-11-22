@@ -272,19 +272,86 @@ button[type="submit"]{
 	display:inline;
 }
 
+
+
+
+
+
 .filter input[type="number"],
 .filter input[type="text"],
 .filter select{
 	width:170px;
 }
 
+
+
+
+
 .record_actions{
     padding-left: 0;
 }
-
-.record_actions li, .records_list + ul li{
+.record_actions li,
+.records_list + ul li{
     list-style: none;
 }
+
+
+
+
+
+
+.collection ul{
+	padding:8px 6px;
+	border:1px solid #eee;
+	background:#f5f5f5;
+
+	display:inline-block;
+	list-style:none;
+	border-radius:4px;
+	width:338px;
+}
+
+.collection ul.matrimonios ul.matrimonio li label{
+    display:none;
+}
+
+.collection ul.matrimonios li label{
+    display:block;
+}
+
+.collection ul li label{
+    display: none;
+}
+
+.collection .close{
+	margin-left:6px;
+	padding:1px 4px;
+    float: none;
+}
+.collection .actions{
+	margin-top:;
+	text-align:right;
+}
+.collection .add_item_link{
+	margin-top:10px;
+	padding:4px 8px;
+
+	text-decoration:none;
+
+	color:#0b2546;
+
+	background:#f9a133;
+	border-radius:4px;
+}
+
+
+.text-right{
+    text-align: right;
+}
+
+
+
+
 
 
 #footer-wrapper{

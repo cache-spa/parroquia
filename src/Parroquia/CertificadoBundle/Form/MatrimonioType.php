@@ -5,35 +5,19 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
+use Parroquia\CertificadoBundle\Form\EventListener\AddCasadoFieldSubscriber;
 
 class MatrimonioType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber(new AddCasadoFieldSubscriber());        
+        
         $builder
-            ->add('hombre','entity',array(
-                        'class'    => 'ParroquiaComunidadBundle:Persona',
-                        'required' => false,
-                        'query_builder' => function(EntityRepository $er) {
-                            return $er->createQueryBuilder('p')
-                                        ->where('p.sexo = :s')
-                                        ->setParameter('s',"m");
-                            }
-                    ))
-            ->add('mujer','entity',array(
-                        'class'    => 'ParroquiaComunidadBundle:Persona',
-                        'required' => false,
-                        'query_builder' => function(EntityRepository $er) {
-                            return $er->createQueryBuilder('p')
-                                        ->where('p.sexo = :s')
-                                        ->setParameter('s',"f");
-                            }
-                    ))                
             ->add('libro')
             ->add('hoja')
             ->add('inscripcion')
@@ -58,6 +42,7 @@ class MatrimonioType extends AbstractType
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
+                        'prototype_name' => '__padrinosname__',
                         'options' => array('data_class' => 'Parroquia\CertificadoBundle\Entity\MatrimonioPadrino')
                     ))
             ->add('matrimonios_celebrantes','collection',array(
@@ -66,7 +51,8 @@ class MatrimonioType extends AbstractType
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
-                        'required' => false,                
+                        'required' => false,    
+                        'prototype_name' => '__celebrantesname__',                
                         'options' => array('data_class' => 'Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante')
                     ))
             ->add('matrimonios_catequistas','collection',array(
@@ -75,7 +61,8 @@ class MatrimonioType extends AbstractType
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
-                        'required' => false,                
+                        'required' => false,
+                        'prototype_name' => '__catequistasname__',
                         'options' => array('data_class' => 'Parroquia\CertificadoBundle\Entity\MatrimonioCatequista')
                     ))
             ->add('matrimonios_testigos','collection',array(
@@ -84,9 +71,11 @@ class MatrimonioType extends AbstractType
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
-                        'required' => false,                
+                        'required' => false, 
+                        'prototype_name' => '__testigosname__',                
                         'options' => array('data_class' => 'Parroquia\CertificadoBundle\Entity\MatrimonioTestigo')
-                    ))                            
+                    ))
+            ->add('notas')
         ;
     }
     
@@ -96,7 +85,8 @@ class MatrimonioType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Parroquia\CertificadoBundle\Entity\Matrimonio'
+            'data_class' => 'Parroquia\CertificadoBundle\Entity\Matrimonio',
+            'cascade_validation' => true            
         ));
     }
 

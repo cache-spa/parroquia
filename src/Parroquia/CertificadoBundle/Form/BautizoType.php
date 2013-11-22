@@ -5,17 +5,19 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Parroquia\CertificadoBundle\Form\EventListener\AddBautizadoFieldSubscriber;
 
 class BautizoType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber(new AddBautizadoFieldSubscriber());
+        
         $builder
-            ->add('persona',null,array('label' => 'Bautizado'))
             ->add('libro')
             ->add('hoja')
             ->add('inscripcion')
@@ -63,7 +65,8 @@ class BautizoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Parroquia\CertificadoBundle\Entity\Bautizo'
+            'data_class' => 'Parroquia\CertificadoBundle\Entity\Bautizo',
+            'cascade_validation' => true
         ));
     }
 

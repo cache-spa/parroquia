@@ -40,6 +40,11 @@
 </ul>
 {% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/ui-lightness/jquery-ui.parroquia.css') }}">
+{% endblock %}    
+    
 {% block javascripts %}
     <script>
         $( ".date" ).datepicker( "option", "yearRange", "c-100:c" );
@@ -55,11 +60,18 @@
 
                 if($collectionHolder){
                     // setup an "add an item" link
-                    var $addItemLink = $('<a href="#" class="'+val+'_add_item_link">Agregar</a>');
-                    var $newLinkLi = $('<li></li>').append($addItemLink);
+                    var $addItemLink = $('<a href="#" class="'+val+' add_item_link">+</a>');
+                    var $newLinkLi = $('<li class="actions"></li>').append($addItemLink);
 
                     // add a delete link to all of the existing item form li elements
                     $collectionHolder.find('li').each(function() {
+                        //Agrega autocompletar
+                        if($(this).find('select')[0])                        
+                        {
+                            var $id = $(this).find('select')[0].id;
+                            $( "#"+$id ).combobox();
+                        }
+                        
                         addItemFormDeleteLink($(this));
                     });            
 
@@ -101,14 +113,18 @@
             // Display the form in the page in an li, before the "Add an item" link li
             var $newFormLi = $('<li></li>').append(newForm);
             $newLinkLi.before($newFormLi);
-            
+
+            //Agrega autocompletar
+            var $id = $newFormLi.find('select')[0].id;
+            $( "#"+$id ).combobox();        
+        
             // add a delete link to the new form
             addItemFormDeleteLink($newFormLi);            
         }
         
         function addItemFormDeleteLink($itemFormLi) {
-            var $removeFormA = $('<a href="#">X</a>');
-            $itemFormLi.append($removeFormA);
+            var $removeFormA = $('<button type="button" class="close">&times;</button>');
+            $itemFormLi.children().last().children().last().append($removeFormA);
 
             $removeFormA.on('click', function(e) {
                 // prevent the link from creating a "#" on the URL
@@ -119,5 +135,150 @@
             });
         }        
     </script>
+    
+    <script>
+
+      (function( $ ) {
+        $.widget( "custom.combobox", {
+          _create: function() {
+            this.wrapper = $( "<span>" )
+              .addClass( "custom-combobox" )
+              .insertAfter( this.element );
+
+            this.element.hide();
+            this._createAutocomplete();
+            this._createShowAllButton();
+          },
+
+          _createAutocomplete: function() {
+            var selected = this.element.children( ":selected" ),
+              value = selected.val() ? selected.text() : "";
+
+            this.input = $( "<input type=\"text\">" )
+              .appendTo( this.wrapper )
+              .val( value )
+              .attr( "title", "" )
+              .addClass( "" )
+              .autocomplete({
+                delay: 0,
+                minLength: 0,
+                source: $.proxy( this, "_source" )
+              })
+              .tooltip({
+                tooltipClass: "ui-state-highlight"
+              });
+
+            this._on( this.input, {
+              autocompleteselect: function( event, ui ) {
+                ui.item.option.selected = true;
+                this._trigger( "select", event, {
+                  item: ui.item.option
+                });
+              },
+
+              autocompletechange: "_removeIfInvalid"
+            });
+          },
+
+          _createShowAllButton: function() {
+            var input = this.input,
+              wasOpen = false;
+
+            $( "<a>" )
+              .attr( "tabIndex", -1 )
+              .attr( "title", "Mostrar todos los ítems" )
+              .tooltip()
+              .appendTo( this.wrapper )
+              .button({
+                icons: {
+                  primary: "ui-icon-triangle-1-s"
+                },
+                text: false
+              })
+              .removeClass( "ui-corner-all" )
+              .addClass( "custom-combobox-toggle" )
+              .mousedown(function() {
+                wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+              })
+              .click(function() {
+                input.focus();
+
+                // Close if already visible
+                if ( wasOpen ) {
+                  return;
+                }
+
+                // Pass empty string as value to search for, displaying all results
+                input.autocomplete( "search", "" );
+              });
+          },
+
+          _source: function( request, response ) {
+            var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+            response( this.element.children( "option" ).map(function() {
+              var text = $( this ).text();
+              if ( this.value && ( !request.term || matcher.test(text) ) )
+                return {
+                  label: text,
+                  value: text,
+                  option: this
+                };
+            }) );
+          },
+
+          _removeIfInvalid: function( event, ui ) {
+
+            // Selected an item, nothing to do
+            if ( ui.item ) {
+              return;
+            }
+
+            // Search for a match (case-insensitive)
+            var value = this.input.val(),
+              valueLowerCase = value.toLowerCase(),
+              valid = false;
+            this.element.children( "option" ).each(function() {
+              if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+                this.selected = valid = true;
+                return false;
+              }
+            });
+
+            // Found a match, nothing to do
+            if ( valid ) {
+              return;
+            }
+
+            // Remove invalid value
+            this.input
+              .val( "" )
+              .attr( "title", value + " no coincide con ningún ítem existente" )
+              .tooltip( "open" );
+            this.element.val( "" );
+            this._delay(function() {
+              this.input.tooltip( "close" ).attr( "title", "" );
+            }, 2500 );
+            this.input.data( "ui-autocomplete" ).term = "";
+          },
+
+          _destroy: function() {
+            this.wrapper.remove();
+            this.element.show();
+          }
+        });
+      })( jQuery );
+
+      $(function() {
+        var $list = ['bautizo_persona','confirmacion_persona','matrimonio_hombre','matrimonio_mujer'];
+            $.each($list,function(i, val){
+    
+                $collectionHolder = $('#parroquia_certificadobundle_' + val);
+
+                if($collectionHolder){
+                    $collectionHolder.combobox();
+                }
+            });
+      });
+      </script>      
    
 {% endblock %}

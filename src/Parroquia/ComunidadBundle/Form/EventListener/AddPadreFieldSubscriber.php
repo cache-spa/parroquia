@@ -33,7 +33,8 @@ class AddPadreFieldSubscriber implements EventSubscriberInterface
                     },
                 'label' => 'Categoría Padre',
                 'required' => false,
-                'group_by' => 'padreNombre'
+                'group_by' => 'padreNombre',
+                'empty_value' => '---Raíz---'
             );
 
             $form->add('padre', 'entity', $formOptions); 
@@ -50,7 +51,8 @@ class AddPadreFieldSubscriber implements EventSubscriberInterface
                     },
                 'label' => 'Categoría Padre',
                 'required' => false,
-                'group_by' => 'padreNombre'
+                'group_by' => 'padreNombre',
+                'empty_value' => '---Raíz---'
             );
 
             $form->add('padre', 'entity', $formOptions);            

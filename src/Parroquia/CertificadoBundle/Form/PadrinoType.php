@@ -11,11 +11,12 @@ class PadrinoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('padrino',null,array('label' => ' '));
+                ->add('padrino',null,array('label' => ' ', 'property' => 'nombreRut'));
     }
     
     public function getName()
     {
         return 'padrino';
     }
+      
 }

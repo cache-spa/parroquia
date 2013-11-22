@@ -3,10 +3,12 @@
 namespace Parroquia\CertificadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="matrimonio_padrino_idx", columns={"matrimonio_id", "padrino_id"})})
+ * @UniqueEntity(fields={"padrino","matrimonio"})
  */
 class MatrimonioPadrino
 {

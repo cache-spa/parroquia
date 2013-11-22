@@ -11,7 +11,7 @@ class CelebranteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('celebrante',null,array('label' => ' '));
+                ->add('celebrante',null,array('label' => ' ', 'property' => 'nombreRut'));
     }
     
     public function getName()

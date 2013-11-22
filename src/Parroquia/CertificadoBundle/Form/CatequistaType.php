@@ -11,7 +11,7 @@ class CatequistaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('catequista',null,array('label' => ' '));
+                ->add('catequista',null,array('label' => ' ', 'property' => 'nombreRut'));
     }
     
     public function getName()

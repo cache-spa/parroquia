@@ -9,8 +9,44 @@
 {% block body -%}
     <div class="title-wrapper"><h1>Editar Persona</h1></div>
 
-    {{ form(edit_form) }}
+    {{ form_start(edit_form) }}
+    
+    {{ form_row(edit_form.nombres) }}
+    {{ form_row(edit_form.apellido_p) }}
+    {{ form_row(edit_form.apellido_m) }}
+    {{ form_row(edit_form.sexo) }}
+    {{ form_row(edit_form.rut) }}
+    {{ form_row(edit_form.fecha_nacimiento) }}
+    {{ form_row(edit_form.padre) }}    
+    {{ form_row(edit_form.madre) }}
+    {{ form_row(edit_form.telefono) }}
+    {{ form_row(edit_form.celular) }}    
+    {{ form_row(edit_form.email) }}    
+    {{ form_row(edit_form.direccion) }} 
+    {{ form_row(edit_form.estado_civil) }}    
+    {{ form_row(edit_form.grupos) }}    
+    
+    <div class="title-wrapper"><h2>Bautizo</h2></div>    
+    {% include 'ParroquiaComunidadBundle:Persona:bautizo_form.html.twig' with {'form' : edit_form.bautizo } %}
 
+    <div class="title-wrapper"><h2>Confirmación</h2></div>
+    {% include 'ParroquiaComunidadBundle:Persona:confirmacion_form.html.twig' with {'form' : edit_form.confirmacion } %}    
+    
+    <div class="title-wrapper"><h2>Matrimonio(s)</h2></div>
+    
+        <div class="collection">
+            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaComunidadBundle:Persona:prototypeMatrimonio.html.twig' with {'form': edit_form.matrimonios_hombre.vars.prototype} %}{% endfilter %}">                
+                {% for matrimonio in edit_form.matrimonios_hombre %}
+                <li class="matrimonio matrimonio-{{ loop.index0 }}">{% include 'ParroquiaComunidadBundle:Persona:matrimonio_form.html.twig' with {'form' : matrimonio } %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    
+    {{ form_rest(edit_form) }}
+    {{ form_end(edit_form) }}
+    
+    
         <ul class="record_actions">
     <li>
         <a href="{{ path('persona') }}">
@@ -21,8 +57,384 @@
 </ul>
 {% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/ui-lightness/jquery-ui.parroquia.css') }}">
+{% endblock %}    
+    
 {% block javascripts %}
     <script>
         $( ".date" ).datepicker( "option", "yearRange", "c-100:c" );
     </script>
+    
+    <script>
+        var $list = ['padrinos','celebrantes','catequistas','testigos'];
+        var $sacramentos = ['bautizo','confirmacion','matrimonio'];
+        
+        jQuery(document).ready(function() {
+            var $collectionHolder;
+            //var $list = ['padrinos','celebrantes','catequistas','testigos'];
+            //var $sacramentos = ['bautizo','confirmacion','matrimonio'];            
+            
+            $.each($sacramentos, function(j,sacr){
+                $.each($list,function(i, val){
+
+                    $collectionHolder = $('ul.'+ sacr + '.' + val);
+
+                    if($collectionHolder){
+                        if(sacr !== 'matrimonio'){
+                            // setup an "add an item" link
+                            var $addItemLink = $('<a href="#" class="'+val+' add_item_link">+</a>');
+                            var $newLinkLi = $('<li class="actions"></li>').append($addItemLink);
+
+                            // add a delete link to all of the existing item form li elements
+                            $collectionHolder.find('li').each(function() {
+                                //Agrega autocompletar
+                                if($(this).find('select')[0])                        
+                                {
+                                    var $id = $(this).find('select')[0].id;
+                                    $( "#"+$id ).combobox();
+                                }
+
+                                addItemFormDeleteLink($(this));
+                            });            
+
+                            // add the "add an item" anchor and li to the items ul
+                            $collectionHolder.append($newLinkLi);
+
+                            // count the current form inputs we have (e.g. 2), use that as the new
+                            // index when inserting a new item (e.g. 2)
+                            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                            $addItemLink.on('click', function(e) {
+                                // prevent the link from creating a "#" on the URL
+                                e.preventDefault();
+
+                                // add a new item form (see next code block)
+                                addItemForm(sacr + '.' + val, $newLinkLi);
+                            });
+                        }
+                        else
+                        {
+                            $collectionHolder.each(function(){
+                                // setup an "add an item" link
+                                var $addItemLink = $('<a href="#" class="'+val+' add_item_link">+</a>');
+                                var $newLinkLi = $('<li class="actions"></li>').append($addItemLink);
+
+                                // add a delete link to all of the existing item form li elements
+                                $(this).find('li').each(function() {
+                                    //Agrega autocompletar
+                                    if($(this).find('select')[0])                        
+                                    {
+                                        var $id = $(this).find('select')[0].id;
+                                        $( "#"+$id ).combobox();
+                                    }
+
+                                    addItemFormDeleteLink($(this));
+                                });            
+
+                                // add the "add an item" anchor and li to the items ul
+                                $(this).append($newLinkLi);
+
+                                // count the current form inputs we have (e.g. 2), use that as the new
+                                // index when inserting a new item (e.g. 2)
+                                $(this).data('index', $(this).find(':input').length);
+
+                                $addItemLink.on('click', function(e) {
+                                    // prevent the link from creating a "#" on the URL
+                                    e.preventDefault();
+                                    
+                                    var classes = $(this).closest("li.matrimonio").attr("class");//busca el padre más cercano
+                                    classes = classes.replace(" ",".");
+                                    
+                                    // add a new item form (see next code block)
+                                    addItemForm('matrimonios li.'+ classes + ' ul.' + sacr + '.' + val, $newLinkLi);
+                                });                                
+                            });
+
+                        }
+                    }
+                });
+            });
+
+            $collectionHolder = $('ul.matrimonios');
+
+            if($collectionHolder){
+                // setup an "add an item" link
+                var $addItemLink = $('<a href="#" class="add_item_link">+</a>');
+                var $newLinkLi = $('<li class="actions"></li>').append($addItemLink);
+
+                // add a delete link to all of the existing item form li elements
+                $collectionHolder.find('li.matrimonio').each(function() {
+                    //Agrega autocompletar
+                    if($(this).find('select')[0])                        
+                    {
+                        var $id = $(this).find('select')[0].id;
+                        $( "#"+$id ).combobox();
+                    }
+                    addItemFormDeleteLink($(this));
+                });            
+
+                // add the "add an item" anchor and li to the items ul
+                $collectionHolder.append($newLinkLi);
+
+                // count the current form inputs we have (e.g. 2), use that as the new
+                // index when inserting a new item (e.g. 2)
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                $addItemLink.on('click', function(e) {
+                    // prevent the link from creating a "#" on the URL
+                    e.preventDefault();
+
+                    // add a new item form (see next code block)
+                    addItemForm('matrimonios', $newLinkLi);
+                });          
+            }            
+            
+            
+        });  
+        
+        function addItemForm(val, $newLinkLi ) {
+            $collectionHolder = $('ul.' + val);            
+
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+            
+            if (val.lastIndexOf("matrimonio.") >= 0)
+            {
+                var personas = val.substr(val.lastIndexOf(".")+1);
+                var re = new RegExp('__'+personas+'name__',"g"); //para padrino, catequistas, testigos y celebrantes
+                newForm = prototype.replace(re, index);
+            }
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add an item" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            if(val === 'matrimonios'){
+                $newFormLi.addClass('matrimonio matrimonio-'+index);
+            }
+            $newLinkLi.before($newFormLi);
+
+            //Agrega autocompletar
+            if($newFormLi.find('select')[0])                        
+            {
+                var $id = $newFormLi.find('select')[0].id;
+                $( "#"+$id ).combobox();
+            }
+            //Agrega fecha
+            if($newFormLi.find('.date'))
+            {
+                $newFormLi.find('.date').datepicker("option", "yearRange", "c-100:c" );
+                $newFormLi.find('.date').datepicker({changeYear:true});
+            }
+            
+            // add a delete link to the new form
+            addItemFormDeleteLink($newFormLi);
+            
+            if(val === 'matrimonios')
+            {
+                $.each($list,function(i, pers){
+
+                    var sacr = 'matrimonio';
+                    var elem = 'matrimonios li.matrimonio.matrimonio-'+ index + ' ul.' + sacr + '.' + pers;
+                    $collectionHolder = $('ul.'+ elem);
+                    
+                    if($collectionHolder){
+                        // setup an "add an item" link
+                        var $addItemLink = $('<a href="#" class="'+pers+' add_item_link">+</a>');
+                        var $newLinkLi = $('<li class="actions"></li>').append($addItemLink);       
+
+                        // add the "add an item" anchor and li to the items ul
+                        $collectionHolder.append($newLinkLi);
+
+                        // count the current form inputs we have (e.g. 2), use that as the new
+                        // index when inserting a new item (e.g. 2)
+                        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                        $addItemLink.on('click', function(e) {
+                            // prevent the link from creating a "#" on the URL
+                            e.preventDefault();
+
+                            // add a new item form (see next code block)
+                            addItemForm(elem, $newLinkLi);
+                        });       
+                    }
+                });             
+
+            }
+        }
+        
+        function addItemFormDeleteLink($itemFormLi) {
+            var $removeFormA = $('<button type="button" class="close">&times;</button>');
+            if($itemFormLi.parent().hasClass("matrimonios")){
+                $removeFormA = $('<div class="text-right"><button type="button" class="close">&times;</button></div>');
+            }
+
+            $itemFormLi.children().last().children().last().append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the item form
+                $itemFormLi.remove();
+            });
+        }        
+    </script>
+    
+    <script>
+
+      (function( $ ) {
+        $.widget( "custom.combobox", {
+          _create: function() {
+            this.wrapper = $( "<span>" )
+              .addClass( "custom-combobox" )
+              .insertAfter( this.element );
+
+            this.element.hide();
+            this._createAutocomplete();
+            this._createShowAllButton();
+          },
+
+          _createAutocomplete: function() {
+            var selected = this.element.children( ":selected" ),
+              value = selected.val() ? selected.text() : "";
+
+            this.input = $( "<input type=\"text\">" )
+              .appendTo( this.wrapper )
+              .val( value )
+              .attr( "title", "" )
+              .addClass( "" )
+              .autocomplete({
+                delay: 0,
+                minLength: 0,
+                source: $.proxy( this, "_source" )
+              })
+              .tooltip({
+                tooltipClass: "ui-state-highlight"
+              });
+
+            this._on( this.input, {
+              autocompleteselect: function( event, ui ) {
+                ui.item.option.selected = true;
+                this._trigger( "select", event, {
+                  item: ui.item.option
+                });
+              },
+
+              autocompletechange: "_removeIfInvalid"
+            });
+          },
+
+          _createShowAllButton: function() {
+            var input = this.input,
+              wasOpen = false;
+
+            $( "<a>" )
+              .attr( "tabIndex", -1 )
+              .attr( "title", "Mostrar todos los ítems" )
+              .tooltip()
+              .appendTo( this.wrapper )
+              .button({
+                icons: {
+                  primary: "ui-icon-triangle-1-s"
+                },
+                text: false
+              })
+              .removeClass( "ui-corner-all" )
+              .addClass( "custom-combobox-toggle" )
+              .mousedown(function() {
+                wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+              })
+              .click(function() {
+                input.focus();
+
+                // Close if already visible
+                if ( wasOpen ) {
+                  return;
+                }
+
+                // Pass empty string as value to search for, displaying all results
+                input.autocomplete( "search", "" );
+              });
+          },
+
+          _source: function( request, response ) {
+            var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+            response( this.element.children( "option" ).map(function() {
+              var text = $( this ).text();
+              if ( this.value && ( !request.term || matcher.test(text) ) )
+                return {
+                  label: text,
+                  value: text,
+                  option: this
+                };
+            }) );
+          },
+
+          _removeIfInvalid: function( event, ui ) {
+
+            // Selected an item, nothing to do
+            if ( ui.item ) {
+              return;
+            }
+
+            // Search for a match (case-insensitive)
+            var value = this.input.val(),
+              valueLowerCase = value.toLowerCase(),
+              valid = false;
+            this.element.children( "option" ).each(function() {
+              if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+                this.selected = valid = true;
+                return false;
+              }
+            });
+
+            // Found a match, nothing to do
+            if ( valid ) {
+              return;
+            }
+
+            // Remove invalid value
+            this.input
+              .val( "" )
+              .attr( "title", value + " no coincide con ningún ítem existente" )
+              .tooltip( "open" );
+            this.element.val( "" );
+            this._delay(function() {
+              this.input.tooltip( "close" ).attr( "title", "" );
+            }, 2500 );
+            this.input.data( "ui-autocomplete" ).term = "";
+          },
+
+          _destroy: function() {
+            this.wrapper.remove();
+            this.element.show();
+          }
+        });
+      })( jQuery );
+      
+      $(function() {
+        var $list = ['padre','madre'];
+            $.each($list,function(i, val){
+    
+                $collectionHolder = $('#parroquia_comunidadbundle_persona_' + val);
+
+                if($collectionHolder){
+                    $collectionHolder.combobox();
+                }
+            });
+      });      
+      </script>      
+   
+    
 {% endblock %}

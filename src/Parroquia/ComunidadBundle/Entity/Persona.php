@@ -76,22 +76,22 @@ class Persona
     protected $estado_civil; 
     
     /**
-     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Bautizo", mappedBy="persona")
+     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Bautizo", mappedBy="persona", cascade="all")
      **/
     protected $bautizo;
     
     /**
-     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Confirmacion", mappedBy="persona")
+     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Confirmacion", mappedBy="persona", cascade="all")
      **/
     protected $confirmacion;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="hombre")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="hombre", cascade={"all"})
      **/
     protected $matrimonios_hombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="mujer")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="mujer", cascade={"all"})
      **/
     protected $matrimonios_mujer;
     
@@ -156,7 +156,7 @@ class Persona
     protected $matrimonios_testigos;
     
     /**
-     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="padre", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Persona", mappedBy="padre", cascade={"all"})
      **/
     protected $hijos_padre;
 
@@ -167,7 +167,7 @@ class Persona
     protected $padre;
     
     /**
-     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="madre", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Persona", mappedBy="madre", cascade={"all"})
      **/
     protected $hijos_madre;
 
@@ -467,6 +467,7 @@ class Persona
      */
     public function setBautizo(\Parroquia\CertificadoBundle\Entity\Bautizo $bautizo = null)
     {
+        $bautizo->setPersona($this);
         $this->bautizo = $bautizo;
     
         return $this;
@@ -490,6 +491,7 @@ class Persona
      */
     public function setConfirmacion(\Parroquia\CertificadoBundle\Entity\Confirmacion $confirmacion = null)
     {
+        $confirmacion->setPersona($this);
         $this->confirmacion = $confirmacion;
     
         return $this;
@@ -513,7 +515,17 @@ class Persona
      */
     public function addMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
     {
-        $this->matrimonios_hombre[] = $matrimonioshombre;
+        $matrimonioshombre->setHombre($this);
+
+        if($this->getSexo() == 'M')
+        {
+            $this->matrimonios_hombre[] = $matrimonioshombre;            
+        }
+
+        if($this->getSexo() == 'F')
+        {
+            $this->matrimonios_mujer[] = $matrimonioshombre;            
+        }
     
         return $this;
     }
@@ -546,7 +558,17 @@ class Persona
      */
     public function addMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
     {
-        $this->matrimonios_mujer[] = $matrimoniosmujer;
+        $matrimoniosmujer->setMujer($this);
+
+        if($this->getSexo() == 'M')
+        {
+            $this->matrimonios_hombre[] = $matrimoniosmujer;            
+        }
+
+        if($this->getSexo() == 'F')
+        {            
+            $this->matrimonios_mujer[] = $matrimoniosmujer;            
+        }
     
         return $this;
     }
@@ -1004,10 +1026,10 @@ class Persona
     /**
      * Add hijos_padre
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Grupo $hijosPadre
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosPadre
      * @return Persona
      */
-    public function addHijosPadre(\Parroquia\ComunidadBundle\Entity\Grupo $hijosPadre)
+    public function addHijosPadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosPadre)
     {
         $this->hijos_padre[] = $hijosPadre;
     
@@ -1017,9 +1039,9 @@ class Persona
     /**
      * Remove hijos_padre
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Grupo $hijosPadre
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosPadre
      */
-    public function removeHijosPadre(\Parroquia\ComunidadBundle\Entity\Grupo $hijosPadre)
+    public function removeHijosPadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosPadre)
     {
         $this->hijos_padre->removeElement($hijosPadre);
     }
@@ -1060,10 +1082,10 @@ class Persona
     /**
      * Add hijos_madre
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Grupo $hijosMadre
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosMadre
      * @return Persona
      */
-    public function addHijosMadre(\Parroquia\ComunidadBundle\Entity\Grupo $hijosMadre)
+    public function addHijosMadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosMadre)
     {
         $this->hijos_madre[] = $hijosMadre;
     
@@ -1073,9 +1095,9 @@ class Persona
     /**
      * Remove hijos_madre
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Grupo $hijosMadre
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosMadre
      */
-    public function removeHijosMadre(\Parroquia\ComunidadBundle\Entity\Grupo $hijosMadre)
+    public function removeHijosMadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosMadre)
     {
         $this->hijos_madre->removeElement($hijosMadre);
     }
@@ -1112,4 +1134,9 @@ class Persona
     {
         return $this->madre;
     }
+    
+    public function getNombreRut()
+    {
+        return $this->nombres.' '.$this->apellido_p.' '.$this->apellido_m. ' (Rut: '.$this->rut.')';
+    }  
 }

@@ -43,10 +43,16 @@ class MatrimonioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+            
+            $message = $this->container->getParameter('message_success');        
+            $this->get('session')->getFlashBag()->add('success',$message);            
 
             return $this->redirect($this->generateUrl('matrimonio_show', array('id' => $entity->getId())));
         }
 
+        $message = $this->container->getParameter('message_error');
+        $this->get('session')->getFlashBag()->add('error',$message);        
+        
         return $this->render('ParroquiaCertificadoBundle:Matrimonio:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -241,10 +247,16 @@ class MatrimonioController extends Controller
             
             $em->persist($entity);
             $em->flush();
+            
+            $message = $this->container->getParameter('message_success');        
+            $this->get('session')->getFlashBag()->add('success',$message);            
         
-            return $this->redirect($this->generateUrl('matrimonio_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('matrimonio_show', array('id' => $id)));
         }
 
+        $message = $this->container->getParameter('message_error');
+        $this->get('session')->getFlashBag()->add('error',$message);        
+        
         return $this->render('ParroquiaCertificadoBundle:Matrimonio:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
@@ -270,6 +282,9 @@ class MatrimonioController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $message = $this->container->getParameter('message_delete');
+            $this->get('session')->getFlashBag()->add('success',$message);            
         }
 
         return $this->redirect($this->generateUrl('matrimonio'));
