@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th>Fecha de Nacimiento</th>
-                <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }}{% endif %}</td>
+                <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }} (Edad: {{ entity.edad }}){% endif %}</td>
             </tr>
             <tr>
                 <th>Padre</th>
@@ -75,6 +75,60 @@
                         <li>{{ grupo }}</li>
                     {% endfor %}
                     </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Bautizo</th>                
+                <td>
+                    {% if entity.bautizo is not null %}
+                        <a href="{{ path('bautizo_show', { 'id' : entity.bautizo.id })}}">Ver datos</a>
+                    {% else %}
+                        No hay datos registrados
+                    {% endif %}                        
+                </td>
+            </tr>
+            <tr>
+                <th>Confirmación</th>                
+                <td>
+                    {% if entity.confirmacion is not null %}
+                        <a href="{{ path('confirmacion_show', { 'id' : entity.confirmacion.id })}}">Ver datos</a>
+                    {% else %}
+                        No hay datos registrados
+                    {% endif %}                        
+                </td>
+            </tr>
+            <tr>
+                <th>Matrimonios ({{ entity.matrimoniosconyuge1|length + entity.matrimoniosconyuge2|length }})</th>                
+                <td>
+                    {% if entity.matrimoniosconyuge1|length != 0 or entity.matrimoniosconyuge2|length !=0 %}
+                        <ul>
+                        {% for matrimonio in entity.matrimoniosconyuge1 %}
+                            <li><a href="{{ path('matrimonio_show', { 'id' : matrimonio.id })}}">Ver datos matrimonio con {{ matrimonio.conyuge2 }}</a></li>
+                        {% endfor %}
+                        {% for matrimonio in entity.matrimoniosconyuge2 %}
+                            <li><a href="{{ path('matrimonio_show', { 'id' : matrimonio.id })}}">Ver datos matrimonio con {{ matrimonio.conyuge1 }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        No hay matrimonios registrados
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Hijos ({{ entity.hijospadre|length + entity.hijosmadre|length }})</th>                
+                <td>
+                    {% if entity.hijospadre|length != 0 or entity.hijosmadre|length !=0 %}
+                        <ul>
+                        {% for hijo in entity.hijospadre %}
+                            <li><a href="{{ path('persona_show', { 'id' : hijo.id })}}">{{ hijo }}</a></li>
+                        {% endfor %}
+                        {% for hijo in entity.hijosmadre %}
+                            <li><a href="{{ path('persona_show', { 'id' : hijo.id })}}">{{ hijo }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        No hay hijos registrados
+                    {% endif %}
                 </td>
             </tr>             
         </tbody>

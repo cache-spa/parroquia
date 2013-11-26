@@ -21,7 +21,8 @@ class GrupoType extends AbstractType
                       'class'    => 'ParroquiaComunidadBundle:Persona' ,
                       'expanded' => false ,
                       'multiple' => true ,
-                      'required' => false
+                      'required' => false,
+                      'property' => 'nombreRut'
                     ))
         ;
         $builder->addEventSubscriber(new AddPadreFieldSubscriber());

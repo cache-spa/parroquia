@@ -80,7 +80,7 @@
 				if (o.search != false && o.optGroupSearch != false) {
 					var ss = 
 						o.optGroupSearch + "<select class='small' ><option value=__null__> </option></select> " +
-						o.search + "<input class='small' type='text' /><a href='#'> </a>";
+						"<input class='small' type='text' placeholder='" + o.search + "' /><a href='#'> </a>";
 
 					if (o.selectedPosition == 'right')
 						leftSearch = ss;
@@ -88,7 +88,7 @@
 						rightSearch = ss;
 				}
 				else if (o.search != false) {
-					var	ss = o.search + "<input type='text' /><a href='#'> </a>";
+					var	ss = "<input type='text' placeholder='" + o.search + "' /><a href='#'> </a>";
 
 					if (o.selectedPosition == 'right')
 						leftSearch = ss;
@@ -115,15 +115,15 @@
 						"<div class='ms2side__options'>" +
 							((o.selectedPosition == 'right')
 							?
-							("<p class='AddOne' title='Add Selected'>&rsaquo;</p>" +
-							"<p class='AddAll' title='Add All'>&raquo;</p>" +
-							"<p class='RemoveOne' title='Remove Selected'>&lsaquo;</p>" +
-							"<p class='RemoveAll' title='Remove All'>&laquo;</p>")
+							("<p class='AddOne' title='Agregar seleccionados'>&rsaquo;</p>" +
+							"<p class='AddAll' title='Agregar todos'>&raquo;</p>" +
+							"<p class='RemoveOne' title='Quitar seleccionados'>&lsaquo;</p>" +
+							"<p class='RemoveAll' title='Quitar todos'>&laquo;</p>")
 							:
-							("<p class='AddOne' title='Add Selected'>&lsaquo;</p>" +
-							"<p class='AddAll' title='Add All'>&laquo;</p>" +
-							"<p class='RemoveOne' title='Remove Selected'>&rsaquo;</p>" +
-							"<p class='RemoveAll' title='Remove All'>&raquo;</p>")
+							("<p class='AddOne' title='Agregar seleccionados'>&lsaquo;</p>" +
+							"<p class='AddAll' title='Agregar todos'>&laquo;</p>" +
+							"<p class='RemoveOne' title='Quitar seleccionados'>&rsaquo;</p>" +
+							"<p class='RemoveAll' title='Quitar todos'>&raquo;</p>")
 							) +
 						"</div>" +
 						"<div class='ms2side__select'>" +
@@ -262,7 +262,7 @@
 
 				// CENTER MOVE OPTIONS AND UPDOWN OPTIONS
 				$(this).next().find('.ms2side__options, .ms2side__updown').each(function(){
-					var	top = ((heightDiv/2) - ($(this).height()/2));
+					var	top = (0.7*(heightDiv) - 0.7*($(this).height()));
 					if (top > 0)
 						$(this).css('padding-top',  top + 'px' );
 				})
@@ -272,7 +272,7 @@
 				$(this).find("option:not(:selected)").clone().appendTo(leftSel);
 
 				// SELECT FIRST LEFT ITEM AND DESELECT IN RIGHT (NOT IN IE6)
-				if (!(navigator.userAgent.match(/msie/i) && navigator.userAgent.match(/6/) )) {
+				if (!(navigator.appName == 'Microsoft Internet Explorer' && navigator.version == '6.0')) {
 					leftSel.find("option").eq(0).attr("selected", true);
 					rightSel.children().removeAttr("selected");
 				}
@@ -319,7 +319,7 @@
 				// ON CHANGE REFRESH ALL BUTTON STATUS
 				allSel.change(function() {
 					// HACK FOR IE6 (SHOW AND HIDE ORIGINAL SELECT)
-					if (navigator.userAgent.match(/msie/i) && navigator.userAgent.match(/6/) )
+					if (navigator.appName == 'Microsoft Internet Explorer' && navigator.version == '6.0')
 						el.show().hide();
 					var	div = $(this).parent().parent();
 					var	selectSx = leftSel.children();

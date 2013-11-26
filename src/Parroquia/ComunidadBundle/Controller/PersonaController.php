@@ -178,7 +178,7 @@ class PersonaController extends Controller
         }
         
         /**** Sacramentos ****/
-        $sacramentos = array('bautizo','confirmacion','matrimonios_hombre','matrimonios_mujer');
+        $sacramentos = array('bautizo','confirmacion','matrimonios');
         foreach($sacramentos as $sacramento)
         {
             $originalPadrinos[$sacramento] = array();
@@ -186,8 +186,7 @@ class PersonaController extends Controller
             $originalCatequistas[$sacramento] = array();
             $originalTestigos[$sacramento] = array();
         }
-        $originalMatrimoniosHombre = array();
-        $originalMatrimoniosMujer= array();
+        $originalMatrimonios = array();        
         
         /**** Bautizo ****/        
         if($entity->getBautizo())
@@ -219,45 +218,25 @@ class PersonaController extends Controller
             }            
         }
         
-        /**** Matrimonios Hombre ****/        
-        if($entity->getMatrimoniosHombre())
+        /**** Matrimonios ****/        
+        if($entity->getMatrimonios())
         {
-            foreach($entity->getMatrimoniosHombre() as $sacramento) {
+            foreach($entity->getMatrimonios() as $sacramento) {
                 foreach ($sacramento->getMatrimoniosPadrinos() as $padrino) {
-                    $originalPadrinos['matrimonios_hombre'][] = $padrino;
+                    $originalPadrinos['matrimonios'][] = $padrino;
                 }
                 foreach ($sacramento->getMatrimoniosCelebrantes() as $celebrante) {
-                    $originalCelebrantes['matrimonios_hombre'][] = $celebrante;
+                    $originalCelebrantes['matrimonios'][] = $celebrante;
                 }        
                 foreach ($sacramento->getMatrimoniosCatequistas() as $catequista) {
-                    $originalCatequistas['matrimonios_hombre'][] = $catequista;
+                    $originalCatequistas['matrimonios'][] = $catequista;
                 }            
                 foreach ($sacramento->getMatrimoniosTestigos() as $testigo) {
-                    $originalTestigos['matrimonios_hombre'][] = $testigo;
-                }
-                $originalMatrimoniosHombre[] = $sacramento;
-            }
-        }
-        
-        /**** Matrimonios Mujer ****/        
-        if($entity->getMatrimoniosMujer())
-        {
-            foreach($entity->getMatrimoniosMujer() as $sacramento) {
-                foreach ($sacramento->getMatrimoniosPadrinos() as $padrino) {
-                    $originalPadrinos['matrimonios_mujer'][] = $padrino;
-                }
-                foreach ($sacramento->getMatrimoniosCelebrantes() as $celebrante) {
-                    $originalCelebrantes['matrimonios_mujer'][] = $celebrante;
-                }        
-                foreach ($sacramento->getMatrimoniosCatequistas() as $catequista) {
-                    $originalCatequistas['matrimonios_mujer'][] = $catequista;
-                }            
-                foreach ($sacramento->getMatrimoniosTestigos() as $testigo) {
-                    $originalTestigos['matrimonios_mujer'][] = $testigo;
+                    $originalTestigos['matrimonios'][] = $testigo;
                 }    
-                $originalMatrimoniosMujer[] = $sacramento;                
+                $originalMatrimonios[] = $sacramento;                
             }
-        }          
+        }        
         
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
@@ -376,150 +355,86 @@ class PersonaController extends Controller
                     $em->remove($catequista);
                 }            
             }            
+                      
             
-            
-            /**** Matrimonios Hombre ****/
-            if($entity->getMatrimoniosHombre())
+            /**** Matrimonios ****/
+            if($entity->getMatrimonios())
             { 
-                foreach($entity->getMatrimoniosHombre() as $sacramento)
+                foreach($entity->getMatrimonios() as $sacramento)
                 {
                     foreach ($sacramento->getMatrimoniosPadrinos() as $padrino) {
-                        foreach ($originalPadrinos['matrimonios_hombre'] as $key => $toDel) {
+                        foreach ($originalPadrinos['matrimonios'] as $key => $toDel) {
                             if ($toDel->getId() === $padrino->getId()) {
-                                unset($originalPadrinos['matrimonios_hombre'][$key]);
+                                unset($originalPadrinos['matrimonios'][$key]);
                             }
                         }
                     }
 
-                    foreach ($originalPadrinos['matrimonios_hombre'] as $padrino) {
+                    foreach ($originalPadrinos['matrimonios'] as $padrino) {
                         $em->remove($padrino);
                     }                        
 
 
                     foreach ($sacramento->getMatrimoniosCelebrantes() as $celebrante) {
-                        foreach ($originalCelebrantes['matrimonios_hombre'] as $key => $toDel) {
+                        foreach ($originalCelebrantes['matrimonios'] as $key => $toDel) {
                             if ($toDel->getId() === $celebrante->getId()) {
-                                unset($originalCelebrantes['matrimonios_hombre'][$key]);
+                                unset($originalCelebrantes['matrimonios'][$key]);
                             }
                         }
                     }
 
-                    foreach ($originalCelebrantes['matrimonios_hombre'] as $celebrante) {
+                    foreach ($originalCelebrantes['matrimonios'] as $celebrante) {
                         $em->remove($celebrante);
                     }            
 
 
                     foreach ($sacramento->getMatrimoniosCatequistas() as $catequista) {
-                        foreach ($originalCatequistas['matrimonios_hombre'] as $key => $toDel) {
+                        foreach ($originalCatequistas['matrimonios'] as $key => $toDel) {
                             if ($toDel->getId() === $catequista->getId()) {
-                                unset($originalCatequistas['matrimonios_hombre'][$key]);
+                                unset($originalCatequistas['matrimonios'][$key]);
                             }
                         }
                     }
 
-                    foreach ($originalCatequistas['matrimonios_hombre'] as $catequista) {
+                    foreach ($originalCatequistas['matrimonios'] as $catequista) {
                         $em->remove($catequista);
                     }
                     
                     
                     foreach ($sacramento->getMatrimoniosTestigos() as $testigo) {
-                        foreach ($originalTestigos['matrimonios_hombre'] as $key => $toDel) {
+                        foreach ($originalTestigos['matrimonios'] as $key => $toDel) {
                             if ($toDel->getId() === $testigo->getId()) {
-                                unset($originalTestigos['matrimonios_hombre'][$key]);
+                                unset($originalTestigos['matrimonios'][$key]);
                             }
                         }
                     }
 
-                    foreach ($originalTestigos['matrimonios_hombre'] as $testigo) {
-                        $em->remove($testigo);
-                    }
-                    
-                    /** El matrimonio mismo **/
-                    foreach ($originalMatrimoniosHombre as $key => $toDel) {
-                        if ($toDel->getId() === $sacramento->getId()) {
-                            unset($originalMatrimoniosHombre[$key]);
-                        }
-                    }
-                    
-                }
-            }            
-
-            
-            /**** Matrimonios Mujer ****/
-            if($entity->getMatrimoniosMujer())
-            { 
-                foreach($entity->getMatrimoniosMujer() as $sacramento)
-                {
-                    foreach ($sacramento->getMatrimoniosPadrinos() as $padrino) {
-                        foreach ($originalPadrinos['matrimonios_mujer'] as $key => $toDel) {
-                            if ($toDel->getId() === $padrino->getId()) {
-                                unset($originalPadrinos['matrimonios_mujer'][$key]);
-                            }
-                        }
-                    }
-
-                    foreach ($originalPadrinos['matrimonios_mujer'] as $padrino) {
-                        $em->remove($padrino);
-                    }                        
-
-
-                    foreach ($sacramento->getMatrimoniosCelebrantes() as $celebrante) {
-                        foreach ($originalCelebrantes['matrimonios_mujer'] as $key => $toDel) {
-                            if ($toDel->getId() === $celebrante->getId()) {
-                                unset($originalCelebrantes['matrimonios_mujer'][$key]);
-                            }
-                        }
-                    }
-
-                    foreach ($originalCelebrantes['matrimonios_mujer'] as $celebrante) {
-                        $em->remove($celebrante);
-                    }            
-
-
-                    foreach ($sacramento->getMatrimoniosCatequistas() as $catequista) {
-                        foreach ($originalCatequistas['matrimonios_mujer'] as $key => $toDel) {
-                            if ($toDel->getId() === $catequista->getId()) {
-                                unset($originalCatequistas['matrimonios_mujer'][$key]);
-                            }
-                        }
-                    }
-
-                    foreach ($originalCatequistas['matrimonios_mujer'] as $catequista) {
-                        $em->remove($catequista);
-                    }
-                    
-                    
-                    foreach ($sacramento->getMatrimoniosTestigos() as $testigo) {
-                        foreach ($originalTestigos['matrimonios_mujer'] as $key => $toDel) {
-                            if ($toDel->getId() === $testigo->getId()) {
-                                unset($originalTestigos['matrimonios_mujer'][$key]);
-                            }
-                        }
-                    }
-
-                    foreach ($originalTestigos['matrimonios_hombre'] as $testigo) {
+                    foreach ($originalTestigos['matrimonios'] as $testigo) {
                         $em->remove($testigo);
                     } 
-                    
-                    
-                    /** El matrimonio mismo **/
-                    foreach ($originalMatrimoniosMujer as $key => $toDel) {
-                        if ($toDel->getId() === $sacramento->getId()) {
-                            unset($originalMatrimoniosMujer[$key]);
-                        }
-                    }                   
-                    
+                }
+            }            
+
+            foreach ($editForm->get('matrimonios')->getData() as $matrimonio) {
+                foreach ($originalMatrimonios as $key => $toDel) {
+                    if ($toDel->getId() === $matrimonio->getId()) {
+                        unset($originalMatrimonios[$key]);
+                    }
                 }
             }            
             
-            foreach ($originalMatrimoniosHombre as $matrimonio) {                        
-                $matrimonio->setHombre(null);                        
-                $em->persist($matrimonio);
-            }
-            
-            foreach ($originalMatrimoniosMujer as $matrimonio) {
-                $matrimonio->setMujer(null);
-                $em->persist($matrimonio);
+            foreach ($originalMatrimonios as $matrimonio) {
+                if($entity == $matrimonio->getConyuge1())
+                {
+                    $matrimonio->setConyuge1(null);
+                    $em->persist($matrimonio);
+
+                }
+                if($entity == $matrimonio->getConyuge2())
+                {
+                    $matrimonio->setConyuge2(null);
+                    $em->persist($matrimonio);
+                }               
             }            
             
             $em->persist($entity);

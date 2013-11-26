@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table
- * @UniqueEntity(fields={"hombre","mujer"})
+ * @UniqueEntity(fields={"conyuge1","conyuge2"})
  */
 class Matrimonio extends Sacramento
 {
@@ -31,16 +31,16 @@ class Matrimonio extends Sacramento
     protected $fecha_civil;    
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_hombre")
-     * @ORM\JoinColumn(name="hombre_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_conyuge1")
+     * @ORM\JoinColumn(name="conyuge1_id", referencedColumnName="id")
      * */
-    protected $hombre;
+    protected $conyuge1;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_mujer")
-     * @ORM\JoinColumn(name="mujer_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="matrimonios_conyuge2")
+     * @ORM\JoinColumn(name="conyuge2_id", referencedColumnName="id")
      * */
-    protected $mujer;
+    protected $conyuge2;
     
     /**
      * @ORM\OneToMany(targetEntity="MatrimonioPadrino", mappedBy="matrimonio", cascade={"all"})
@@ -60,8 +60,8 @@ class Matrimonio extends Sacramento
     /**
      * @ORM\OneToMany(targetEntity="MatrimonioTestigo", mappedBy="matrimonio", cascade={"all"})
      **/
-    protected $matrimonios_testigos;    
-
+    protected $matrimonios_testigos;
+    
     public function __construct() {
         $this->matrimonios_padrinos = new ArrayCollection();
         $this->matrimonios_celebrantes = new ArrayCollection();        
@@ -127,51 +127,51 @@ class Matrimonio extends Sacramento
     }
 
     /**
-     * Set hombre
+     * Set conyuge1
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Persona $hombre
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $conyuge1
      * @return Matrimonio
      */
-    public function setHombre(\Parroquia\ComunidadBundle\Entity\Persona $hombre = null)
+    public function setConyuge1(\Parroquia\ComunidadBundle\Entity\Persona $conyuge1 = null)
     {
-        $this->hombre = $hombre;
+        $this->conyuge1 = $conyuge1;
     
         return $this;
     }
 
     /**
-     * Get hombre
+     * Get conyuge1
      *
      * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getHombre()
+    public function getConyuge1()
     {
-        return $this->hombre;
+        return $this->conyuge1;
     }
 
     /**
-     * Set mujer
+     * Set conyuge2
      *
-     * @param \Parroquia\ComunidadBundle\Entity\Persona $mujer
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $conyuge2
      * @return Matrimonio
      */
-    public function setMujer(\Parroquia\ComunidadBundle\Entity\Persona $mujer = null)
+    public function setConyuge2(\Parroquia\ComunidadBundle\Entity\Persona $conyuge2 = null)
     {
-        $this->mujer = $mujer;
+        $this->conyuge2 = $conyuge2;
     
         return $this;
     }
 
     /**
-     * Get mujer
+     * Get conyuge2
      *
      * @return \Parroquia\ComunidadBundle\Entity\Persona 
      */
-    public function getMujer()
+    public function getConyuge2()
     {
-        return $this->mujer;
-    }
-
+        return $this->conyuge2;
+    }    
+    
     /**
      * Add matrimonios_padrinos
      *
@@ -306,6 +306,6 @@ class Matrimonio extends Sacramento
     public function getMatrimoniosTestigos()
     {
         return $this->matrimonios_testigos;
-    }    
+    }
     
 }

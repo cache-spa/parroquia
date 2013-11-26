@@ -20,7 +20,7 @@ class ConfirmacionCelebrante
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Confirmacion", inversedBy="confirmacion_celebrantes")
+     * @ORM\ManyToOne(targetEntity="Confirmacion", inversedBy="confirmaciones_celebrantes")
      * @ORM\JoinColumn(name="confirmacion_id", referencedColumnName="id", nullable=false)
      * */
     protected $confirmacion;

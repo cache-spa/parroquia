@@ -86,14 +86,14 @@ class Persona
     protected $confirmacion;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="hombre", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="conyuge1", cascade={"all"})
      **/
-    protected $matrimonios_hombre;
+    protected $matrimonios_conyuge1;
 
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="mujer", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="conyuge2", cascade={"all"})
      **/
-    protected $matrimonios_mujer;
+    protected $matrimonios_conyuge2;
     
     /**
      * @ORM\OneToMany(targetEntity="GrupoPersona", mappedBy="persona", cascade={"all"})
@@ -175,11 +175,13 @@ class Persona
      * @ORM\ManyToOne(targetEntity="Persona", inversedBy="hijos_madre")
      * @ORM\JoinColumn(name="madre_id", referencedColumnName="id", nullable=true)
      **/
-    protected $madre;    
+    protected $madre;
+    
+    protected $matrimonios;
     
     public function __construct() {
-        $this->matrimonios_hombre = new ArrayCollection();
-        $this->matrimonios_mujer = new ArrayCollection();
+        $this->matrimonios_conyuge1 = new ArrayCollection();
+        $this->matrimonios_conyuge2 = new ArrayCollection();
         $this->grupos_personas = new ArrayCollection();
         $this->certificados_emitidos = new ArrayCollection();
         $this->bautizos_padrinos = new ArrayCollection();
@@ -194,6 +196,7 @@ class Persona
         $this->matrimonios_testigos = new ArrayCollection();
         $this->hijos_padre = new ArrayCollection();
         $this->hijos_madre = new ArrayCollection();
+        $this->matrimonios = new ArrayCollection();
     }  
     
     /**
@@ -508,91 +511,73 @@ class Persona
     }
 
     /**
-     * Add matrimonios_hombre
+     * Add matrimonios_conyuge1
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1
      * @return Persona
      */
-    public function addMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
+    public function addMatrimoniosConyuge1(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1)
     {
-        $matrimonioshombre->setHombre($this);
-
-        if($this->getSexo() == 'M')
-        {
-            $this->matrimonios_hombre[] = $matrimonioshombre;            
-        }
-
-        if($this->getSexo() == 'F')
-        {
-            $this->matrimonios_mujer[] = $matrimonioshombre;            
-        }
+        $matrimoniosConyuge1->setConyuge1($this);
+        $this->matrimonios_conyuge1[] = $matrimoniosConyuge1;
     
         return $this;
     }
 
     /**
-     * Remove matrimonios_hombre
+     * Remove matrimonios_conyuge1
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1
      */
-    public function removeMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
+    public function removeMatrimoniosConyuge1(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1)
     {
-        $this->matrimonios_hombre->removeElement($matrimonioshombre);
+        $this->matrimonios_conyuge1->removeElement($matrimoniosConyuge1);
     }
 
     /**
-     * Get matrimonios_hombre
+     * Get matrimonios_conyuge1
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMatrimoniosHombre()
+    public function getMatrimoniosConyuge1()
     {
-        return $this->matrimonios_hombre;
+        return $this->matrimonios_conyuge1;
     }
 
     /**
-     * Add matrimonios_mujer
+     * Add matrimonios_conyuge2
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2
      * @return Persona
      */
-    public function addMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
+    public function addMatrimoniosConyuge2(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2)
     {
-        $matrimoniosmujer->setMujer($this);
-
-        if($this->getSexo() == 'M')
-        {
-            $this->matrimonios_hombre[] = $matrimoniosmujer;            
-        }
-
-        if($this->getSexo() == 'F')
-        {            
-            $this->matrimonios_mujer[] = $matrimoniosmujer;            
-        }
+        $matrimoniosConyuge2->setConyuge2($this);
+        $this->matrimonios_conyuge2[] = $matrimoniosConyuge2;
     
         return $this;
     }
 
     /**
-     * Remove matrimonios_mujer
+     * Remove matrimonios_conyuge2
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2
      */
-    public function removeMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
+    public function removeMatrimoniosConyuge2(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2)
     {
-        $this->matrimonios_mujer->removeElement($matrimoniosmujer);
+        $this->matrimonios_conyuge2->removeElement($matrimoniosConyuge2);
     }
 
     /**
-     * Get matrimonios_mujer
+     * Get matrimonios_conyuge2
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMatrimoniosMujer()
+    public function getMatrimoniosConyuge2()
     {
-        return $this->matrimonios_mujer;
+        return $this->matrimonios_conyuge2;
     }
-        
+    
     /**
      * Add certificados_emitidos
      *
@@ -1138,5 +1123,39 @@ class Persona
     public function getNombreRut()
     {
         return $this->nombres.' '.$this->apellido_p.' '.$this->apellido_m. ' (Rut: '.$this->rut.')';
-    }  
+    }
+    
+    public function getEdad()
+    {   
+        if($this->fecha_nacimiento != null)
+        {
+            $now      = new \DateTime();
+            $interval = $now->diff($this->fecha_nacimiento);
+            return $interval->format('%y años');            
+        }
+        else
+        {
+            return "Fecha de nacimiento no definida";
+        }
+    }
+    
+    
+    /*** Métodos necesarios para gestionar Matrimonios en formulario de Persona ***/
+    public function addMatrimonio(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonio)
+    {
+        $this->addMatrimoniosConyuge1($matrimonio);
+    }
+    
+    public function removeMatrimonio(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonio)
+    {
+        $this->matrimonios->removeElement($matrimonio);
+    }    
+
+    public function getMatrimonios()
+    {
+        $this->matrimonios = new ArrayCollection(
+                array_merge($this->matrimonios_conyuge1->toArray(), $this->matrimonios_conyuge2->toArray()));
+ 
+        return $this->matrimonios;
+    }
 }

@@ -5,7 +5,6 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Parroquia\CertificadoBundle\Form\EventListener\AddCasadoFieldSubscriber;
 
 class MatrimonioType extends AbstractType
 {
@@ -14,10 +13,16 @@ class MatrimonioType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->addEventSubscriber(new AddCasadoFieldSubscriber());        
-        
+    {        
         $builder
+            ->add('conyuge1',null,array(
+                        'label' => 'Cónyuge 1',
+                        'property' => 'nombreRut'
+                    ))
+            ->add('conyuge2',null,array(
+                        'label' => 'Cónyuge 2',
+                        'property' => 'nombreRut'
+                    ))                
             ->add('libro')
             ->add('hoja')
             ->add('inscripcion')

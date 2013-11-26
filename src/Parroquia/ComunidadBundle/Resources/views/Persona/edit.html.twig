@@ -26,18 +26,27 @@
     {{ form_row(edit_form.estado_civil) }}    
     {{ form_row(edit_form.grupos) }}    
     
-    <div class="title-wrapper"><h2>Bautizo</h2></div>    
-    {% include 'ParroquiaComunidadBundle:Persona:bautizo_form.html.twig' with {'form' : edit_form.bautizo } %}
+    <div class="title-wrapper">
+        <button data-toggle="collapse" data-target="#bautizo_collapse" class="collapsed toggle-collapse"></button>
+        <h2>Bautizo</h2>
+    </div>
+    <div id="bautizo_collapse" class="collapse">{% include 'ParroquiaComunidadBundle:Persona:form_bautizo.html.twig' with {'form' : edit_form.bautizo } %}</div>
 
-    <div class="title-wrapper"><h2>Confirmación</h2></div>
-    {% include 'ParroquiaComunidadBundle:Persona:confirmacion_form.html.twig' with {'form' : edit_form.confirmacion } %}    
+    <div class="title-wrapper">
+        <button data-toggle="collapse" data-target="#confirmacion_collapse" class="collapsed toggle-collapse"></button>
+        <h2>Confirmación</h2>
+    </div>
+    <div id="confirmacion_collapse" class="collapse">{% include 'ParroquiaComunidadBundle:Persona:form_confirmacion.html.twig' with {'form' : edit_form.confirmacion } %}</div>
     
-    <div class="title-wrapper"><h2>Matrimonio(s)</h2></div>
+    <div class="title-wrapper">
+        <button data-toggle="collapse" data-target="#matrimonios_collapse" class="collapsed toggle-collapse"></button>
+        <h2>Matrimonio(s)</h2>
+    </div>
     
-        <div class="collection">
-            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaComunidadBundle:Persona:prototypeMatrimonio.html.twig' with {'form': edit_form.matrimonios_hombre.vars.prototype} %}{% endfilter %}">                
-                {% for matrimonio in edit_form.matrimonios_hombre %}
-                <li class="matrimonio matrimonio-{{ loop.index0 }}">{% include 'ParroquiaComunidadBundle:Persona:matrimonio_form.html.twig' with {'form' : matrimonio } %}</li>
+        <div id="matrimonios_collapse" class="collection collapse">
+            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaComunidadBundle:Persona:prototypeMatrimonio.html.twig' with {'form': edit_form.matrimonios.vars.prototype} %}{% endfilter %}">                
+                {% for matrimonio in edit_form.matrimonios %}
+                <li class="matrimonio matrimonio-{{ loop.index0 }}">{% include 'ParroquiaComunidadBundle:Persona:form_matrimonio.html.twig' with {'form' : matrimonio } %}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -65,6 +74,11 @@
 {% block javascripts %}
     <script>
         $( ".date" ).datepicker( "option", "yearRange", "c-100:c" );
+        $('.toggle-collapse')
+            .click(event, function() {
+                event.preventDefault();
+            }
+        );        
     </script>
     
     <script>

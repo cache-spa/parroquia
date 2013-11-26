@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Sacramento
 {
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $libro;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $hoja;
     

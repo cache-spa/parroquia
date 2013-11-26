@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 use Parroquia\CertificadoBundle\Form\BautizoType;
 use Parroquia\CertificadoBundle\Form\ConfirmacionType;
-use Parroquia\CertificadoBundle\Form\MatrimonioType;
+use Parroquia\CertificadoBundle\Form\MatrimonioConyugeType;
 
 class PersonaType extends AbstractType
 {
@@ -72,9 +72,9 @@ class PersonaType extends AbstractType
                     ))
              ->add('bautizo', new BautizoType())
              ->add('confirmacion', new ConfirmacionType())
-             ->add('matrimonios_hombre','collection',array(
+             ->add('matrimonios','collection',array(
                         'label' => ' ',                
-                        'type' => new MatrimonioType(),
+                        'type' => new MatrimonioConyugeType(),
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
