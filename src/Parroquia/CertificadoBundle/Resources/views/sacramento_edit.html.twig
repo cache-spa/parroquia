@@ -9,35 +9,18 @@
 {% block body -%}
     <div class="title-wrapper"><h1>Editar {{ nombre_sacramento }}</h1></div>
 
-        {{ form_start(edit_form) }}
-    
-        {% block personas %}
-        {{ form_row(edit_form.persona)}}
-        {% endblock %}
-    
-        {{ form_row(edit_form.libro) }}
-        {{ form_row(edit_form.hoja) }}
-        {{ form_row(edit_form.inscripcion) }}
-        {{ form_row(edit_form.lugar) }}
-        {{ form_row(edit_form.fecha) }}    
-    
-        {% block otros %}{% endblock %}
-    
-        {% block collections %}{% endblock %}
-    
-        {{ form_row(edit_form.notas) }}        
-    
-        {{ form_rest(edit_form) }}
-        {{ form_end(edit_form) }}   
+    {{ form_start(edit_form) }}
+    {% include('ParroquiaCertificadoBundle:' ~ folder_sacramento ~ ':form_content.html.twig') with { 'form' : edit_form }%}
+    {{ form_end(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path(path_sacramento) }}">
-            Volver a la lista
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path(path_sacramento) }}">
+                Volver a la lista
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
 {% endblock %}
 
 {% block stylesheets %}

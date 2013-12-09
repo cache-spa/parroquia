@@ -37,11 +37,17 @@ class Grupo
      * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="hijos")
      * @ORM\JoinColumn(name="padre_id", referencedColumnName="id")
      **/
-    protected $padre;    
+    protected $padre;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeGrupo", mappedBy="grupo")
+     **/
+    protected $mensajes_recibidos;    
     
     public function __construct() {
         $this->grupos_personas = new ArrayCollection();
-        $this->hijos = new ArrayCollection();        
+        $this->hijos = new ArrayCollection();
+        $this->mensajes_recibidos = new ArrayCollection();        
     }    
 
     /**
@@ -215,4 +221,37 @@ class Grupo
         return $this->getPadre()->getNombre();
     }
 
+
+    /**
+     * Add mensajes_recibidos
+     *
+     * @param \Parroquia\CorreoBundle\Entity\MensajeGrupo $mensajesRecibidos
+     * @return Grupo
+     */
+    public function addMensajesRecibido(\Parroquia\CorreoBundle\Entity\MensajeGrupo $mensajesRecibidos)
+    {
+        $this->mensajes_recibidos[] = $mensajesRecibidos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mensajes_recibidos
+     *
+     * @param \Parroquia\CorreoBundle\Entity\MensajeGrupo $mensajesRecibidos
+     */
+    public function removeMensajesRecibido(\Parroquia\CorreoBundle\Entity\MensajeGrupo $mensajesRecibidos)
+    {
+        $this->mensajes_recibidos->removeElement($mensajesRecibidos);
+    }
+
+    /**
+     * Get mensajes_recibidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMensajesRecibidos()
+    {
+        return $this->mensajes_recibidos;
+    }
 }

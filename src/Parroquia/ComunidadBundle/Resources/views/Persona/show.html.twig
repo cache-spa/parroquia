@@ -68,6 +68,10 @@
                 <td>{{ entity.estadocivil }}</td>
             </tr>
             <tr>
+                <th>Foto</th>
+                <td>{% if entity.path is not empty %}<a href="{{ asset(entity.webPath) }}">Foto</a>{% endif %}</td>
+            </tr>            
+            <tr>
                 <th>Grupos ({{ entity.grupospersonas|length }})</th>
                 <td>
                     <ul>
@@ -75,43 +79,6 @@
                         <li>{{ grupo }}</li>
                     {% endfor %}
                     </ul>
-                </td>
-            </tr>
-            <tr>
-                <th>Bautizo</th>                
-                <td>
-                    {% if entity.bautizo is not null %}
-                        <a href="{{ path('bautizo_show', { 'id' : entity.bautizo.id })}}">Ver datos</a>
-                    {% else %}
-                        No hay datos registrados
-                    {% endif %}                        
-                </td>
-            </tr>
-            <tr>
-                <th>Confirmación</th>                
-                <td>
-                    {% if entity.confirmacion is not null %}
-                        <a href="{{ path('confirmacion_show', { 'id' : entity.confirmacion.id })}}">Ver datos</a>
-                    {% else %}
-                        No hay datos registrados
-                    {% endif %}                        
-                </td>
-            </tr>
-            <tr>
-                <th>Matrimonios ({{ entity.matrimoniosconyuge1|length + entity.matrimoniosconyuge2|length }})</th>                
-                <td>
-                    {% if entity.matrimoniosconyuge1|length != 0 or entity.matrimoniosconyuge2|length !=0 %}
-                        <ul>
-                        {% for matrimonio in entity.matrimoniosconyuge1 %}
-                            <li><a href="{{ path('matrimonio_show', { 'id' : matrimonio.id })}}">Ver datos matrimonio con {{ matrimonio.conyuge2 }}</a></li>
-                        {% endfor %}
-                        {% for matrimonio in entity.matrimoniosconyuge2 %}
-                            <li><a href="{{ path('matrimonio_show', { 'id' : matrimonio.id })}}">Ver datos matrimonio con {{ matrimonio.conyuge1 }}</a></li>
-                        {% endfor %}
-                        </ul>
-                    {% else %}
-                        No hay matrimonios registrados
-                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -133,6 +100,46 @@
             </tr>             
         </tbody>
     </table>
+    
+    <div class="title-wrapper">
+        <button data-toggle="collapse" data-target="#bautizo_collapse" class="collapsed toggle-collapse"></button>
+        <h2>Bautizo</h2>
+    </div>
+    <div id="bautizo_collapse" class="collapse">
+        {% if entity.bautizo is not null %}            
+            {% include 'ParroquiaCertificadoBundle:Bautizo:show_content.html.twig' with {'entity' : entity.bautizo } %}
+        {% else %}
+            No hay datos registrados
+        {% endif %}
+    </div>
+    
+    <div class="title-wrapper">
+        <button data-toggle="collapse" data-target="#confirmacion_collapse" class="collapsed toggle-collapse"></button>
+        <h2>Confirmación</h2>
+    </div>
+    <div id="confirmacion_collapse" class="collapse">
+        {% if entity.confirmacion is not null %}            
+            {% include 'ParroquiaCertificadoBundle:Confirmacion:show_content.html.twig' with {'entity' : entity.confirmacion } %}
+        {% else %}
+            No hay datos registrados
+        {% endif %}
+    </div>
+    
+    <div class="title-wrapper">
+        <button data-toggle="collapse" data-target="#matrimonios_collapse" class="collapsed toggle-collapse"></button>
+        <h2>Matrimonio(s) ({{ entity.matrimonios|length }})</h2>
+    </div>
+    <div id="matrimonios_collapse" class="collapse">
+        {% if entity.matrimonios|length > 0 %} 
+            {% for matrimonio in entity.matrimonios %}
+                {% include 'ParroquiaCertificadoBundle:Matrimonio:show_content.html.twig' with {'entity' : matrimonio } %}
+                <div class="separador"></div>
+            {% endfor %}
+        {% else %}
+            No hay datos registrados
+        {% endif %}
+    </div>    
+     
 
         <ul class="record_actions">
     <li>
@@ -147,4 +154,14 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+{% endblock %}
+    
+{% block javascripts %}
+<script>
+    $('.toggle-collapse')
+        .click(event, function() {
+            event.preventDefault();
+        }
+    );
+</script>
 {% endblock %}

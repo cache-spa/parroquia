@@ -5,10 +5,13 @@ namespace Parroquia\ComunidadBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Parroquia\ComunidadBundle\Validator\Constraints as ParroquiaAssert;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
  * @ORM\Table
+ * @ORM\HasLifecycleCallbacks
  */
 class Persona
 {
@@ -42,6 +45,10 @@ class Persona
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\Choice(
+     *     choices = { "M", "F" },
+     *     message = "Elija un género válido."
+     * )
      */
     protected $sexo;
     
@@ -76,24 +83,24 @@ class Persona
     protected $estado_civil; 
     
     /**
-     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Bautizo", mappedBy="persona")
+     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Bautizo", mappedBy="persona", cascade="all")
      **/
     protected $bautizo;
     
     /**
-     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Confirmacion", mappedBy="persona")
+     * @ORM\OneToOne(targetEntity="Parroquia\CertificadoBundle\Entity\Confirmacion", mappedBy="persona", cascade="all")
      **/
     protected $confirmacion;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="hombre")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="conyuge1", cascade={"all"})
      **/
-    protected $matrimonios_hombre;
+    protected $matrimonios_conyuge1;
 
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="mujer")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Matrimonio", mappedBy="conyuge2", cascade={"all"})
      **/
-    protected $matrimonios_mujer;
+    protected $matrimonios_conyuge2;
     
     /**
      * @ORM\OneToMany(targetEntity="GrupoPersona", mappedBy="persona", cascade={"all"})
@@ -101,9 +108,24 @@ class Persona
     protected $grupos_personas;
     
     /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="persona")
+     **/
+    protected $certificados_asociados;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="emisor")
      **/
     protected $certificados_emitidos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\Mensaje", mappedBy="emisor")
+     **/
+    protected $mensajes_emitidos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeDestinatario", mappedBy="destinatario")
+     **/
+    protected $mensajes_recibidos;    
     
     /**
      * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\BautizoPadrino", mappedBy="padrino", cascade={"all"})
@@ -156,7 +178,7 @@ class Persona
     protected $matrimonios_testigos;
     
     /**
-     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="padre", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Persona", mappedBy="padre", cascade={"all"})
      **/
     protected $hijos_padre;
 
@@ -167,21 +189,36 @@ class Persona
     protected $padre;
     
     /**
-     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="madre", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Persona", mappedBy="madre", cascade={"all"})
      **/
     protected $hijos_madre;
 
     /**
      * @ORM\ManyToOne(targetEntity="Persona", inversedBy="hijos_madre")
-     * @ORM\JoinColumn(name="padre_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="madre_id", referencedColumnName="id", nullable=true)
      **/
-    protected $madre;    
+    protected $madre;
+    
+    protected $matrimonios;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $path;
+    
+    /**
+     * @Assert\File(maxSize="6000000", mimeTypes={"image/jpeg", "image/gif", "image/png", "image/tiff"})
+     */
+    private $file;    
     
     public function __construct() {
-        $this->matrimonios_hombre = new ArrayCollection();
-        $this->matrimonios_mujer = new ArrayCollection();
+        $this->matrimonios_conyuge1 = new ArrayCollection();
+        $this->matrimonios_conyuge2 = new ArrayCollection();
         $this->grupos_personas = new ArrayCollection();
+        $this->certificados_asociados = new ArrayCollection();        
         $this->certificados_emitidos = new ArrayCollection();
+        $this->mensajes_emitidos = new ArrayCollection();
+        $this->mensajes_recibidos = new ArrayCollection();
         $this->bautizos_padrinos = new ArrayCollection();
         $this->bautizos_celebrantes = new ArrayCollection();        
         $this->bautizos_catequistas = new ArrayCollection();
@@ -191,7 +228,10 @@ class Persona
         $this->matrimonios_padrinos = new ArrayCollection();
         $this->matrimonios_celebrantes = new ArrayCollection();        
         $this->matrimonios_catequistas = new ArrayCollection();
-        $this->matrimonios_testigos = new ArrayCollection();        
+        $this->matrimonios_testigos = new ArrayCollection();
+        $this->hijos_padre = new ArrayCollection();
+        $this->hijos_madre = new ArrayCollection();
+        $this->matrimonios = new ArrayCollection();
     }  
     
     /**
@@ -465,6 +505,7 @@ class Persona
      */
     public function setBautizo(\Parroquia\CertificadoBundle\Entity\Bautizo $bautizo = null)
     {
+        $bautizo->setPersona($this);
         $this->bautizo = $bautizo;
     
         return $this;
@@ -488,6 +529,7 @@ class Persona
      */
     public function setConfirmacion(\Parroquia\CertificadoBundle\Entity\Confirmacion $confirmacion = null)
     {
+        $confirmacion->setPersona($this);
         $this->confirmacion = $confirmacion;
     
         return $this;
@@ -504,71 +546,106 @@ class Persona
     }
 
     /**
-     * Add matrimonios_hombre
+     * Add matrimonios_conyuge1
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1
      * @return Persona
      */
-    public function addMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
+    public function addMatrimoniosConyuge1(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1)
     {
-        $this->matrimonios_hombre[] = $matrimonioshombre;
+        $matrimoniosConyuge1->setConyuge1($this);
+        $this->matrimonios_conyuge1[] = $matrimoniosConyuge1;
     
         return $this;
     }
 
     /**
-     * Remove matrimonios_hombre
+     * Remove matrimonios_conyuge1
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1
      */
-    public function removeMatrimoniosHombre(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonioshombre)
+    public function removeMatrimoniosConyuge1(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge1)
     {
-        $this->matrimonios_hombre->removeElement($matrimonioshombre);
+        $this->matrimonios_conyuge1->removeElement($matrimoniosConyuge1);
     }
 
     /**
-     * Get matrimonios_hombre
+     * Get matrimonios_conyuge1
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMatrimoniosHombre()
+    public function getMatrimoniosConyuge1()
     {
-        return $this->matrimonios_hombre;
+        return $this->matrimonios_conyuge1;
     }
 
     /**
-     * Add matrimonios_mujer
+     * Add matrimonios_conyuge2
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2
      * @return Persona
      */
-    public function addMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
+    public function addMatrimoniosConyuge2(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2)
     {
-        $this->matrimonios_mujer[] = $matrimoniosmujer;
+        $matrimoniosConyuge2->setConyuge2($this);
+        $this->matrimonios_conyuge2[] = $matrimoniosConyuge2;
     
         return $this;
     }
 
     /**
-     * Remove matrimonios_mujer
+     * Remove matrimonios_conyuge2
      *
-     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer
+     * @param \Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2
      */
-    public function removeMatrimoniosMujer(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosmujer)
+    public function removeMatrimoniosConyuge2(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimoniosConyuge2)
     {
-        $this->matrimonios_mujer->removeElement($matrimoniosmujer);
+        $this->matrimonios_conyuge2->removeElement($matrimoniosConyuge2);
     }
 
     /**
-     * Get matrimonios_mujer
+     * Get matrimonios_conyuge2
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getMatrimoniosMujer()
+    public function getMatrimoniosConyuge2()
     {
-        return $this->matrimonios_mujer;
+        return $this->matrimonios_conyuge2;
     }
-        
+
+    /**
+     * Add certificados_asociados
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\Certificado $certificadosAsociados
+     * @return Persona
+     */
+    public function addCertificadosAsociado(\Parroquia\CertificadoBundle\Entity\Certificado $certificadosAsociados)
+    {
+        $this->certificados_asociados[] = $certificadosAsociados;
+    
+        return $this;
+    }
+
+    /**
+     * Remove certificados_asociados
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\Certificado $certificadosAsociados
+     */
+    public function removeCertificadosAsociado(\Parroquia\CertificadoBundle\Entity\Certificado $certificadosAsociados)
+    {
+        $this->certificados_asociados->removeElement($certificadosAsociados);
+    }
+
+    /**
+     * Get certificados_asociados
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCertificadosAsociados()
+    {
+        return $this->certificados_asociados;
+    }    
+    
     /**
      * Add certificados_emitidos
      *
@@ -600,7 +677,7 @@ class Persona
     public function getCertificadosEmitidos()
     {
         return $this->certificados_emitidos;
-    }    
+    }
 
     /**
      * Add grupos_personas
@@ -668,4 +745,617 @@ class Persona
         }
 
     }
+
+    /**
+     * Add bautizos_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\BautizoPadrino $bautizosPadrinos
+     * @return Persona
+     */
+    public function addBautizosPadrino(\Parroquia\CertificadoBundle\Entity\BautizoPadrino $bautizosPadrinos)
+    {
+        $this->bautizos_padrinos[] = $bautizosPadrinos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bautizos_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\BautizoPadrino $bautizosPadrinos
+     */
+    public function removeBautizosPadrino(\Parroquia\CertificadoBundle\Entity\BautizoPadrino $bautizosPadrinos)
+    {
+        $this->bautizos_padrinos->removeElement($bautizosPadrinos);
+    }
+
+    /**
+     * Get bautizos_padrinos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBautizosPadrinos()
+    {
+        return $this->bautizos_padrinos;
+    }
+
+    /**
+     * Add bautizos_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\BautizoCelebrante $bautizosCelebrantes
+     * @return Persona
+     */
+    public function addBautizosCelebrante(\Parroquia\CertificadoBundle\Entity\BautizoCelebrante $bautizosCelebrantes)
+    {
+        $this->bautizos_celebrantes[] = $bautizosCelebrantes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bautizos_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\BautizoCelebrante $bautizosCelebrantes
+     */
+    public function removeBautizosCelebrante(\Parroquia\CertificadoBundle\Entity\BautizoCelebrante $bautizosCelebrantes)
+    {
+        $this->bautizos_celebrantes->removeElement($bautizosCelebrantes);
+    }
+
+    /**
+     * Get bautizos_celebrantes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBautizosCelebrantes()
+    {
+        return $this->bautizos_celebrantes;
+    }
+
+    /**
+     * Add bautizos_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\BautizoCatequista $bautizosCatequistas
+     * @return Persona
+     */
+    public function addBautizosCatequista(\Parroquia\CertificadoBundle\Entity\BautizoCatequista $bautizosCatequistas)
+    {
+        $this->bautizos_catequistas[] = $bautizosCatequistas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bautizos_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\BautizoCatequista $bautizosCatequistas
+     */
+    public function removeBautizosCatequista(\Parroquia\CertificadoBundle\Entity\BautizoCatequista $bautizosCatequistas)
+    {
+        $this->bautizos_catequistas->removeElement($bautizosCatequistas);
+    }
+
+    /**
+     * Get bautizos_catequistas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBautizosCatequistas()
+    {
+        return $this->bautizos_catequistas;
+    }
+
+    /**
+     * Add confirmaciones_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos
+     * @return Persona
+     */
+    public function addConfirmacionesPadrino(\Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos)
+    {
+        $this->confirmaciones_padrinos[] = $confirmacionesPadrinos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove confirmaciones_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos
+     */
+    public function removeConfirmacionesPadrino(\Parroquia\CertificadoBundle\Entity\ConfirmacionPadrino $confirmacionesPadrinos)
+    {
+        $this->confirmaciones_padrinos->removeElement($confirmacionesPadrinos);
+    }
+
+    /**
+     * Get confirmaciones_padrinos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfirmacionesPadrinos()
+    {
+        return $this->confirmaciones_padrinos;
+    }
+
+    /**
+     * Add confirmaciones_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes
+     * @return Persona
+     */
+    public function addConfirmacionesCelebrante(\Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes)
+    {
+        $this->confirmaciones_celebrantes[] = $confirmacionesCelebrantes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove confirmaciones_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes
+     */
+    public function removeConfirmacionesCelebrante(\Parroquia\CertificadoBundle\Entity\ConfirmacionCelebrante $confirmacionesCelebrantes)
+    {
+        $this->confirmaciones_celebrantes->removeElement($confirmacionesCelebrantes);
+    }
+
+    /**
+     * Get confirmaciones_celebrantes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfirmacionesCelebrantes()
+    {
+        return $this->confirmaciones_celebrantes;
+    }
+
+    /**
+     * Add confirmaciones_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas
+     * @return Persona
+     */
+    public function addConfirmacionesCatequista(\Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas)
+    {
+        $this->confirmaciones_catequistas[] = $confirmacionesCatequistas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove confirmaciones_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas
+     */
+    public function removeConfirmacionesCatequista(\Parroquia\CertificadoBundle\Entity\ConfirmacionCatequista $confirmacionesCatequistas)
+    {
+        $this->confirmaciones_catequistas->removeElement($confirmacionesCatequistas);
+    }
+
+    /**
+     * Get confirmaciones_catequistas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfirmacionesCatequistas()
+    {
+        return $this->confirmaciones_catequistas;
+    }
+
+    /**
+     * Add matrimonios_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos
+     * @return Persona
+     */
+    public function addMatrimoniosPadrino(\Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos)
+    {
+        $this->matrimonios_padrinos[] = $matrimoniosPadrinos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_padrinos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos
+     */
+    public function removeMatrimoniosPadrino(\Parroquia\CertificadoBundle\Entity\MatrimonioPadrino $matrimoniosPadrinos)
+    {
+        $this->matrimonios_padrinos->removeElement($matrimoniosPadrinos);
+    }
+
+    /**
+     * Get matrimonios_padrinos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosPadrinos()
+    {
+        return $this->matrimonios_padrinos;
+    }
+
+    /**
+     * Add matrimonios_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes
+     * @return Persona
+     */
+    public function addMatrimoniosCelebrante(\Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes)
+    {
+        $this->matrimonios_celebrantes[] = $matrimoniosCelebrantes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_celebrantes
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes
+     */
+    public function removeMatrimoniosCelebrante(\Parroquia\CertificadoBundle\Entity\MatrimonioCelebrante $matrimoniosCelebrantes)
+    {
+        $this->matrimonios_celebrantes->removeElement($matrimoniosCelebrantes);
+    }
+
+    /**
+     * Get matrimonios_celebrantes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosCelebrantes()
+    {
+        return $this->matrimonios_celebrantes;
+    }
+
+    /**
+     * Add matrimonios_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas
+     * @return Persona
+     */
+    public function addMatrimoniosCatequista(\Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas)
+    {
+        $this->matrimonios_catequistas[] = $matrimoniosCatequistas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_catequistas
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas
+     */
+    public function removeMatrimoniosCatequista(\Parroquia\CertificadoBundle\Entity\MatrimonioCatequista $matrimoniosCatequistas)
+    {
+        $this->matrimonios_catequistas->removeElement($matrimoniosCatequistas);
+    }
+
+    /**
+     * Get matrimonios_catequistas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosCatequistas()
+    {
+        return $this->matrimonios_catequistas;
+    }
+
+    /**
+     * Add matrimonios_testigos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos
+     * @return Persona
+     */
+    public function addMatrimoniosTestigo(\Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos)
+    {
+        $this->matrimonios_testigos[] = $matrimoniosTestigos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matrimonios_testigos
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos
+     */
+    public function removeMatrimoniosTestigo(\Parroquia\CertificadoBundle\Entity\MatrimonioTestigo $matrimoniosTestigos)
+    {
+        $this->matrimonios_testigos->removeElement($matrimoniosTestigos);
+    }
+
+    /**
+     * Get matrimonios_testigos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatrimoniosTestigos()
+    {
+        return $this->matrimonios_testigos;
+    }
+
+    /**
+     * Add hijos_padre
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosPadre
+     * @return Persona
+     */
+    public function addHijosPadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosPadre)
+    {
+        $this->hijos_padre[] = $hijosPadre;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hijos_padre
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosPadre
+     */
+    public function removeHijosPadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosPadre)
+    {
+        $this->hijos_padre->removeElement($hijosPadre);
+    }
+
+    /**
+     * Get hijos_padre
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHijosPadre()
+    {
+        return $this->hijos_padre;
+    }
+
+    /**
+     * Set padre
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $padre
+     * @return Persona
+     */
+    public function setPadre(\Parroquia\ComunidadBundle\Entity\Persona $padre = null)
+    {
+        $this->padre = $padre;
+    
+        return $this;
+    }
+
+    /**
+     * Get padre
+     *
+     * @return \Parroquia\ComunidadBundle\Entity\Persona 
+     */
+    public function getPadre()
+    {
+        return $this->padre;
+    }
+
+    /**
+     * Add hijos_madre
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosMadre
+     * @return Persona
+     */
+    public function addHijosMadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosMadre)
+    {
+        $this->hijos_madre[] = $hijosMadre;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hijos_madre
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $hijosMadre
+     */
+    public function removeHijosMadre(\Parroquia\ComunidadBundle\Entity\Persona $hijosMadre)
+    {
+        $this->hijos_madre->removeElement($hijosMadre);
+    }
+
+    /**
+     * Get hijos_madre
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHijosMadre()
+    {
+        return $this->hijos_madre;
+    }
+
+    /**
+     * Set madre
+     *
+     * @param \Parroquia\ComunidadBundle\Entity\Persona $madre
+     * @return Persona
+     */
+    public function setMadre(\Parroquia\ComunidadBundle\Entity\Persona $madre = null)
+    {
+        $this->madre = $madre;
+    
+        return $this;
+    }
+
+    /**
+     * Get madre
+     *
+     * @return \Parroquia\ComunidadBundle\Entity\Persona 
+     */
+    public function getMadre()
+    {
+        return $this->madre;
+    }
+    
+    public function getNombreRut()
+    {
+        return $this->nombres.' '.$this->apellido_p.' '.$this->apellido_m. ' (Rut: '.$this->rut.')';
+    }
+    
+    public function getEdad()
+    {   
+        if($this->fecha_nacimiento != null)
+        {
+            $now      = new \DateTime();
+            $interval = $now->diff($this->fecha_nacimiento);
+            return $interval->format('%y años');            
+        }
+        else
+        {
+            return "Fecha de nacimiento no definida";
+        }
+    }
+    
+    
+    /*** Métodos necesarios para gestionar Matrimonios en formulario de Persona ***/
+    public function addMatrimonio(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonio)
+    {
+        $this->addMatrimoniosConyuge1($matrimonio);
+    }
+    
+    public function removeMatrimonio(\Parroquia\CertificadoBundle\Entity\Matrimonio $matrimonio)
+    {
+        $this->matrimonios->removeElement($matrimonio);
+    }    
+
+    public function getMatrimonios()
+    {
+        $this->matrimonios = new ArrayCollection(
+                array_merge($this->matrimonios_conyuge1->toArray(), $this->matrimonios_conyuge2->toArray()));
+ 
+        return $this->matrimonios;
+    }
+    
+    
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+    
+    private $temp;
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir().'/'.$this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+        $this->file = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }    
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'usuarios/fotos';
+    }
+    
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Persona
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+    
+    
 }

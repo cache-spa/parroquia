@@ -1,1 +1,154 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Calendario' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Calendario'],{ 'depth' : 1 }) }}
+{% endblock %}
+
+{% block body -%}
+<div class="title-wrapper"><h1>Calendario</h1></div>
+
+<div id="loading" style="display: none;"><img src="{{ asset('images/loading.gif') }}" />Cargando ...</div>
+
+<div id="calendar"></div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/fullcalendar.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/fullcalendar.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        
+        var options = {
+            firstDay: 1,
+            theme: true,
+            header: {
+                 left: 'prev,next today',
+                 center: 'title',
+                 right: 'month,agendaWeek,agendaDay'
+            },
+            timeFormat: {
+                 agenda: 'HH:mm{ - HH:mm}',
+                 '': 'HH:mm{-HH:mm }'
+            },
+            monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ], 
+            monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+            dayNames: [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+            buttonText: {
+                 today: 'hoy',
+                 month: 'mes',
+                 week: 'semana',
+                 day: 'día'
+            },
+            allDayText: 'día',            
+            events: { url: "{{ path('parroquia_agenda_eventos') }}" },
+            editable : true,
+            eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+                if (!confirm("¿Está seguro de estos cambios?")) {
+                    revertFunc();
+                }
+                else
+                {           
+                    //Ejecuta ajax para actualizar evento
+                    $.ajax({                        
+                            url: "{{ path('evento_ajax_update') }}",
+                            type: "POST",
+                            data: { id : event.id , dayDelta : dayDelta, minuteDelta : minuteDelta, allDay : allDay, type : 'drop' },
+                            error: function(){
+                                revertFunc();
+                            },
+                            beforeSend: function(){
+                                event.editable = false;
+                                $('#calendar').fullCalendar('updateEvent', event);
+                                $('#loading').show();
+                            },
+                            complete: function(){
+                                event.editable = true;
+                                $('#calendar').fullCalendar('updateEvent', event);
+                                $('#loading').hide();
+                            }
+                    });                                
+                }
+            },
+            eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+                if (!confirm("¿Está seguro de estos cambios?")) {
+                    revertFunc();
+                }
+                else
+                {           
+                    //Ejecuta ajax para actualizar evento
+                    $.ajax({                        
+                            url: "{{ path('evento_ajax_update') }}",
+                            type: "POST",
+                            data: { id : event.id , dayDelta : dayDelta, minuteDelta : minuteDelta, type : 'drop' },
+                            error: function(){
+                                revertFunc();
+                            },
+                            beforeSend: function(){
+                                event.editable = false;
+                                $('#calendar').fullCalendar('updateEvent', event);
+                                $('#loading').show();
+                            },
+                            complete: function(){
+                                event.editable = true;
+                                $('#calendar').fullCalendar('updateEvent', event);
+                                $('#loading').hide();
+                            }
+                    });                                
+                }
+
+            },
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end, allDay) {
+                var title = prompt('Nombre del Evento:');
+                if (title) {
+                    
+                    //Ejecuta ajax para actualizar evento
+                    $.ajax({                        
+                            url: "{{ path('evento_ajax_create') }}",
+                            type: "POST",
+                            data: { title : title , start : $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss"), end : $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss"), allDay : allDay },
+                            success: function(data){
+                                $('#calendar').fullCalendar('renderEvent',
+                                        {
+                                                id: data.id ,
+                                                title: title,
+                                                start: start,
+                                                end: end,
+                                                allDay: allDay
+                                        },
+                                        true // make the event "stick"
+                                );                                
+                            },
+                            beforeSend: function(){
+                                $('#loading').show();
+                            },
+                            complete: function(){
+                                $('#loading').hide();
+                                $('#calendar').fullCalendar('unselect');
+                            }
+                    });
+                }
+                else
+                {
+                    $('#calendar').fullCalendar('unselect');
+                }
+            },            
+            loading: function(bool) {
+                if (bool) $('#loading').show();
+                else $('#loading').hide();
+            }
+        };        
+
+        $('#calendar').fullCalendar(options);
+    });
+</script>
+{% endblock %}

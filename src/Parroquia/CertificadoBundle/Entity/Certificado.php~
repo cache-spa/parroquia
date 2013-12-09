@@ -24,6 +24,17 @@ class Certificado
     protected $fecha_emision;
     
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $tipo;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="certificados_asociados")
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id")
+     * */     
+    protected $persona;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="certificados_emitidos")
      * @ORM\JoinColumn(name="emisor_id", referencedColumnName="id")
      * */     
@@ -72,7 +83,30 @@ class Certificado
     {
         return $this->fecha_emision;
     }
+    
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return Certificado
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
 
+    /**
+     * Get tipo
+     *
+     * @return string 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+    
     /**
      * Set emisor
      *
@@ -94,7 +128,53 @@ class Certificado
     public function getEmisor()
     {
         return $this->emisor;
+    } 
+    
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Certificado
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
     }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Certificado
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }    
     
     public function getAbsolutePath()
     {
@@ -123,5 +203,4 @@ class Certificado
         // when displaying uploaded doc/image in the view.
         return 'certificados';
     }    
-    
 }

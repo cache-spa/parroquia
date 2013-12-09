@@ -46,6 +46,14 @@ class DemoController extends Controller
                 // .. setup a message and send it
                 // http://symfony.com/doc/current/cookbook/email.html
 
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Mail de prueba')
+                    ->setFrom('cache@cache.cl')
+                    ->setTo(array('nicolas.torres@cache.cl'))
+                    ->setBody("Holooo")
+                ;                
+                
+                $mailer->send($message);
                 $this->get('session')->getFlashBag()->set('notice', 'Message sent!');
 
                 return new RedirectResponse($this->generateUrl('_demo'));

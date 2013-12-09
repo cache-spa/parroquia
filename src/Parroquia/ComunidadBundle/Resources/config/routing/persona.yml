@@ -33,3 +33,7 @@ persona_filter:
     pattern:  /filter
     defaults: { _controller: "ParroquiaComunidadBundle:Persona:filter" }
     requirements: { _method: post }
+    
+persona_removefoto:
+    pattern:  /{id}/removefoto
+    defaults: { _controller: "ParroquiaComunidadBundle:Persona:removefoto" }

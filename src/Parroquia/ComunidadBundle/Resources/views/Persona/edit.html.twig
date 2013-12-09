@@ -23,20 +23,28 @@
     {{ form_row(edit_form.celular) }}    
     {{ form_row(edit_form.email) }}    
     {{ form_row(edit_form.direccion) }} 
-    {{ form_row(edit_form.estado_civil) }}    
+    {{ form_row(edit_form.estado_civil) }}
+    <div>
+        {{ form_label(edit_form.file) }}
+        {{ form_errors(edit_form.file) }}
+        {{ form_widget(edit_form.file) }}
+        {% if edit_form.vars.value and edit_form.vars.value.path is not empty and edit_form.vars.value.path != 'initial'  %}
+            <a href="{{ path('persona_removefoto', { 'id' : edit_form.vars.value.id }) }}">Eliminar foto actual</a>
+        {% endif %}
+    </div>
     {{ form_row(edit_form.grupos) }}    
     
     <div class="title-wrapper">
         <button data-toggle="collapse" data-target="#bautizo_collapse" class="collapsed toggle-collapse"></button>
         <h2>Bautizo</h2>
     </div>
-    <div id="bautizo_collapse" class="collapse">{% include 'ParroquiaComunidadBundle:Persona:form_bautizo.html.twig' with {'form' : edit_form.bautizo } %}</div>
+    <div id="bautizo_collapse" class="collapse">{% include 'ParroquiaCertificadoBundle:Bautizo:form_content.html.twig' with {'form' : edit_form.bautizo } %}</div>
 
     <div class="title-wrapper">
         <button data-toggle="collapse" data-target="#confirmacion_collapse" class="collapsed toggle-collapse"></button>
         <h2>Confirmación</h2>
     </div>
-    <div id="confirmacion_collapse" class="collapse">{% include 'ParroquiaComunidadBundle:Persona:form_confirmacion.html.twig' with {'form' : edit_form.confirmacion } %}</div>
+    <div id="confirmacion_collapse" class="collapse">{% include 'ParroquiaCertificadoBundle:Confirmacion:form_content.html.twig' with {'form' : edit_form.confirmacion } %}</div>
     
     <div class="title-wrapper">
         <button data-toggle="collapse" data-target="#matrimonios_collapse" class="collapsed toggle-collapse"></button>
@@ -44,9 +52,9 @@
     </div>
     
         <div id="matrimonios_collapse" class="collection collapse">
-            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaComunidadBundle:Persona:prototypeMatrimonio.html.twig' with {'form': edit_form.matrimonios.vars.prototype} %}{% endfilter %}">                
+            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaCertificadoBundle:Matrimonio:prototypeMatrimonioConyuge.html.twig' with {'form': edit_form.matrimonios.vars.prototype} %}{% endfilter %}">                
                 {% for matrimonio in edit_form.matrimonios %}
-                <li class="matrimonio matrimonio-{{ loop.index0 }}">{% include 'ParroquiaComunidadBundle:Persona:form_matrimonio.html.twig' with {'form' : matrimonio } %}</li>
+                <li class="matrimonio matrimonio-{{ loop.index0 }}"><div>{% include 'ParroquiaCertificadoBundle:Matrimonio:form_content.html.twig' with {'form' : matrimonio } %}</div></li>
                 {% endfor %}
             </ul>
         </div>

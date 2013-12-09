@@ -536,5 +536,30 @@ class PersonaController extends Controller
         $form->add('submit', 'submit', array('label' => 'Buscar'));
 
         return $form;
-    }    
+    }
+    
+    /**
+     * Remove a foro of a Persona entity.
+     *
+     */
+    public function removefotoAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ParroquiaComunidadBundle:Persona')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Persona entity.');
+        }
+
+        $entity->removeUpload();
+        $entity->setPath(null);
+        $em->persist($entity);
+        $em->flush();
+
+        $message = $this->container->getParameter('message_delete');
+        $this->get('session')->getFlashBag()->add('success',$message);
+
+        return $this->redirect($this->generateUrl('persona_edit', array('id' => $id)));
+    }        
+    
 }

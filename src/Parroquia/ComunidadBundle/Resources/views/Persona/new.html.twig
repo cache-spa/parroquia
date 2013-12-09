@@ -23,20 +23,21 @@
     {{ form_row(form.celular) }}    
     {{ form_row(form.email) }}    
     {{ form_row(form.direccion) }} 
-    {{ form_row(form.estado_civil) }}    
+    {{ form_row(form.estado_civil) }}
+    {{ form_row(form.file) }}
     {{ form_row(form.grupos) }}    
     
     <div class="title-wrapper">
         <button data-toggle="collapse" data-target="#bautizo_collapse" class="collapsed toggle-collapse"></button>
         <h2>Bautizo</h2>
     </div>
-    <div id="bautizo_collapse" class="collapse">{% include 'ParroquiaComunidadBundle:Persona:form_bautizo.html.twig' with {'form' : form.bautizo } %}</div>
+    <div id="bautizo_collapse" class="collapse">{% include 'ParroquiaCertificadoBundle:Bautizo:form_content.html.twig' with {'form' : form.bautizo } %}</div>
     
     <div class="title-wrapper">
         <button data-toggle="collapse" data-target="#confirmacion_collapse" class="collapsed toggle-collapse"></button>
         <h2>Confirmación</h2>
     </div>
-    <div id="confirmacion_collapse" class="collapse">{% include 'ParroquiaComunidadBundle:Persona:form_confirmacion.html.twig' with {'form' : form.confirmacion } %}</div>
+    <div id="confirmacion_collapse" class="collapse">{% include 'ParroquiaCertificadoBundle:Confirmacion:form_content.html.twig' with {'form' : form.confirmacion } %}</div>
     
     <div class="title-wrapper">
         <button data-toggle="collapse" data-target="#matrimonios_collapse" class="collapsed toggle-collapse"></button>
@@ -44,9 +45,9 @@
     </div>
     
         <div id="matrimonios_collapse" class="collection collapse">
-            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaComunidadBundle:Persona:prototypeMatrimonio.html.twig' with {'form': form.matrimonios.vars.prototype} %}{% endfilter %}">                
+            <ul class="matrimonios" data-prototype="{% filter escape %}{% include 'ParroquiaCertificadoBundle:Matrimonio:prototypeMatrimonioConyuge.html.twig' with {'form': form.matrimonios.vars.prototype} %}{% endfilter %}">                
                 {% for matrimonio in form.matrimonios %}
-                <li class="matrimonio matrimonio-{{ loop.index0 }}">{% include 'ParroquiaComunidadBundle:Persona:form_matrimonio.html.twig' with {'form' : matrimonio } %}</li>
+                <li class="matrimonio matrimonio-{{ loop.index0 }}"><div>{% include 'ParroquiaCertificadoBundle:Matrimonio:form_content.html.twig' with {'form' : matrimonio } %}</div></li>
                 {% endfor %}
             </ul>
         </div>    

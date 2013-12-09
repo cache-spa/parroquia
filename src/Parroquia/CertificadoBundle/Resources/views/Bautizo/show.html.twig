@@ -2,43 +2,4 @@
 
 {% set nombre_sacramento = 'Bautizo' %}
 {% set path_sacramento = 'bautizo' %}
-
-{% block personas %}
-<tr>
-    <th>Bautizado</th>
-    <td>{{ entity.persona }}</td>
-</tr>
-{% endblock %}
-
-{% block collections %}
-<tr>
-    <th>Padrinos ({{ entity.bautizospadrinos|length }})</th>
-    <td>
-        <ul>
-        {% for padrino in entity.bautizospadrinos %}
-            <li>{{ padrino.padrino }}</li>
-        {% endfor %}
-        </ul>
-    </td>
-</tr>
-<tr>
-    <th>Celebrantes ({{ entity.bautizoscelebrantes|length }})</th>
-    <td>
-        <ul>
-        {% for celebrante in entity.bautizoscelebrantes %}
-            <li>{{ celebrante.celebrante }}</li>
-        {% endfor %}
-        </ul>
-    </td>
-</tr>
-<tr>
-    <th>Catequistas ({{ entity.bautizoscatequistas|length }})</th>
-    <td>
-        <ul>
-        {% for catequista in entity.bautizoscatequistas %}
-            <li>{{ catequista.catequista }}</li>
-        {% endfor %}
-        </ul>
-    </td>
-</tr>
-{% endblock %}
+{% set folder_sacramento = 'Bautizo' %}

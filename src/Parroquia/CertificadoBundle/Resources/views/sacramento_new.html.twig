@@ -10,26 +10,9 @@
     <div class="title-wrapper"><h1>Agregar {{ nombre_sacramento }}</h1></div>
 
         {{ form_start(form) }}
-    
-        {% block personas %}
-        {{ form_row(form.persona)}}
-        {% endblock %}
-    
-        {{ form_row(form.libro) }}
-        {{ form_row(form.hoja) }}
-        {{ form_row(form.inscripcion) }}
-        {{ form_row(form.lugar) }}
-        {{ form_row(form.fecha) }}
-    
-        {% block otros %}{% endblock %}
-    
-        {% block collections %}{% endblock %}
-    
-        {{ form_row(form.notas) }}        
-    
-        {{ form_rest(form) }}
+        {% include('ParroquiaCertificadoBundle:' ~ folder_sacramento ~ ':form_content.html.twig') with { 'form' : form }%}
         {{ form_end(form) }}
-        
+
         <ul class="record_actions">
             <li>
                 <a href="{{ path(path_sacramento) }}">

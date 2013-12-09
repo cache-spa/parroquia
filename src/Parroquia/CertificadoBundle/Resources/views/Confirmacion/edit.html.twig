@@ -2,32 +2,4 @@
 
 {% set nombre_sacramento = 'Confirmación' %}
 {% set path_sacramento = 'confirmacion' %}
-
-{% block collections %}
-        <div class="collection">
-            <label>Padrinos</label>
-            <ul class="padrinos" data-prototype="{{ form_widget(edit_form.confirmaciones_padrinos.vars.prototype)|e }}">                
-                {% for padrino in edit_form.confirmaciones_padrinos %}
-                    <li><div>{{ form_row(padrino.padrino) }}</div></li>
-                {% endfor %}
-            </ul>
-        </div>
-    
-        <div class="collection">
-            <label>Celebrantes</label>
-            <ul class="celebrantes" data-prototype="{{ form_widget(edit_form.confirmaciones_celebrantes.vars.prototype)|e }}">                
-                {% for celebrante in edit_form.confirmaciones_celebrantes %}
-                    <li><div>{{ form_row(celebrante.celebrante) }}</div></li>
-                {% endfor %}
-            </ul>
-        </div>    
-
-        <div class="collection">
-            <label>Catequistas</label>
-            <ul class="catequistas" data-prototype="{{ form_widget(edit_form.confirmaciones_catequistas.vars.prototype)|e }}">                
-                {% for catequista in edit_form.confirmaciones_catequistas %}
-                    <li><div>{{ form_row(catequista.catequista) }}</div></li>
-                {% endfor %}
-            </ul>
-        </div>
-{% endblock %}    
+{% set folder_sacramento = 'Confirmacion' %}

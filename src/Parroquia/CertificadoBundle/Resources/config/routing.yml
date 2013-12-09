@@ -6,6 +6,10 @@ parroquia_certificado_test:
     pattern: /test
     defaults: { _controller: ParroquiaCertificadoBundle:Default:test }
     
+ParroquiaCertificadoBundle_certificado:
+    resource: "@ParroquiaCertificadoBundle/Resources/config/routing/certificado.yml"
+    prefix:   /certificado    
+    
 ParroquiaCertificadoBundle_bautizo:
     resource: "@ParroquiaCertificadoBundle/Resources/config/routing/bautizo.yml"
     prefix:   /bautizo

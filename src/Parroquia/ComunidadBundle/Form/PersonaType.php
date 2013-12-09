@@ -70,6 +70,7 @@ class PersonaType extends AbstractType
                         'multiple' => true ,
                         'required' => false
                     ))
+             ->add('file',null,array('label'=>'Foto'))
              ->add('bautizo', new BautizoType())
              ->add('confirmacion', new ConfirmacionType())
              ->add('matrimonios','collection',array(

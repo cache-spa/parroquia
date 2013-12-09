@@ -1,3 +1,11 @@
 parroquia_agenda_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: ParroquiaAgendaBundle:Default:index }
+    
+parroquia_agenda_eventos:
+    pattern:  /eventos
+    defaults: { _controller: ParroquiaAgendaBundle:Default:eventos }    
+    
+ParroquiaAgendaBundle_evento:
+    resource: "@ParroquiaAgendaBundle/Resources/config/routing/evento.yml"
+    prefix:   /evento    

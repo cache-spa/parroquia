@@ -14,3 +14,6 @@ parroquia_comunidad:
     resource: "@ParroquiaComunidadBundle/Resources/config/routing.yml"
     prefix:   comunidad/
 
+parroquia_correo:
+    resource: "@ParroquiaCorreoBundle/Resources/config/routing.yml"
+    prefix:   correo/
