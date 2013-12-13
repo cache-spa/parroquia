@@ -4,6 +4,7 @@ namespace Parroquia\ComunidadBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 use Parroquia\ComunidadBundle\Entity\Grupo;
 use Parroquia\ComunidadBundle\Form\GrupoType;
@@ -283,9 +284,11 @@ class GrupoController extends Controller
 
             $entities = $filterBuilder->getQuery()->getResult();
        
-            return $this->render('ParroquiaComunidadBundle:Grupo:index.html.twig', array(
+            $content = $this->renderView('ParroquiaComunidadBundle:Grupo:list.html.twig', array(
                 'entities' => $entities,
             ));
+            
+            return new Response($content);
         }
 
         return $this->render('ParroquiaComunidadBundle:Grupo:filter.html.twig', array(

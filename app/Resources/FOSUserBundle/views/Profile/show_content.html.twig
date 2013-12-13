@@ -1,0 +1,26 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="title-wrapper"><h1>Mi Perfil</h1></div>
+
+<div class="fos_user_user_show">
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>{{ 'profile.show.username'|trans }}</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'profile.show.email'|trans }}</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Persona asociada</th>
+                <td>
+                {% if user.persona %}
+                    <a href="{{ path('persona_show',{ 'id' : user.persona.id }) }}">{{ user.persona }}</a>
+                {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>  
+</div>

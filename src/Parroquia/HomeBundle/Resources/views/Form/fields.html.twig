@@ -53,3 +53,22 @@
         {% endif %}
     {% endspaceless %}
 {% endblock form_errors %}
+        
+        
+{% block form_row %}
+{% spaceless %}
+    {% if form.vars.block_prefixes.1 == 'checkbox' %}
+    <div class="checkbox-item">
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        {{ form_label(form) }}
+    </div>
+    {% else %}
+    <div>
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>        
+    {% endif %}
+{% endspaceless %}
+{% endblock form_row %}

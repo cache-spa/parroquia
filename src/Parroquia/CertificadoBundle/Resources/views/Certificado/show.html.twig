@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Certificados' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Certificados']) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>Certificado</h1></div>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ entity.tipo }}</td>
+            </tr>
+            <tr>
+                <th>Persona</th>
+                <td>{{ entity.persona }}</td>
+            </tr>
+            <tr>
+                <th>Fecha Emisión</th>
+                <td>{{ entity.fechaemision|date('d-m-Y H:i:s') }}</td>
+            </tr>            
+            <tr>
+                <th>Emisor</th>
+                <td>{{ entity.emisor }}</td>
+            </tr>            
+            <tr>
+                <th>Link de Descarga</th>
+                <td><a href="{{ asset(entity.webPath) }}"  target="_blank">Descargar</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('certificado') }}">
+            Volver a la lista
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

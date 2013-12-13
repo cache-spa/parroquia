@@ -1,0 +1,38 @@
+{% if form.persona is defined %}{{ form_row(form.persona)}}{% endif %}
+{{ form_row(form.libro) }}
+{{ form_row(form.hoja) }}
+{{ form_row(form.inscripcion) }}
+{{ form_row(form.lugar) }}
+{{ form_row(form.fecha) }}    
+
+        <div class="collection">
+            <label>Padrinos</label>
+            <ul class="bautizo padrinos" data-prototype="{{ form_widget(form.bautizos_padrinos.vars.prototype)|e }}">                
+                {% for padrino in form.bautizos_padrinos %}
+                    <li><div>{{ form_row(padrino.padrino) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="collection">
+            <label>Celebrantes</label>
+            <ul class="bautizo celebrantes" data-prototype="{{ form_widget(form.bautizos_celebrantes.vars.prototype)|e }}">                
+                {% for celebrante in form.bautizos_celebrantes %}
+                    <li><div>{{ form_row(celebrante.celebrante) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>    
+
+        <div class="collection">
+            <label>Catequistas</label>
+            <ul class="bautizo catequistas" data-prototype="{{ form_widget(form.bautizos_catequistas.vars.prototype)|e }}">                
+                {% for catequista in form.bautizos_catequistas %}
+                    <li><div>{{ form_row(catequista.catequista) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+{{ form_row(form.notas) }}        
+
+{{ form_rest(form) }}

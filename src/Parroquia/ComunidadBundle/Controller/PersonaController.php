@@ -4,6 +4,7 @@ namespace Parroquia\ComunidadBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 use Parroquia\ComunidadBundle\Entity\Persona;
 use Parroquia\ComunidadBundle\Form\PersonaType;
@@ -516,9 +517,11 @@ class PersonaController extends Controller
 
             $entities = $filterBuilder->getQuery()->getResult();
        
-            return $this->render('ParroquiaComunidadBundle:Persona:index.html.twig', array(
+            $content = $this->renderView('ParroquiaComunidadBundle:Persona:list.html.twig', array(
                 'entities' => $entities,
             ));
+            
+            return new Response($content);
         }
 
         return $this->render('ParroquiaComunidadBundle:Persona:filter.html.twig', array(

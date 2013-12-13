@@ -17,11 +17,11 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div id="page-wrapper">
+        <div id="page-wrapper" {% if block('leftsidebar') or block('filters') %}class="page-left-side"{% endif %}>
             <div id="header-wrapper">
                 <div id="logo-title-wrapper">
                     <a href="{{ path('parroquia_home_homepage') }}">
-                        <img id="logo" src="" width="100" height="100" alt="" />
+                        <img id="logo" src="{{ asset('logo-parroquia.png') }}" width="100" height="100" alt="" />
                     </a>
                     <div id="title-wrapper">
                         <h1>Parroquia Santa Teresa de Los Andes</h1>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                {{ knp_menu_render('user') }}
+                {{ knp_menu_render('user', { 'depth' : 1 }) }}
                     
                 {{ knp_menu_render('main', { 'depth' : 1 }) }}
                 

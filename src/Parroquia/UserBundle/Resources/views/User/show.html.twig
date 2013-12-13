@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Administración de Usuarios' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['user','Admin_Usuarios']) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>Usuario</h1></div>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>            
+            <tr>
+                <th>Nombre de Usuario</th>
+                <td>{{ entity.username }}</td>
+            </tr>
+            <tr>
+                <th>E-mail</th>
+                <td>{{ entity.email }}</td>
+            </tr>
+            <tr>
+                <th>Habilitado</th>
+                <td>{{ entity.enabled == 1 ? "SI":"NO" }}</td>
+            </tr>
+            <tr>
+                <th>Último acceso</th>
+                <td>{{ entity.lastLogin|date('d-m-Y H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Bloqueado</th>
+                <td>{{ entity.locked == 1 ? "SI":"NO" }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>
+                    <ul>
+                    {% for rol in entity.roles %}
+                        <li>{{ rol }}</li>
+                    {% endfor %}
+                    </ul>                    
+                </td>
+            </tr>
+            <tr>
+                <th>Persona asociada</th>
+                <td>
+                {% if entity.persona %}
+                    <a href="{{ path('persona_show',{ 'id' : entity.persona.id }) }}">{{ entity.persona }}</a>
+                {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('user') }}">
+                Volver a la lista
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_edit', { 'id': entity.id }) }}">
+                Editar
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
+{% endblock %}

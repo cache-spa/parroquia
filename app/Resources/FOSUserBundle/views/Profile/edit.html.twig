@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% set menu_title = 'Mi Cuenta' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['user','Usuario']) }}
+{% endblock %}
+
+{% block body %}
+{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+{% endblock body %}

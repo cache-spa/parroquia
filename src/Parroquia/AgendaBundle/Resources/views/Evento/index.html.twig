@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Calendario' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Calendario'],{ 'depth' : 1 }) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>Eventos</h1></div>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Inicio</th>
+                <th>Término</th>
+                <th>Lugar</th>
+                <th>Litúrgico</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('evento_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombre }}</td>
+                <td>{% if entity.inicio %}{{ entity.inicio|date('d-m-y H:i') }}{% endif %}</td>
+                <td>{% if entity.termino %}{{ entity.termino|date('d-m-Y H:i') }}{% endif %}</td>
+                <td>{{ entity.lugar }}</td>
+                <td>{{ entity.liturgico is empty ? 'No' : 'Sí' }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('evento_show', { 'id': entity.id }) }}">ver</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('evento_edit', { 'id': entity.id }) }}">editar</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('evento_new') }}">
+                Agregar evento
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

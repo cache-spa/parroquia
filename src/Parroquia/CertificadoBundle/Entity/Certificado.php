@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table
+ * @ORM\HasLifecycleCallbacks
  * @Assert\Callback(methods={
  *     { "Parroquia\CertificadoBundle\Validator\CertificadoValidator", "isCertificadoValid"}
  * })
@@ -38,7 +39,8 @@ class Certificado
     
     /**
      * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Persona", inversedBy="certificados_emitidos")
-     * @ORM\JoinColumn(name="emisor_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="emisor_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotNull(message="Emisor no puede ser nulo (su cuenta de usuario podría no tener una persona asociada)")
      * */     
     protected $emisor;
 
@@ -232,5 +234,15 @@ class Certificado
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
         return 'certificados';
+    }
+    
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
     }    
 }

@@ -4,7 +4,7 @@ parameters:
 services:
     parroquia_home.menu_builder:
         class: Parroquia\HomeBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory","@security.context"]
 
     parroquia_home.menu.main:
         class: Knp\Menu\MenuItem

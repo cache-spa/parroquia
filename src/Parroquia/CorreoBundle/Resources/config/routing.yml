@@ -1,0 +1,7 @@
+parroquia_correo_homepage:
+    pattern:  /
+    defaults: { _controller: ParroquiaCorreoBundle:Default:index }
+
+ParroquiaCorreoBundle_mensaje:
+    resource: "@ParroquiaCorreoBundle/Resources/config/routing/mensaje.yml"
+    prefix:   /mensaje

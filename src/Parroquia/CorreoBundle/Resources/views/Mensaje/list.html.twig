@@ -1,0 +1,28 @@
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Asunto</th>
+            <th>Emisor</th>
+            <th>Fecha de Envío</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('mensaje_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.asunto }}</td>
+            <td>{{ entity.emisor }}</td>
+            <td>{% if entity.fechaenvio %}{{ entity.fechaenvio|date('d-m-Y H:i:s') }}{% endif %}</td>
+            <td>
+            <ul>
+                <li>
+                    <a href="{{ path('mensaje_show', { 'id': entity.id }) }}">ver</a>
+                </li>
+            </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

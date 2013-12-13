@@ -72,13 +72,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  %mailer_transport%
-    encryption: %mailer_encryption%
-    auth_mode:  %mailer_auth_mode%
-    host:       %mailer_host%
-    port:       %mailer_port%
-    username:   %mailer_username%
-    password:   %mailer_password%    
+    transport:  smtp
+    encryption: tls
+    auth_mode:  login
+    host:       email-smtp.us-east-1.amazonaws.com
+    port:       25
+    username:   AKIAJRJVGXXDQZLSCHKA
+    password:   AuOuRnjvqm50pOwA4/zQFmjbrazo1kRBBeNXa4gVe3vX    
 
 knp_snappy:
     pdf:
@@ -89,3 +89,27 @@ knp_snappy:
         enabled:    true
         binary:     %kernel.root_dir%/../vendor/h4cc/wkhtmltoimage-i386/bin/wkhtmltoimage-i386
         options:    []
+
+stfalcon_tinymce:
+    theme:
+        # Simple theme: same as default theme
+        simple: ~
+        # Advanced theme with almost all enabled plugins
+        advanced:
+             plugins:
+                 - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
+                 - "searchreplace wordcount visualblocks visualchars code fullscreen"
+                 - "insertdatetime media nonbreaking save table contextmenu directionality"
+                 - "emoticons template paste textcolor"
+             toolbar1: "insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"
+             toolbar2: "print preview | link image media | forecolor backcolor emoticons | stfalcon | example | removeformat"
+             image_advtab: true
+             insertdatetime_formats: ["%%H:%%M:%%S", "%%d-%%m-%%Y", "%%I:%%M:%%S %%p", "%%d/%%m/%%Y"]
+             
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Parroquia\UserBundle\Entity\User
+    from_email:
+        address:        cache@cache.cl
+        sender_name:    Parroquia - Sistema   

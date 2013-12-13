@@ -25,6 +25,9 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new Parroquia\CorreoBundle\ParroquiaCorreoBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Parroquia\UserBundle\ParroquiaUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

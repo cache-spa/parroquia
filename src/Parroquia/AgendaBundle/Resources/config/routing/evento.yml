@@ -1,0 +1,40 @@
+evento:
+    pattern:  /
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:index" }
+
+evento_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:show" }
+
+evento_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:new" }
+
+evento_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:create" }
+    requirements: { _method: post }
+
+evento_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:edit" }
+
+evento_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:update" }
+    requirements: { _method: post|put }
+
+evento_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:delete" }
+    requirements: { _method: post|delete }
+
+evento_ajax_update:
+    pattern:  /ajax_update
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:ajaxUpdate" }
+    requirements: { _method: post }
+    
+evento_ajax_create:
+    pattern:  /ajax_create
+    defaults: { _controller: "ParroquiaAgendaBundle:Evento:ajaxCreate" }
+    requirements: { _method: post }    

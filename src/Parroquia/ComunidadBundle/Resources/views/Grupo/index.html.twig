@@ -15,37 +15,9 @@
 {% block body -%}
     <div class="title-wrapper"><h1>Grupos</h1></div>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Categoría Padre</th>
-                <th>Cantidad Personas</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('grupo_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.nombre }}</td>
-                <td>{{ entity.padre }}</td>
-                <td>{{ entity.grupospersonas|length }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('grupo_show', { 'id': entity.id }) }}">ver</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('grupo_edit', { 'id': entity.id }) }}">editar</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div id="grupos_list">
+        {% include 'ParroquiaComunidadBundle:Grupo:list.html.twig' with { 'entities' : entities } %}
+    </div>
 
         <ul>
         <li>
@@ -54,4 +26,26 @@
             </a>
         </li>
     </ul>
-    {% endblock %}
+{% endblock %}
+    
+{% block javascripts %}
+    <script>
+    var url_loading = "{{ asset('images/loading.gif') }}";
+
+    $(function () {
+        $('form').on('submit', function (e) {
+            $("#grupos_list").html('<img src="' + url_loading + '" />');
+            $.ajax({
+                type: 'POST',
+                url: $('form').attr('action'),
+                data: $('form').serialize(),
+                success: function (data) {
+                  $("#grupos_list").empty();
+                  $("#grupos_list").append(data);
+                }
+            });
+            e.preventDefault();
+        });
+    });
+  </script>
+{% endblock %}

@@ -4,17 +4,20 @@ namespace Parroquia\HomeBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class MenuBuilder
 {
     private $factory;
+    private $security_context;
 
     /**
      * @param FactoryInterface $factory
      */
-    public function __construct(FactoryInterface $factory)
+    public function __construct(FactoryInterface $factory, SecurityContext $security_context)
     {
         $this->factory = $factory;
+        $this->security_context = $security_context;
     }
 
     public function createMainMenu(Request $request)
@@ -58,11 +61,30 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         
-        $menu->addChild('Administración de Usuarios', array(
-                                'uri' => '#'
+        if($this->security_context->isGranted(array('ROLE_ADMIN', 'ROLE_USER'))) {
+            $menu->addChild('Admin_Usuarios', array(
+                                'route' => 'user',
+                                'label' => 'Administración de Usuarios'
             ));
+            
+            $menu['Admin_Usuarios']->addChild('Lista de Usuarios', array('route' => 'user'));
+            $menu['Admin_Usuarios']->addChild('Agregar Usuario', array('route' => 'user_new'));            
+        }        
+        
+        if($this->security_context->isGranted(array('ROLE_ADMIN', 'ROLE_USER'))) {
+            $username = $this->security_context->getToken()->getUser()->getUsername();
+            $menu->addChild('Usuario', array(            
+                                'route' => 'fos_user_profile_show',
+                                'label' => $username
+            ));
+            
+            $menu['Usuario']->addChild('Ver Perfil', array('route' => 'fos_user_profile_show'));
+            $menu['Usuario']->addChild('Editar Perfil', array('route' => 'fos_user_profile_edit'));
+            $menu['Usuario']->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
+        }
+        
         $menu->addChild('Cerrar Sesión', array(
-                                'uri' => '#'
+                                'route' => 'fos_user_security_logout'
             ));
         
         $menu->setChildrenAttribute('id', 'user-menu');
@@ -78,6 +100,53 @@ class MenuBuilder
 
         switch($request->get('_route')){
             
+            /*** FOS_USER ***/
+            case 'fos_user_profile_show':
+                $menu                    
+                    ->addChild('Ver Perfil')
+                    ->setCurrent(true)                    
+                ;
+            break;
+            case 'fos_user_profile_edit':
+                $menu
+                    ->addChild('Editar Perfil')
+                    ->setCurrent(true)                    
+                ;
+            break;
+            case 'fos_user_change_password':
+                $menu
+                    ->addChild('Cambiar contraseña')
+                    ->setCurrent(true)                    
+                ;
+            break;
+        
+            /*** Administración ***/
+            case 'user':
+                $menu                    
+                    ->addChild('Lista de Usuarios')
+                    ->setCurrent(true)                    
+                ;
+            break;
+            case 'user_show':
+                $menu                    
+                    ->addChild('Ver Usuario')
+                    ->setCurrent(true)                    
+                ;
+            break;
+            case 'user_new':
+            case 'user_create':
+                $menu                    
+                    ->addChild('Nuevo Usuario')
+                    ->setCurrent(true)                    
+                ;
+            break;
+            case 'user_edit':
+                $menu                    
+                    ->addChild('Editar Usuario')
+                    ->setCurrent(true)                    
+                ;
+            break;        
+        
             /*** Primer nivel: Comunidad, Certificados, Correo, Calendario ***/
             case 'parroquia_comunidad_homepage':
                 $menu
@@ -106,6 +175,7 @@ class MenuBuilder
         
             /*** Comunidad/Personas ***/
             case 'persona':
+            case 'persona_filter':
                 $menu
                     ->addChild('Comunidad', array('route' => 'parroquia_comunidad_homepage'))
                 ;
@@ -127,6 +197,7 @@ class MenuBuilder
                 ;                
             break;
             case 'persona_new':
+            case 'persona_create':
                 $menu
                     ->addChild('Comunidad', array('route' => 'parroquia_comunidad_homepage'))
                 ;
@@ -173,6 +244,7 @@ class MenuBuilder
                 ;                
             break;
             case 'grupo_new':
+            case 'grupo_create':
                 $menu
                     ->addChild('Comunidad', array('route' => 'parroquia_comunidad_homepage'))
                 ;
@@ -198,6 +270,7 @@ class MenuBuilder
             break;
             /*** Certificados/Certificado ***/
             case 'certificado':
+            case 'certificado_filter':
                 $menu
                     ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
                 ;
@@ -216,20 +289,12 @@ class MenuBuilder
                 ;                    
             break;        
             case 'certificado_new':
+            case 'certificado_create':
                 $menu
                     ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
                 ;
                 $menu
                     ->addChild('Generar Certificado')
-                    ->setCurrent(true);
-                ;                    
-            break;
-            case 'certificado_filter':
-                $menu
-                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
-                ;
-                $menu
-                    ->addChild('Historial de Certificados')
                     ->setCurrent(true);
                 ;                    
             break;
@@ -253,6 +318,7 @@ class MenuBuilder
                 ;                    
             break;        
             case 'mensaje_new':
+            case 'mensaje_create':
                 $menu
                     ->addChild('Correo', array('route' => 'parroquia_correo_homepage'))
                 ;
@@ -281,6 +347,7 @@ class MenuBuilder
                 ;                    
             break;        
             case 'evento_new':
+            case 'evento_create':
                 $menu
                     ->addChild('Calendario', array('route' => 'parroquia_agenda_homepage'))
                 ;

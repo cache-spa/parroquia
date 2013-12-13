@@ -1,0 +1,158 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Correo' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Correo']) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>Redactar Correo</h1></div>
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    
+    {{ form_row(form.destinatarios) }}
+    {{ form_row(form.grupos) }}
+    {{ form_row(form.asunto) }}
+    {{ form_row(form.cuerpo) }}
+    
+    <div class="collection post-tinymce">
+        <label>Adjuntos</label>
+        <ul class="adjuntos" data-prototype="{{ form_widget(form.adjuntos.vars.prototype,{'attr':{'class':'file-container'}})|e }}">            
+            {% for adjunto in form.adjuntos %}
+                <li>
+                    <div class="file-container">
+                        {% if adjunto.vars.value and adjunto.vars.value.path != 'initial' %}
+                        <div>
+                            <a href="{{ asset(adjunto.vars.value.webPath) }}">{{ adjunto.vars.value.name }}</a>
+                            {{ form_label(adjunto) }}
+                            {{ form_errors(adjunto) }}
+                            {{ form_widget(adjunto, { 'attr' : { 'class' : 'collapse' } } ) }}
+                        </div>
+                        {% else %}
+                        {{ form_row(adjunto) }}
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    {{ form_end(form) }}
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('mensaje') }}">
+                    Volver al historial
+                </a>
+            </li>
+        </ul>
+{% endblock %}
+    
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/jquery.multiselect2side.css') }}" type="text/css" rel="stylesheet" media="screen" />
+{% endblock %}
+    
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.multiselect2side.js') }}"></script>
+    
+    <script>
+    $().ready(function() {
+            $('#parroquia_correobundle_mensaje_destinatarios').multiselect2side({
+                search : 'Buscar: ',
+                labeldx : '&nbsp;',
+                moveOptions : false,
+                autoSort : true,
+                autoSortAvailable: true
+            });
+            
+            $('#parroquia_correobundle_mensaje_grupos').multiselect2side({
+                search : 'Buscar: ',
+                labeldx : '&nbsp;',
+                moveOptions : false,
+                autoSort : true,
+                autoSortAvailable: true
+            });
+    });        
+    </script>
+    
+<script>
+        jQuery(document).ready(function() {
+            var $collectionHolder;
+            var $list = ['adjuntos'];
+            $.each($list,function(i, val){
+    
+                $collectionHolder = $('ul.' + val);
+
+                if($collectionHolder){
+                    // setup an "add an item" link
+                    var $addItemLink = $('<a href="#" class="'+val+' add_item_link">+</a>');
+                    var $newLinkLi = $('<li class="actions"></li>').append($addItemLink);
+
+                    // add a delete link to all of the existing item form li elements
+                    $collectionHolder.find('li').each(function() {                        
+                        addItemFormDeleteLink($(this));
+                    });            
+
+                    // add the "add an item" anchor and li to the items ul
+                    $collectionHolder.append($newLinkLi);
+
+                    // count the current form inputs we have (e.g. 2), use that as the new
+                    // index when inserting a new item (e.g. 2)
+                    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                    $addItemLink.on('click', function(e) {
+                        // prevent the link from creating a "#" on the URL
+                        e.preventDefault();
+
+                        // add a new item form (see next code block)
+                        addItemForm(val, $newLinkLi);
+                    });          
+                }
+            });
+            
+        });  
+        
+        function addItemForm(val, $newLinkLi) {
+            $collectionHolder = $('ul.' + val);
+
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add an item" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+            
+            // add a delete link to the new form
+            addItemFormDeleteLink($newFormLi);            
+        }
+        
+        function addItemFormDeleteLink($itemFormLi) {
+            var $removeFormA = $('<div class="text-right"><button type="button" class="close">&times;</button></div>');
+            $itemFormLi.children().last().children().last().append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the item form
+                $itemFormLi.remove();
+            });
+        }        
+</script>    
+
+{{ tinymce_init() }}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+certificado:
+    pattern:  /
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:index" }
+
+certificado_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:show" }
+
+certificado_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:new" }
+
+certificado_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:create" }
+    requirements: { _method: post }
+
+certificado_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:delete" }
+    requirements: { _method: post|delete }
+
+certificado_ajax:
+    pattern:  /ajax
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:ajax" }
+    
+certificado_filter:
+    pattern:  /filter
+    defaults: { _controller: "ParroquiaCertificadoBundle:Certificado:filter" }
+    requirements: { _method: post }    

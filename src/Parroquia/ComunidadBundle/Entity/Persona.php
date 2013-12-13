@@ -209,7 +209,12 @@ class Persona
     /**
      * @Assert\File(maxSize="6000000", mimeTypes={"image/jpeg", "image/gif", "image/png", "image/tiff"})
      */
-    private $file;    
+    private $file;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Parroquia\UserBundle\Entity\User", mappedBy="persona")
+     **/
+    protected $usuario;    
     
     public function __construct() {
         $this->matrimonios_conyuge1 = new ArrayCollection();
@@ -1421,5 +1426,28 @@ class Persona
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \Parroquia\UserBundle\Entity\User $usuario
+     * @return Persona
+     */
+    public function setUsuario(\Parroquia\UserBundle\Entity\User $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \Parroquia\UserBundle\Entity\User 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

@@ -27,7 +27,9 @@
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle":"dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "lexik/form-filter-bundle": "v2.0.0"        
+        "lexik/form-filter-bundle": "v2.0.0",
+        "stfalcon/tinymce-bundle": "dev-master",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "scripts": {
         "post-install-cmd": [

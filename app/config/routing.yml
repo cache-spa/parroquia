@@ -4,7 +4,7 @@ parroquia_home:
 
 parroquia_agenda:
     resource: "@ParroquiaAgendaBundle/Resources/config/routing.yml"
-    prefix:   agenda/
+    prefix:   calendario/
 
 parroquia_certificado:
     resource: "@ParroquiaCertificadoBundle/Resources/config/routing.yml"
@@ -17,3 +17,27 @@ parroquia_comunidad:
 parroquia_correo:
     resource: "@ParroquiaCorreoBundle/Resources/config/routing.yml"
     prefix:   correo/
+    
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+#Para evitar el registro
+#fos_user_register:
+#    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+#    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+    
+parroquia_user:
+    resource: "@ParroquiaUserBundle/Resources/config/routing.yml"
+    prefix:   /admin

@@ -1,0 +1,41 @@
+<table class="records_list" id="personas_table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombres</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Teléfono</th>
+            <th>Grupos</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('persona_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.nombres }}</td>
+            <td>{{ entity.apellidop }}</td>
+            <td>{{ entity.apellidom }}</td>
+            <td>{{ entity.telefono }}</td>
+            <td>
+                <ul>
+                {% for grupo in entity.grupos %}
+                    <li>{{ grupo }}</li>
+                {% endfor %}
+                </ul>
+            </td>                 
+            <td>
+            <ul>
+                <li>
+                    <a href="{{ path('persona_show', { 'id': entity.id }) }}">ver</a>
+                </li>
+                <li>
+                    <a href="{{ path('persona_edit', { 'id': entity.id }) }}">editar</a>
+                </li>
+            </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

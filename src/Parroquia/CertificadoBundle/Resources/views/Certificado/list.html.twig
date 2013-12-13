@@ -1,0 +1,33 @@
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tipo</th>
+            <th>Persona</th>
+            <th>Fecha Emisión</th>                
+            <th>Emisor</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('certificado_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.tipo }}</td>
+            <td>{{ entity.persona }}</td>
+            <td>{% if entity.fechaemision %}{{ entity.fechaemision|date('d-n-Y H:i:s') }}{% endif %}</td>
+            <td>{{ entity.emisor }}</td>
+            <td>
+            <ul>
+                <li>
+                    <a href="{{ path('certificado_show', { 'id': entity.id }) }}">ver</a>
+                </li>
+                <li>
+                    <a href="{{ asset(entity.webPath) }}" target="_blank">descargar</a>
+                </li>
+            </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

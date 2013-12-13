@@ -15,11 +15,35 @@
 {% block body -%}
 <div class="title-wrapper"><h1>Comunidad</h1></div>
 
-En esta sección podrás:
+<div id="personas_list">
+    En esta sección podrás:
 
-<ul>
-    <li><a href="{{ path('persona') }}">Buscar Personas</a></li>
-    <li><a href="{{ path('persona_new') }}">Agregar nuevas Personas</a></li>
-    <li><a href="{{ path('grupo') }}">Crear, Editar y Borrar Grupos</a></li>
-</ul>
+    <ul>
+        <li><a href="{{ path('persona') }}">Buscar Personas</a></li>
+        <li><a href="{{ path('persona_new') }}">Agregar nuevas Personas</a></li>
+        <li><a href="{{ path('grupo') }}">Crear, Editar y Borrar Grupos</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    var url_loading = "{{ asset('images/loading.gif') }}";
+
+    $(function () {
+        $('form').on('submit', function (e) {
+            $("#personas_list").html('<img src="' + url_loading + '" />');
+            $.ajax({
+                type: 'POST',
+                url: $('form').attr('action'),
+                data: $('form').serialize(),
+                success: function (data) {
+                  $("#personas_list").empty();
+                  $("#personas_list").append(data);
+                }
+            });
+            e.preventDefault();
+        });
+    });
+  </script>
 {% endblock %}

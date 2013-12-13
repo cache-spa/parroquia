@@ -1,0 +1,9 @@
+parameters:
+    message_success : "<strong>¡Felicidades!</strong> La información ha sido almacenada con éxito."
+    message_error : "<strong>¡Oops! Hubo un error.</strong> La información no fue almacenada. Por favor revisa los detalles más abajo."
+    message_delete : "<strong>¡Felicidades!</strong> La información ha sido eliminada con éxito."
+    mail_success : "<strong>¡Felicidades!</strong> El e-mail ha sido enviado con éxito."
+    mail_error : "El e-mail no se ha podido enviar. Por favor revisa los detalles más abajo."
+    certificado_success : "¡El certificado se ha generado exitosamente!"
+    certificado_error : "El certificado no se ha podido generar. Por favor revisa los detalles más abajo."
+    user_persona_error: "No hay persona asociada a su cuenta de usuario."

@@ -10,6 +10,7 @@
     <div class="title-wrapper"><h1>Agregar {{ nombre_sacramento }}</h1></div>
 
         {{ form_start(form) }}
+        {{ form_errors(form) }}
         {% include('ParroquiaCertificadoBundle:' ~ folder_sacramento ~ ':form_content.html.twig') with { 'form' : form }%}
         {{ form_end(form) }}
 

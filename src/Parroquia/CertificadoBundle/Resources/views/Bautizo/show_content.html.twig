@@ -1,0 +1,66 @@
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Bautizado</th>
+                <td>{{ entity.persona }}</td>
+            </tr>
+            <tr>
+                <th>Libro</th>
+                <td>{{ entity.libro }}</td>
+            </tr>
+            <tr>
+                <th>Hoja</th>
+                <td>{{ entity.hoja }}</td>
+            </tr>
+            <tr>
+                <th>Inscripción</th>
+                <td>{{ entity.inscripcion }}</td>
+            </tr>
+            <tr>
+                <th>Lugar</th>
+                <td>{{ entity.lugar }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if entity.fecha %}{{ entity.fecha|date('d-m-Y') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Padrinos ({{ entity.bautizospadrinos|length }})</th>
+                <td>
+                    <ul>
+                    {% for padrino in entity.bautizospadrinos %}
+                        <li>{{ padrino.padrino }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Celebrantes ({{ entity.bautizoscelebrantes|length }})</th>
+                <td>
+                    <ul>
+                    {% for celebrante in entity.bautizoscelebrantes %}
+                        <li>{{ celebrante.celebrante }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Catequistas ({{ entity.bautizoscatequistas|length }})</th>
+                <td>
+                    <ul>
+                    {% for catequista in entity.bautizoscatequistas %}
+                        <li>{{ catequista.catequista }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Notas</th>
+                <td>{{ entity.notas }}</td>
+            </tr>
+        </tbody>
+    </table>

@@ -1,0 +1,49 @@
+<div>
+{{ form_row(form.conyuge2) }}
+{{ form_row(form.libro) }}
+{{ form_row(form.hoja) }}
+{{ form_row(form.inscripcion) }}
+{{ form_row(form.lugar) }}
+{{ form_row(form.fecha) }}
+{{ form_row(form.inscripcion_civil) }}
+{{ form_row(form.fecha_civil) }}
+
+        <div class="collection">
+            <label>Padrinos</label>
+            <ul class="matrimonio padrinos" data-prototype="{{ form_widget(form.matrimonios_padrinos.vars.prototype)|e }}">                
+                {% for padrino in form.matrimonios_padrinos %}
+                    <li><div>{{ form_row(padrino.padrino) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="collection">
+            <label>Celebrantes</label>
+            <ul class="matrimonio celebrantes" data-prototype="{{ form_widget(form.matrimonios_celebrantes.vars.prototype)|e }}">                
+                {% for celebrante in form.matrimonios_celebrantes %}
+                    <li><div>{{ form_row(celebrante.celebrante) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>    
+
+        <div class="collection">
+            <label>Catequistas</label>
+            <ul class="matrimonio catequistas" data-prototype="{{ form_widget(form.matrimonios_catequistas.vars.prototype)|e }}">                
+                {% for catequista in form.matrimonios_catequistas %}
+                    <li><div>{{ form_row(catequista.catequista) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="collection">
+            <label>Testigos</label>
+            <ul class="matrimonio testigos" data-prototype="{{ form_widget(form.matrimonios_testigos.vars.prototype)|e }}">                
+                {% for testigo in form.matrimonios_testigos %}
+                    <li><div>{{ form_row(testigo.testigo) }}</div></li>
+                {% endfor %}
+            </ul>
+        </div>  
+
+{{ form_row(form.notas) }}        
+
+</div>

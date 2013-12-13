@@ -1,0 +1,26 @@
+mensaje:
+    pattern:  /
+    defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:index" }
+
+mensaje_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:show" }
+
+mensaje_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:new" }
+
+mensaje_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:create" }
+    requirements: { _method: post }
+
+mensaje_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:delete" }
+    requirements: { _method: post|delete }
+    
+mensaje_filter:
+    pattern:  /filter
+    defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:filter" }
+    requirements: { _method: post }      

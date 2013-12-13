@@ -1,0 +1,7 @@
+#parroquia_user_homepage:
+#    pattern:  /hello/{name}
+#    defaults: { _controller: ParroquiaUserBundle:Default:index }
+    
+ParroquiaUserBundle_user:
+    resource: "@ParroquiaUserBundle/Resources/config/routing/user.yml"
+    prefix:   /user

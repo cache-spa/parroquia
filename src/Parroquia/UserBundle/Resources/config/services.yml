@@ -1,0 +1,7 @@
+parameters:
+#    parroquia_user.example.class: Parroquia\UserBundle\Example
+
+services:
+#    parroquia_user.example:
+#        class: %parroquia_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
