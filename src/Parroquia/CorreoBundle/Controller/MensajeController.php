@@ -10,9 +10,6 @@ use Parroquia\CorreoBundle\Entity\Mensaje;
 use Parroquia\CorreoBundle\Form\MensajeType;
 use Parroquia\CorreoBundle\Form\MensajeFilterType;
 
-define('ERROR_EMAIL', 'Persona no tiene e-mail registrado en el sistema');
-define('ERROR_ENVIO', 'Error en el envío (puede deberse a e-mail no válido)');
-
 /**
  * Mensaje controller.
  *
@@ -41,7 +38,7 @@ class MensajeController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Mensaje();
-        
+
         //Emisor es la persona asociada a usuario conectado
         if($this->getUser() && $this->getUser()->getPersona())
         {
@@ -114,6 +111,12 @@ class MensajeController extends Controller
     {
         $entity = new Mensaje();
         $form   = $this->createCreateForm($entity);
+        
+        if($this->getUser() && !$this->getUser()->getPersona())
+        {
+            $message = $this->container->getParameter('user_persona_error');
+            $this->get('session')->getFlashBag()->add('error',$message);
+        }        
 
         return $this->render('ParroquiaCorreoBundle:Mensaje:new.html.twig', array(
             'entity' => $entity,
@@ -195,17 +198,19 @@ class MensajeController extends Controller
         
         $failures = array();
         
-        $emisor_email = 'cache@cache.cl';
+        $emisor_email = $this->container->getParameter('mailer_from_address');
+        $emisor_nombre = $this->container->getParameter('mailer_from_sender');
         if($entity->getEmisor() && $entity->getEmisor()->getEmail())
         {
             $emisor_email = $entity->getEmisor()->getEmail();
+            $emisor_nombre = $entity->getEmisor()->__toString();
         }
         
         $cuerpo_email = $this->renderView('ParroquiaCorreoBundle:Mensaje:plantilla.html.twig', array('cuerpo' => $entity->getCuerpo()));
         
         $message = \Swift_Message::newInstance()
                     ->setSubject($entity->getAsunto())
-                    ->setFrom($emisor_email)
+                    ->setFrom(array($emisor_email => $emisor_nombre))
                     ->setBody($cuerpo_email,'text/html'); //Sólo se está enviando en formato html
         
         foreach($entity->getAdjuntos() as $adjunto)
@@ -221,7 +226,7 @@ class MensajeController extends Controller
             if($mensaje_destinatario->getDestinatario()->getEmail())
             {
 
-                $message->setTo($mensaje_destinatario->getDestinatario()->getEmail());                                
+                $message->setTo($mensaje_destinatario->getDestinatario()->getEmail());
 
                 //Aqui se envía el e-mail
                 if($mailer->send($message))
@@ -231,14 +236,14 @@ class MensajeController extends Controller
                 else
                 {
                     $mensaje_destinatario->setEnviado(false);
-                    $mensaje_destinatario->setMotivo(ERROR_ENVIO);
+                    $mensaje_destinatario->setMotivo($this->container->getParameter('mail_error_envio'));
                     $failures[] = $mensaje_destinatario;
                 }
             }
             else
             {
                 $mensaje_destinatario->setEnviado(false);
-                $mensaje_destinatario->setMotivo(ERROR_EMAIL);
+                $mensaje_destinatario->setMotivo($this->container->getParameter('mail_error_mail'));
                 $failures[] = $mensaje_destinatario;
             }
             $em->persist($mensaje_destinatario);
@@ -273,6 +278,17 @@ class MensajeController extends Controller
             
             return new Response($content);
         }
+        else
+        {
+            if($request->isMethod('POST'))
+            {
+                $content = $this->renderView('ParroquiaCorreoBundle:Mensaje:list.html.twig', array(
+                    'entities' => array(),
+                ));
+
+                return new Response($content);
+            }
+        }        
 
         return $this->render('ParroquiaCorreoBundle:Mensaje:filter.html.twig', array(
             'form' => $form->createView(),

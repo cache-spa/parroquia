@@ -1,0 +1,24 @@
+{% extends "TwigBundle::layout.html.twig" %}
+
+{% block title %}Un error ha ocurrido: {{ status_text }}{% endblock %}
+
+{% block body %}
+<div class="title-wrapper"><h1>Error {{ status_code }}</h1></div>
+
+<h2>El servidor retornó "{{ status_code }} {{ status_text }}".</h2>
+
+<div id="error-content">
+    <div id="error-left">
+        <h2>Lo sentimos, esta página no ha sido encontrada.</h2>
+
+        <p>Ha habido un error en la página que estabas buscando. Es posible que la entrada haya sido eliminada o que la dirección no exista.</p>
+        
+        <div>
+            <button type="submit" onClick="history.go(-1);return true;">Volver a la página anterior</button>
+        </div>
+    </div>
+    <div id="error-right">
+        <img src="{{ asset('icono-error-404.png') }}" />
+    </div>
+</div>
+{% endblock %}

@@ -17,7 +17,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div id="page-wrapper" {% if block('leftsidebar') or block('filters') %}class="page-left-side"{% endif %}>
+        <div id="page-wrapper" {% if block('leftsidebar') or block('filters') %}class="page-left-side"{% endif %} {% if block('rightsidebar') %}class="page-right-side"{% endif %}>
             <div id="header-wrapper">
                 <div id="logo-title-wrapper">
                     <a href="{{ path('parroquia_home_homepage') }}">
@@ -65,14 +65,30 @@
                     {% block body %}{% endblock %}
                     <div class="clear"></div>
                 </div>
+                
+                {% if block('rightsidebar') %}
+                <div id="page-side-content">
+                    {% if block('rightsidebar') %}
+                    <div class="page-side-list-title">{{ menu_title is defined ? menu_title : '' }}</div>
+                    <div class="page-side-list">
+                        {% block rightsidebar %}{% endblock %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}               
             </div>
 
             <div id="footer-wrapper">
+                <div id="footer-img">
+                    <img src="{{ asset('virgen-footer.png') }}" />
+                </div>
+                <div id="footer-content">
                 <h4>Parroquia Santa Teresa de Los Andes</h4>
             
-                Av. Bernardo Larraín Cotapos 11.785 - Lo Barnechea - Región Metropolitana - Chile.
-                
+                Av. Bernardo Larraín Cotapos 11.785 - Lo Barnechea - Región Metropolitana - Chile
+                <br>                
                 Teléfono 2242 4299. E-mail <a href="mailto:parroquiasantateresa@iglesia.cl">parroquiasantateresa@iglesia.cl</a>
+                </div>
             </div>
         </div>
         <!-- En este orden: jquery, bootstrap, jquery-ui -->

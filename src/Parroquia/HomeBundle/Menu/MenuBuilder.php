@@ -44,15 +44,70 @@ class MenuBuilder
         $menu['Calendario']->addChild('Agregar Evento', array('route' => 'evento_new'));
         $menu['Calendario']->addChild('Listar Eventos', array('route' => 'evento'));        
         
-        /* Temporal */
         $menu['Certificados']->addChild('Bautizos',array('route' => 'bautizo'));
         $menu['Certificados']->addChild('Confirmaciones',array('route' => 'confirmacion'));
         $menu['Certificados']->addChild('Matrimonios',array('route' => 'matrimonio'));
+        $menu['Certificados']->addChild('Ministros de Comunión',array('route' => 'ministro'));        
         
         $menu['Correo']->addChild('Redactar Correo', array('route' => 'mensaje_new'));
         $menu['Correo']->addChild('Historial de Correos', array('route' => 'mensaje'));        
         
         $menu->setChildrenAttribute('id', 'main-menu');
+        
+        
+        switch($request->get('_route')){
+            /*** Comunidad ***/
+            case 'persona':
+            case 'persona_show':        
+            case 'persona_new':
+            case 'persona_create':
+            case 'grupo':
+            case 'grupo_show':        
+            case 'grupo_new':
+            case 'grupo_create':                
+                $menu['Comunidad']->setCurrent(true);      
+            break;
+        
+            /*** Certificados***/
+            case 'certificado':
+            case 'certificado_show':        
+            case 'certificado_new':
+            case 'certificado_create':
+            case 'bautizo':
+            case 'bautizo_show':        
+            case 'bautizo_new':
+            case 'bautizo_create':
+            case 'confirmacion':
+            case 'confirmacion_show':        
+            case 'confirmacion_new':
+            case 'confirmacion_create':
+            case 'matrimonio':
+            case 'matrimonio_show':        
+            case 'matrimonio_new':
+            case 'matrimonio_create':
+            case 'ministro':
+            case 'ministro_show':
+            case 'ministro_new':
+            case 'ministro_create':
+                $menu['Certificados']->setCurrent(true);      
+            break;        
+            
+            /*** Correo ***/
+            case 'mensaje':
+            case 'mensaje_show':        
+            case 'mensaje_new':
+            case 'mensaje_create':
+                $menu['Correo']->setCurrent(true);      
+            break;
+        
+            /*** Calendario ***/
+            case 'evento':
+            case 'evento_show':        
+            case 'evento_new':
+            case 'evento_create':
+                $menu['Calendario']->setCurrent(true);      
+            break;        
+        }        
         
         return $menu;
     }
@@ -61,7 +116,7 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         
-        if($this->security_context->isGranted(array('ROLE_ADMIN', 'ROLE_USER'))) {
+        if($this->security_context->isGranted(array('ROLE_ADMIN'))) {
             $menu->addChild('Admin_Usuarios', array(
                                 'route' => 'user',
                                 'label' => 'Administración de Usuarios'
@@ -252,7 +307,7 @@ class MenuBuilder
                     ->addChild('Grupos', array('route' => 'grupo'))
                 ;
                 $menu
-                    ->addChild('Nueva Grupo')
+                    ->addChild('Nuevo Grupo')
                     ->setCurrent(true)
                 ;                    
             break;
@@ -298,6 +353,183 @@ class MenuBuilder
                     ->setCurrent(true);
                 ;                    
             break;
+            /*** Certificados/Ministros ***/
+            case 'ministro':
+            case 'ministro_filter':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Ministros de Comunión')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'ministro_show':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Ministros de Comunión', array('route' => 'ministro'));                
+                $menu
+                    ->addChild('Ver Ministro de Comunión')
+                    ->setCurrent(true);
+                ;                    
+            break;        
+            case 'ministro_new':
+            case 'ministro_create':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Ministros de Comunión', array('route' => 'ministro'));                 
+                $menu
+                    ->addChild('Nuevo Ministro de Comunión')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'ministro_edit':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Ministros de Comunión', array('route' => 'ministro'));                 
+                $menu
+                    ->addChild('Editar Ministro de Comunión')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            /*** Certificados/Bautizos ***/
+            case 'bautizo':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Bautizos')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'bautizo_show':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Bautizos', array('route' => 'bautizo'));                
+                $menu
+                    ->addChild('Ver Bautizo')
+                    ->setCurrent(true);
+                ;                    
+            break;        
+            case 'bautizo_new':
+            case 'bautizo_create':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Bautizos', array('route' => 'bautizo'));                 
+                $menu
+                    ->addChild('Nuevo Bautizo')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'bautizo_edit':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Bautizos', array('route' => 'bautizo'));                 
+                $menu
+                    ->addChild('Editar Bautizo')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            /*** Certificados/Confirmaciones ***/
+            case 'confirmacion':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Confirmaciones')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'confirmacion_show':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Confirmaciones', array('route' => 'confirmacion'));                
+                $menu
+                    ->addChild('Ver Confirmación')
+                    ->setCurrent(true);
+                ;                    
+            break;        
+            case 'confirmacion_new':
+            case 'confirmacion_create':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Confirmaciones', array('route' => 'confirmacion'));                 
+                $menu
+                    ->addChild('Nueva Confirmación')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'confirmacion_edit':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Confirmaciones', array('route' => 'confirmacion'));                 
+                $menu
+                    ->addChild('Editar Confirmación')
+                    ->setCurrent(true);
+                ;                    
+            break;        
+            /*** Certificados/Matrimonios ***/
+            case 'matrimonio':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Matrimonios')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'matrimonio_show':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Matrimonios', array('route' => 'matrimonio'));                
+                $menu
+                    ->addChild('Ver Matrimonio')
+                    ->setCurrent(true);
+                ;                    
+            break;        
+            case 'matrimonio_new':
+            case 'matrimonio_create':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Matrimonios', array('route' => 'matrimonio'));                 
+                $menu
+                    ->addChild('Nuevo Matrimonio')
+                    ->setCurrent(true);
+                ;                    
+            break;
+            case 'matrimonio_edit':
+                $menu
+                    ->addChild('Certificados', array('route' => 'parroquia_certificado_homepage'))
+                ;
+                $menu
+                    ->addChild('Matrimonios', array('route' => 'matrimonio'));                 
+                $menu
+                    ->addChild('Editar Matrimonio')
+                    ->setCurrent(true);
+                ;                    
+            break;                
             /*** Correo/Mensaje ***/
             case 'mensaje':
                 $menu

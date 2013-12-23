@@ -9,6 +9,10 @@
 {% block body -%}
     <div class="title-wrapper"><h1>Persona</h1></div>
 
+    {% if entity.path is not empty %}    
+    <img src="{{ asset(entity.webPath) }}" class="profile-pic" />
+    {% endif %}
+    
     <table class="record_properties">
         <tbody>
             <tr>
@@ -37,7 +41,7 @@
             </tr>
             <tr>
                 <th>Fecha de Nacimiento</th>
-                <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }} (Edad: {{ entity.edad }}){% endif %}</td>
+                <td>{% if entity.fechanacimiento %}{{ entity.fechanacimiento|date('d-m-Y') }} (Edad: {{ entity.edad }} años){% endif %}</td>
             </tr>
             <tr>
                 <th>Padre</th>

@@ -110,7 +110,8 @@ a img{
 	text-decoration:none;
 }
 #main-menu li a:hover,
-#main-menu li a:active{
+#main-menu li a:active,
+#main-menu li.current a{
 	background:#f9a133;
 	border-radius:4px 4px 0 0;
 }
@@ -138,7 +139,7 @@ a img{
 #cont-wrapper{
 	padding:12px 10px;
         background-color: white;
-        min-height: 70%;
+        min-height: 68%;
 }
 
 
@@ -215,6 +216,15 @@ a img{
 	width:764px;
 }
 
+.page-right-side #cont{
+        padding-right: 12px;
+        width:764px;
+}
+
+.page-right-side #cont-wrapper{
+        padding-bottom: 45px;
+}
+
 
 
 .title-wrapper{
@@ -277,6 +287,18 @@ a img{
   color: #999999;
 }
 
+.profile-pic{
+    float: right;
+    max-width: 350px;
+    height: auto;    
+}
+
+.profile-pic-mini{
+    float: right;
+    max-width: 50px;
+    height: auto;    
+}
+
 
 
 table{
@@ -337,19 +359,24 @@ button[type="submit"]{
 }
 .checkbox-item{
 	padding-right:30px;
-	width:118px;
-	display:inline-block;
+	width:138px;
+	display:block;
 	overflow:hidden;
         margin-bottom: 12px;
 }
+.checkbox-group .checkbox-item{
+        display:inline-block;
+        width: 118px;
+}
+
 .checkbox-item label{
 	display:inline;
 }
 
 
-
-
-
+.filter{
+    margin-bottom: 10px;
+}
 
 .filter input[type="number"],
 .filter input[type="text"],
@@ -357,9 +384,18 @@ button[type="submit"]{
 	width:170px;
 }
 
-#certificado_filter div, #mensaje_filter div{
+.filter .filter-date-range input{
+    margin-right: 5px;
+    width: 70px;
+}
+
+#certificado_filter div, #mensaje_filter div, #ministro_filter div{
 	display:inline-block;
 	width:30%;
+}
+
+#ministro_filter .filter-date-range{
+    width: auto;
 }
 
 
@@ -372,6 +408,11 @@ button[type="submit"]{
     list-style: none;
 }
 
+.record_actions ul, 
+.records_list ul,
+.record_properties ul{
+    padding-left: 14px;
+}
 
 
 
@@ -474,6 +515,40 @@ ul.adjuntos .text-right{
     margin-top: 12px;
 }
 
+.birthday{
+    font-size: 10px;
+}
+
+.birthday.today{
+    font-weight: bold;
+}
+
+
+#error-content{
+    position: relative;
+    top: 40px;
+    padding: 0 90px;
+}
+
+#error-left{
+    width: 53%;
+    display: inline-block;
+    padding: 20px;
+}
+
+#error-right{
+    width: 23%;
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: top;
+}
+
+.page-error #cont{
+    width: 760px;
+    left: 100px;
+    position: relative;
+}
+
 
 #footer-wrapper{
 	padding:10px;
@@ -482,5 +557,20 @@ ul.adjuntos .text-right{
 	background:#0b2546;
 
 	font-size:90%;
-	text-align:center;
+        position: relative;
+}
+
+#footer-content{
+        text-align:left;
+        margin-left: 200px;
+}
+
+#footer-img{
+        position: absolute;
+        bottom: 0px;
+        left: 40px;
+}
+
+#footer-img img{
+        vertical-align: top;
 }

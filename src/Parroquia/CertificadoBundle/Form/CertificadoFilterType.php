@@ -25,7 +25,7 @@ class CertificadoFilterType extends AbstractType
                     ))
             ->add('emisor', 'filter_entity',array(                    
                         'label' => 'Emitido por',
-                        'class' => 'ParroquiaComunidadBundle:Persona', //debería ser Usuario
+                        'class' => 'ParroquiaComunidadBundle:Persona',
                         'property' => 'nombreRut'
                     ))
             ;

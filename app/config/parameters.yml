@@ -3,12 +3,14 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: null
-    database_name: symfony
-    database_user: root
-    database_password: null
+    database_name: cache_parroquia
+    database_user: cache_admin
+    database_password: cache_admin
     mailer_transport: smtp
     mailer_host: null
     mailer_user: null
     mailer_password: null
     locale: es
     secret: 174b318f1370e15fd02e57e44c2b9ceeb2e78949
+    mailer_from_address: cache@cache.cl
+    mailer_from_sender: Parroquia - Sistema

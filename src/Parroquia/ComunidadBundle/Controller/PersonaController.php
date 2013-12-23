@@ -523,6 +523,17 @@ class PersonaController extends Controller
             
             return new Response($content);
         }
+        else
+        {
+            if($request->isMethod('POST'))
+            {
+                $content = $this->renderView('ParroquiaComunidadBundle:Persona:list.html.twig', array(
+                    'entities' => array(),
+                ));
+
+                return new Response($content);
+            }
+        }        
 
         return $this->render('ParroquiaComunidadBundle:Persona:filter.html.twig', array(
             'form' => $form->createView(),

@@ -20,4 +20,8 @@ ParroquiaCertificadoBundle_confirmacion:
     
 ParroquiaCertificadoBundle_matrimonio:
     resource: "@ParroquiaCertificadoBundle/Resources/config/routing/matrimonio.yml"
-    prefix:   /matrimonio    
+    prefix:   /matrimonio
+    
+ParroquiaCertificadoBundle_ministro:
+    resource: "@ParroquiaCertificadoBundle/Resources/config/routing/ministro.yml"
+    prefix:   /ministro    

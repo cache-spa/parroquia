@@ -198,6 +198,11 @@ class Persona
      * @ORM\JoinColumn(name="madre_id", referencedColumnName="id", nullable=true)
      **/
     protected $madre;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Ministro", mappedBy="persona", cascade={"all"})
+     **/
+    protected $ministros;    
     
     protected $matrimonios;
 
@@ -237,6 +242,7 @@ class Persona
         $this->hijos_padre = new ArrayCollection();
         $this->hijos_madre = new ArrayCollection();
         $this->matrimonios = new ArrayCollection();
+        $this->ministros = new ArrayCollection();
     }  
     
     /**
@@ -1270,7 +1276,7 @@ class Persona
         {
             $now      = new \DateTime();
             $interval = $now->diff($this->fecha_nacimiento);
-            return $interval->format('%y años');            
+            return $interval->format('%y');            
         }
         else
         {
@@ -1449,5 +1455,38 @@ class Persona
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Add ministros
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\Ministros $ministros
+     * @return Persona
+     */
+    public function addMinistro(\Parroquia\CertificadoBundle\Entity\Ministro $ministros)
+    {
+        $this->ministros[] = $ministros;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ministros
+     *
+     * @param \Parroquia\CertificadoBundle\Entity\Ministro $ministros
+     */
+    public function removeMinistro(\Parroquia\CertificadoBundle\Entity\Ministro $ministros)
+    {
+        $this->ministros->removeElement($ministros);
+    }
+
+    /**
+     * Get ministros
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMinistros()
+    {
+        return $this->ministros;
     }
 }

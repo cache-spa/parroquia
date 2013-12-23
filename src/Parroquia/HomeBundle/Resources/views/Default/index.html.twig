@@ -1,7 +1,24 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-<div class="title-wrapper"><h1>Index</h1></div>
+{% set menu_title %}
+<i class="icon-gift icon-white"></i> Cumpleaños
+{% endset %}
 
-Index del sitio
+{% block rightsidebar %}
+        {{ render(controller('ParroquiaHomeBundle:Default:cumpleanos')) }}
+{% endblock %}
+
+{% block body -%}
+<div class="title-wrapper"><h2>Comunidad</h2></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac luctus erat, quis posuere mi. Nulla tincidunt risus consectetur, sollicitudin neque quis, luctus dui. Integer ac justo ultrices, pretium leo semper, placerat felis. Mauris semper volutpat augue. Sed pharetra ante felis, eget egestas lacus volutpat eu. Nam nulla magna, gravida at ante quis, tincidunt tincidunt magna. Nulla nec sodales eros, at tempor enim. Sed at tellus dictum, vehicula eros eu, blandit turpis. Suspendisse aliquam fringilla malesuada. Maecenas quis elit sit amet nisl molestie pretium in sit amet dolor. Ut justo est, congue id sapien et, aliquet aliquam diam. Donec semper aliquam nisl quis adipiscing. Aenean vel lacinia mauris, bibendum vehicula mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus gravida non enim quis convallis. Donec vestibulum congue porttitor.</p>
+
+<div class="title-wrapper"><h2>Certificados</h2></div>
+<p>Vestibulum eu iaculis enim. Maecenas eget mollis erat. Suspendisse id velit et turpis tempor imperdiet. Vestibulum eu leo libero. Proin pulvinar tellus nunc, vitae posuere tortor adipiscing et. Suspendisse convallis odio quis augue pretium, non rutrum turpis posuere. Vivamus facilisis quis elit non vestibulum. Proin malesuada dui nec est dapibus consequat. Nam et venenatis justo. Cras malesuada condimentum sapien vel tempor. Integer facilisis porttitor mauris, id facilisis odio egestas et.</p>
+
+<div class="title-wrapper"><h2>Correo</h2></div>
+<p>Donec ut dictum tortor. Proin dapibus mollis pharetra. Sed hendrerit faucibus consequat. Fusce luctus tristique lectus, elementum accumsan lorem congue vel. Duis nec diam est. Nullam interdum sodales neque sit amet suscipit. Maecenas non interdum ligula. Morbi rutrum porta nisi, et aliquet dui egestas quis. Curabitur nunc leo, commodo in feugiat dignissim, hendrerit vel mauris. Nunc varius laoreet blandit. Maecenas at interdum nunc. Pellentesque in tristique mi.</p>
+
+<div class="title-wrapper"><h2>Calendario</h2></div>
+<p>Donec quis nisl condimentum, ornare nisl in, semper purus. Morbi quis eros quis diam egestas ornare. Phasellus ac purus et nisl tempor hendrerit. Morbi purus justo, euismod nec elit a, elementum ultricies metus. Nam interdum ante et lorem scelerisque placerat. Nunc sit amet tellus enim. Etiam tincidunt porta velit blandit rutrum. Quisque tempus tristique vulputate. Aenean vitae varius velit. Aenean non vestibulum purus. Mauris in orci a sapien dictum aliquam. Nunc sed felis sed libero condimentum vestibulum in quis erat. Donec posuere iaculis erat at porta. Fusce at placerat augue.</p>
+
 {% endblock %}

@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -62,4 +64,21 @@ class User extends BaseUser
     {
         return $this->persona;
     }
+    
+    public function isAdmin()
+    {
+        return $this->hasRole(static::ROLE_ADMIN);
+    }
+    
+    public function setAdmin($boolean)
+    {
+        if (true === $boolean) {
+            $this->addRole(static::ROLE_ADMIN);
+        } else {
+            $this->removeRole(static::ROLE_ADMIN);
+        }
+
+        return $this;
+    }    
+    
 }

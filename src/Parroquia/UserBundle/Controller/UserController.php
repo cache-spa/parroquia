@@ -14,7 +14,7 @@ use Parroquia\UserBundle\Form\UserType;
  */
 class UserController extends Controller
 {
-
+    
     /**
      * Lists all User entities.
      *
@@ -39,7 +39,7 @@ class UserController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid()) {            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -174,13 +174,13 @@ class UserController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isValid()) {            
             $this->get('fos_user.user_manager')->updateUser($entity); //Necesario para la correcta actualización de password
 
             $message = $this->container->getParameter('message_success');        
             $this->get('session')->getFlashBag()->add('success',$message);            
             
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
         }
 
         $message = $this->container->getParameter('message_error');

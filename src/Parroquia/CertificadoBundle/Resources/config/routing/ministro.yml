@@ -1,0 +1,39 @@
+ministro:
+    pattern:  /
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:index" }
+
+ministro_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:show" }
+
+ministro_new:
+    pattern:  /new
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:new" }
+
+ministro_create:
+    pattern:  /create
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:create" }
+    requirements: { _method: post }
+
+ministro_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:edit" }
+
+ministro_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:update" }
+    requirements: { _method: post|put }
+
+ministro_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:delete" }
+    requirements: { _method: post|delete }
+
+ministro_download:
+    pattern:  /{id}/download
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:download" }
+    
+ministro_filter:
+    pattern:  /filter
+    defaults: { _controller: "ParroquiaCertificadoBundle:Ministro:filter" }
+    requirements: { _method: post }     

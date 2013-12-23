@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% set menu_title = 'Certificados' %}
+
+{% block leftsidebar %}
+    {{ knp_menu_render(['main','Certificados']) }}
+{% endblock %}
+
+{% block body -%}
+    <div class="title-wrapper"><h1>Ministro de Comunión</h1></div>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Persona</th>
+                <td>{{ entity.persona }}</td>
+            </tr>
+            <tr>
+                <th>Inicio Curso</th>
+                <td>{{ entity.fechacursoinicio|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Término Curso</th>
+                <td>{{ entity.fechacursotermino|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Vigencia Desde</th>
+                <td>{{ entity.fechavigenciainicio|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Vigencia Hasta</th>
+                <td>{{ entity.fechavigenciatermino|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Estado Vigencia</th>
+                <td>
+                {% if entity.vigencia == 1%}<i class="icon-ok"></i> VIGENTE
+                    {% if entity.caducaEn <= 5 and entity.caducaEn > 0 %}
+                    <br>(Vence en {{ entity.caducaEn }} día{{ entity.caducaEn != 1 ? 's' : '' }})
+                    {% elseif entity.caducaEn == 0 %}
+                    <br>(Vence Hoy)
+                    {% endif %}
+                {% else %}
+                <i class="icon-exclamation-sign"></i> CADUCADO
+                {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Certificado</th>
+                <td><a href="{{ path('ministro_download', { 'id': entity.id }) }}" target="_blank" {% if entity.vigencia != 1 %}onclick="return confirm('Este ministro de comunión no está vigente. ¿Desea descargar el certificado de todas maneras?');"{% endif %}>Descargar</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('ministro') }}">
+                    Volver a la lista
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('ministro_edit', { 'id': entity.id }) }}">
+                    Editar
+                </a>
+            </li>
+            <li>{{ form(delete_form) }}</li>
+        </ul>
+{% endblock %}

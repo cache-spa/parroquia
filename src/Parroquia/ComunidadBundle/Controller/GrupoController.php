@@ -290,6 +290,18 @@ class GrupoController extends Controller
             
             return new Response($content);
         }
+        
+        else
+        {
+            if($request->isMethod('POST'))
+            {
+                $content = $this->renderView('ParroquiaComunidadBundle:Grupo:list.html.twig', array(
+                    'entities' => array(),
+                ));
+
+                return new Response($content);
+            }
+        }        
 
         return $this->render('ParroquiaComunidadBundle:Grupo:filter.html.twig', array(
             'form' => $form->createView(),

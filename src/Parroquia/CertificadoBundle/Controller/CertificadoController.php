@@ -318,6 +318,17 @@ class CertificadoController extends Controller
             
             return new Response($content);
         }
+        else
+        {
+            if($request->isMethod('POST'))
+            {
+                $content = $this->renderView('ParroquiaCertificadoBundle:Certificado:list.html.twig', array(
+                    'entities' => array(),
+                ));
+
+                return new Response($content);
+            }
+        }
 
         return $this->render('ParroquiaCertificadoBundle:Certificado:filter.html.twig', array(
             'form' => $form->createView(),

@@ -1,0 +1,50 @@
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Persona</th>
+            <th>Fecha Curso</th>
+            <th>Vigencia</th>
+            <th>Estado de Vigencia</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('ministro_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.persona }}</td>                
+            <td>{% if entity.fechacursoinicio %}{{ entity.fechacursoinicio|date('d-m-Y') }}{% endif %}<br> 
+            {% if entity.fechacursotermino %}{{ entity.fechacursotermino|date('d-m-Y') }}{% endif %}</td>
+            <td>
+            {% if entity.fechavigenciainicio %}{{ entity.fechavigenciainicio|date('d-m-Y') }}{% endif %}<br> 
+            {% if entity.fechavigenciatermino %}{{ entity.fechavigenciatermino|date('d-m-Y') }}{% endif %}
+            </td>
+            <td>
+            {% if entity.vigencia == 1%}<i class="icon-ok"></i> VIGENTE
+                {% if entity.caducaEn <= 5 and entity.caducaEn > 0 %}
+                <br>(Vence en {{ entity.caducaEn }} día{{ entity.caducaEn != 1 ? 's' : '' }})
+                {% elseif entity.caducaEn == 0 %}
+                <br>(Vence Hoy)
+                {% endif %}
+            {% else %}
+            <i class="icon-exclamation-sign"></i> CADUCADO
+            {% endif %}
+            </td>
+            <td>
+            <ul>
+                <li>
+                    <a href="{{ path('ministro_show', { 'id': entity.id }) }}">ver</a>
+                </li>
+                <li>
+                    <a href="{{ path('ministro_download', { 'id': entity.id }) }}" target="_blank" {% if entity.vigencia != 1 %}onclick="return confirm('Este ministro de comunión no está vigente. ¿Desea descargar el certificado de todas maneras?');"{% endif %}>certificado</a>
+                </li>                    
+                <li>
+                    <a href="{{ path('ministro_edit', { 'id': entity.id }) }}">editar</a>
+                </li>
+            </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

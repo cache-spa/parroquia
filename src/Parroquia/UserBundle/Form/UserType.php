@@ -26,10 +26,14 @@ class UserType extends AbstractType
                     'required' => false,
                     'label' => 'Bloqueado'
                 ))
+            ->add('admin', 'checkbox', array(
+                    'label'     => '¿Administrador?',
+                    'required'  => false,                    
+                ))             
             ->add('persona',null,array('property'=> 'nombreRut'))
         ;
         
-        $builder->addEventSubscriber(new AddPasswordFieldSubscriber());        
+        $builder->addEventSubscriber(new AddPasswordFieldSubscriber());
     }
     
     /**

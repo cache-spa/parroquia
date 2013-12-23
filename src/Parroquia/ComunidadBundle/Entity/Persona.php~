@@ -198,6 +198,11 @@ class Persona
      * @ORM\JoinColumn(name="madre_id", referencedColumnName="id", nullable=true)
      **/
     protected $madre;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Ministros", mappedBy="persona", cascade={"all"})
+     **/
+    protected $ministros;    
     
     protected $matrimonios;
 
@@ -209,7 +214,12 @@ class Persona
     /**
      * @Assert\File(maxSize="6000000", mimeTypes={"image/jpeg", "image/gif", "image/png", "image/tiff"})
      */
-    private $file;    
+    private $file;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Parroquia\UserBundle\Entity\User", mappedBy="persona")
+     **/
+    protected $usuario;    
     
     public function __construct() {
         $this->matrimonios_conyuge1 = new ArrayCollection();
@@ -232,6 +242,7 @@ class Persona
         $this->hijos_padre = new ArrayCollection();
         $this->hijos_madre = new ArrayCollection();
         $this->matrimonios = new ArrayCollection();
+        $this->ministros = new ArrayCollection();
     }  
     
     /**
@@ -679,6 +690,72 @@ class Persona
         return $this->certificados_emitidos;
     }
 
+    /**
+     * Add mensajes_emitidos
+     *
+     * @param \Parroquia\CorreoBundle\Entity\Mensaje $mensajesEmitidos
+     * @return Persona
+     */
+    public function addMensajesEmitido(\Parroquia\CorreoBundle\Entity\Mensaje $mensajesEmitidos)
+    {
+        $this->mensajes_emitidos[] = $mensajesEmitidos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mensajes_emitidos
+     *
+     * @param \Parroquia\CorreoBundle\Entity\Mensaje $mensajesEmitidos
+     */
+    public function removeMensajesEmitido(\Parroquia\CorreoBundle\Entity\Mensaje $mensajesEmitidos)
+    {
+        $this->mensajes_emitidos->removeElement($mensajesEmitidos);
+    }
+
+    /**
+     * Get mensajes_emitidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMensajesEmitidos()
+    {
+        return $this->mensajes_emitidos;
+    }
+
+    /**
+     * Add mensajes_recibidos
+     *
+     * @param \Parroquia\CorreoBundle\Entity\MensajeDestinatario $mensajesRecibidos
+     * @return Persona
+     */
+    public function addMensajesRecibido(\Parroquia\CorreoBundle\Entity\MensajeDestinatario $mensajesRecibidos)
+    {
+        $this->mensajes_recibidos[] = $mensajesRecibidos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mensajes_recibidos
+     *
+     * @param \Parroquia\CorreoBundle\Entity\MensajeDestinatario $mensajesRecibidos
+     */
+    public function removeMensajesRecibido(\Parroquia\CorreoBundle\Entity\MensajeDestinatario $mensajesRecibidos)
+    {
+        $this->mensajes_recibidos->removeElement($mensajesRecibidos);
+    }
+
+    /**
+     * Get mensajes_recibidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMensajesRecibidos()
+    {
+        return $this->mensajes_recibidos;
+    }    
+    
     /**
      * Add grupos_personas
      *
@@ -1199,7 +1276,7 @@ class Persona
         {
             $now      = new \DateTime();
             $interval = $now->diff($this->fecha_nacimiento);
-            return $interval->format('%y años');            
+            return $interval->format('%y');            
         }
         else
         {
@@ -1356,6 +1433,27 @@ class Persona
     {
         return $this->path;
     }
+
+    /**
+     * Set usuario
+     *
+     * @param \Parroquia\UserBundle\Entity\User $usuario
+     * @return Persona
+     */
+    public function setUsuario(\Parroquia\UserBundle\Entity\User $usuario = null)
+    {
+        $this->usuario = $usuario;
     
-    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \Parroquia\UserBundle\Entity\User 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
 }

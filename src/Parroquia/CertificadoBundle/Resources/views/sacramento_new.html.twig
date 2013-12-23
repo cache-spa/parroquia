@@ -90,6 +90,14 @@
             // instead be a number based on how many items we have
             var newForm = prototype.replace(/__name__/g, index);
 
+            //Caso especial: matrimonios
+            if ($collectionHolder.hasClass('matrimonio'))
+            {
+                var personas = val.substr(val.lastIndexOf(".")+1);
+                var re = new RegExp('__'+personas+'name__',"g"); //para padrino, catequistas, testigos y celebrantes
+                newForm = prototype.replace(re, index);
+            }
+
             // increase the index with one for the next item
             $collectionHolder.data('index', index + 1);
 

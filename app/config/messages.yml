@@ -6,4 +6,6 @@ parameters:
     mail_error : "El e-mail no se ha podido enviar. Por favor revisa los detalles más abajo."
     certificado_success : "¡El certificado se ha generado exitosamente!"
     certificado_error : "El certificado no se ha podido generar. Por favor revisa los detalles más abajo."
-    user_persona_error: "No hay persona asociada a su cuenta de usuario."
+    user_persona_error: "No hay persona asociada a su cuenta de usuario. El correo no será enviado."
+    mail_error_mail: "Persona no tiene e-mail registrado en el sistema"
+    mail_error_envio: "Error en el envío (puede deberse a e-mail no válido)"

@@ -24,12 +24,12 @@
                 <td>{{ entity.email }}</td>
             </tr>
             <tr>
-                <th>Habilitado</th>
-                <td>{{ entity.enabled == 1 ? "SI":"NO" }}</td>
-            </tr>
-            <tr>
                 <th>Último acceso</th>
                 <td>{{ entity.lastLogin|date('d-m-Y H:i:s') }}</td>
+            </tr>            
+            <tr>
+                <th>Habilitado</th>
+                <td>{{ entity.enabled == 1 ? "SI":"NO" }}</td>
             </tr>
             <tr>
                 <th>Bloqueado</th>
