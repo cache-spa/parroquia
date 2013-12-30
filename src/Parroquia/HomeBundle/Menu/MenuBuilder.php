@@ -40,9 +40,9 @@ class MenuBuilder
         $menu['Certificados']->addChild('Generar Certificado',array('route' => 'certificado_new'));
         $menu['Certificados']->addChild('Historial de Certificados',array('route' => 'certificado'));
 
-        $menu['Calendario']->addChild('Vista de Calendario', array('route' => 'parroquia_agenda_homepage'));
+        $menu['Calendario']->addChild('Lista de Eventos', array('route' => 'evento'));        
+        $menu['Calendario']->addChild('Ver Calendario', array('route' => 'parroquia_agenda_homepage'));
         $menu['Calendario']->addChild('Agregar Evento', array('route' => 'evento_new'));
-        $menu['Calendario']->addChild('Listar Eventos', array('route' => 'evento'));        
         
         $menu['Certificados']->addChild('Bautizos',array('route' => 'bautizo'));
         $menu['Certificados']->addChild('Confirmaciones',array('route' => 'confirmacion'));
@@ -54,6 +54,10 @@ class MenuBuilder
         
         $menu->setChildrenAttribute('id', 'main-menu');
         
+        //Usado sólo en el home del sitio
+        $menu->addChild('Certificados_less', array('route' => 'parroquia_certificado_homepage','display'=> false));
+        $menu['Certificados_less']->addChild('Generar Certificado',array('route' => 'certificado_new'));
+        $menu['Certificados_less']->addChild('Historial de Certificados',array('route' => 'certificado'));
         
         switch($request->get('_route')){
             /*** Comunidad ***/

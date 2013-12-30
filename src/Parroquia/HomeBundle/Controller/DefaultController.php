@@ -49,4 +49,65 @@ class DefaultController extends Controller
         ));
 
     }
+    
+    public function notificacionesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $repository = $em->getRepository('ParroquiaComunidadBundle:Persona');
+        
+        $qb = $repository->createQueryBuilder('p')
+                ->orderBy('p.id','DESC')
+                ->setMaxResults(3);
+        
+        $personas = $qb->getQuery()->getResult();
+        
+        
+        
+        $repository = $em->getRepository('ParroquiaComunidadBundle:Grupo');
+        
+        $qb = $repository->createQueryBuilder('g')
+                ->orderBy('g.id','DESC')
+                ->setMaxResults(3);
+        
+        $grupos = $qb->getQuery()->getResult();        
+        
+        
+        $repository = $em->getRepository('ParroquiaCertificadoBundle:Certificado');
+        
+        $qb = $repository->createQueryBuilder('c')
+                ->orderBy('c.id','DESC')
+                ->setMaxResults(3);
+        
+        $certificados = $qb->getQuery()->getResult();
+        
+        
+        $repository = $em->getRepository('ParroquiaCorreoBundle:Mensaje');
+        
+        $qb = $repository->createQueryBuilder('m')
+                ->orderBy('m.fecha_envio','DESC')
+                ->setMaxResults(3);
+        
+        $mensajes = $qb->getQuery()->getResult();
+        
+
+        $repository = $em->getRepository('ParroquiaAgendaBundle:Evento');
+        
+        $qb = $repository->createQueryBuilder('e')
+                ->orderBy('e.id','DESC')
+                ->setMaxResults(3);
+        
+        $eventos = $qb->getQuery()->getResult();
+        
+        
+        return $this->render('ParroquiaHomeBundle:Default:notificaciones.html.twig', array(
+            'personas' => $personas,
+            'grupos' => $grupos,
+            'certificados' => $certificados,
+            'mensajes' => $mensajes,
+            'eventos' => $eventos
+        ));       
+        
+        
+    }
 }

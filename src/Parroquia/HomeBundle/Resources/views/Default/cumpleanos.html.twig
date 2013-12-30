@@ -1,8 +1,9 @@
-<ul>
+<ul class="birthdays">
     {% if entities|length > 0%}
         <li>
+            <div class="title">Hoy</div>
         {% for entity in entities %}
-            <div class="birthday today">
+            <div class="today">
                 <a href="{{ path('persona_show', { 'id' : entity.id }) }}">{{ entity.fechanacimiento|date('d/m') }}: {{ entity }} ({{ entity.edad }})</a>
             </div>
         {% endfor %}    
@@ -10,11 +11,12 @@
     {% endif %}
     {% if entities2|length > 0 %}
         <li>
-        {% for entity in entities2 %}
-            <div class="birthday upcoming">
-                <a href="{{ path('persona_show', { 'id' : entity.0.id }) }}">{{ entity.0.fechanacimiento|date('d/m') }}: {{ entity.0 }} ({{ entity.0.edad + 1 }})</a>
-            </div>
-        {% endfor %}
+            <div class="title">En los próximos días</div>
+            {% for entity in entities2 %}
+                <div class="upcoming">
+                    <a href="{{ path('persona_show', { 'id' : entity.0.id }) }}">{{ entity.0.fechanacimiento|date('d/m') }}: {{ entity.0 }} ({{ entity.0.edad + 1 }})</a>
+                </div>
+            {% endfor %}
         </li>
     {% endif %}
 </ul>

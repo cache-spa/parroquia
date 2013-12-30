@@ -113,3 +113,9 @@ fos_user:
     from_email:
         address:        cache@cache.cl
         sender_name:    Parroquia - Sistema   
+        
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

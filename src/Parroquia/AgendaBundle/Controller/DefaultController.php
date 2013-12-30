@@ -41,7 +41,15 @@ class DefaultController extends Controller
             $evento['start'] = $entity->getInicio()->format('Y-m-d H:i:s');
             $evento['end'] = $entity->getTermino()->format('Y-m-d H:i:s');
             $evento['allDay'] = $entity->getTodoElDia();
-            $evento['url'] = $this->generateUrl('evento_edit', array('id' => $entity->getId()));
+            if($request->get('show'))
+            {
+                $evento['url'] = $this->generateUrl('evento_show', array('id' => $entity->getId())); 
+            }
+            else
+            {
+                $evento['url'] = $this->generateUrl('evento_edit', array('id' => $entity->getId()));  
+            }
+            
             if($entity->getLiturgico())
             {
                 $evento['color'] = '#13B0C8';

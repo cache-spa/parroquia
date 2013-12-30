@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="persona")
  * @ORM\HasLifecycleCallbacks
  */
 class Persona

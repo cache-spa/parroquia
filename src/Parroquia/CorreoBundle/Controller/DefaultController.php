@@ -9,5 +9,5 @@ class DefaultController extends Controller
     public function indexAction()
     {
         return $this->render('ParroquiaCorreoBundle:Default:index.html.twig');
-    }
+    }   
 }

@@ -69,6 +69,7 @@ class CertificadoController extends Controller
             {
                 $html = $this->renderView('ParroquiaCertificadoBundle:Bautizo:certificado.html.twig', array(
                     'entity'      => $persona->getBautizo(),
+                    'fecha_emision' => $entity->getFechaEmision()
                     ));
             }
             elseif($tipo == 'Confirmación')
@@ -103,7 +104,7 @@ class CertificadoController extends Controller
             
             if(isset($html))
             {
-                $this->get('knp_snappy.pdf')->generateFromHtml($html,$entity->getAbsolutePath());
+                $this->get('knp_snappy.pdf')->generateFromHtml($html,$entity->getAbsolutePath(),array('page-size' => 'letter'));
 
                 $em->persist($entity);
                 $em->flush();

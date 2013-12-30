@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="matrimonio")
  * @UniqueEntity(fields={"conyuge1","conyuge2"})
  */
 class Matrimonio extends Sacramento

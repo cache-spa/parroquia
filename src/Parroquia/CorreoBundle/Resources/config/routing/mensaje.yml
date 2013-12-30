@@ -23,4 +23,4 @@ mensaje_delete:
 mensaje_filter:
     pattern:  /filter
     defaults: { _controller: "ParroquiaCorreoBundle:Mensaje:filter" }
-    requirements: { _method: post }      
+    requirements: { _method: post }

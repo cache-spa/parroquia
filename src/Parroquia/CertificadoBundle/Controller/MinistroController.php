@@ -257,7 +257,7 @@ class MinistroController extends Controller
         $html = $this->renderView('ParroquiaCertificadoBundle:Ministro:certificado.html.twig');
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('page-size' => 'letter')),
             200,
             array(
                 'Content-Type'          => 'application/pdf',

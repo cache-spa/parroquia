@@ -1,0 +1,52 @@
+body{
+    font-family:Helvetica, Arial, sans-serif;
+    font-size:18px; 
+    margin: 100px 100px;
+}
+
+.left, .right{
+    text-align: center;
+}
+
+.right{
+    float: right;
+}
+
+.left{
+    float: left;
+}
+
+#header, #footer, #cont{
+    clear: both;
+    display: block;
+}
+
+.title-wrapper{
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+p{
+    margin-bottom: 50px;
+}
+
+#cont, #footer{
+    padding: 50px 0px;
+}
+
+#footer .left, #footer .right{
+    width: 300px;
+    border-top: 1px black solid;
+    padding-top: 20px
+}
+
+.underline{
+    width: 600px;
+    border-bottom: 1px black solid;
+    display: inline-block;
+}
+
+.doyfe{
+    display: inline-block;
+    margin-right: 10px;
+}

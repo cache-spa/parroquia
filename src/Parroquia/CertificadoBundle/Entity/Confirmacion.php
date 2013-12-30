@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="confirmacion")
  * @UniqueEntity("persona")
  */
 class Confirmacion extends Sacramento

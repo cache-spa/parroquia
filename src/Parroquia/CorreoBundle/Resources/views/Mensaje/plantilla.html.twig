@@ -1,3 +1,26 @@
-<h1>Hola, soy h1 en el mail</h1>
-
-{{ cuerpo|raw }}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Parroquia Santa Teresa de Los Andes</title>
+    </head>
+    <!-- No utiliza archivo css por recomendación en envío de mails en html -->
+    <body style="margin:0px; font-family: Helvetica, Arial, sans-serif; font-size: 14px;">
+        <table width="552" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td><img src="{{ app.request.getSchemeAndHttpHost() ~ asset('header-mail.jpg') }}" alt="Encabezado correo Parroquia" width="552px" height="83px" style="display:block;" /></td>
+            </tr>
+            <tr>
+                <td style="color:white; background-color:#0b2546; height:30px; padding-left: 20px">Parroquia Santa Teresa de Los Andes Informa:</td>
+            </tr>
+            <tr>
+                <td style="padding-left: 20px; padding-right: 20px; padding-top: 30px; padding-bottom: 30px; background-image: url('{{ app.request.getSchemeAndHttpHost() ~ asset('icono-parroquia.jpg') }}'); background-repeat: no-repeat; background-position: center;">
+                {{ cuerpo|raw }}
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 10px; background-color:#0b2546;"></td>
+            </tr>
+        </table>
+    </body>
+</html>

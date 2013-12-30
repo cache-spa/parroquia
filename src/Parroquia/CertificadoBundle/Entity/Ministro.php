@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="ministro")
  * @UniqueEntity(fields={"persona","fecha_vigencia_termino"})
  * @Assert\Callback(methods={
  *     { "Parroquia\CertificadoBundle\Validator\MinistroValidator", "isMinistroValid"}

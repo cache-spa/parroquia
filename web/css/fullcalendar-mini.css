@@ -1,0 +1,55 @@
+/* 
+    Document   : fullcalendar-mini
+    Created on : 30-12-2013, 11:47:04 AM
+    Author     : Nono
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#calendar {
+    width: 180px;
+    margin: 0 auto;
+    font-size: 10px;
+    padding-top: 5px;
+}
+.fc-header-title h2 {
+    font-size: .9em;
+    white-space: normal !important;
+    top: 0px !important;
+    margin-top: 0px !important;
+}
+.fc-view-month .fc-event, .fc-view-agendaWeek .fc-event {
+    font-size: 0;
+    overflow: hidden;
+    height: 2px;
+}
+.fc-view-agendaWeek .fc-event-vert {
+    font-size: 0;
+    overflow: hidden;
+    width: 2px !important;
+}
+.fc-agenda-axis {
+    width: 20px !important;
+    font-size: .7em;
+}
+
+.fc-button{
+    padding: 0;
+}
+
+.fc-button-content {
+    padding: 0;
+}
+
+.fc-button-today{
+    margin-left:-8px;
+}
+
+.fc-grid .fc-day-content {
+    clear: both;
+    padding: 2px 2px 1px;
+}
+
+.shrink{
+    height: 0px;
+}

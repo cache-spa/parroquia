@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="evento")
  */
 class Evento
 {

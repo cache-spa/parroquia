@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="mensaje_grupo_idx", columns={"mensaje_id", "grupo_id"})})
+ * @ORM\Table(name="mensajegrupo",uniqueConstraints={@ORM\UniqueConstraint(name="mensaje_grupo_idx", columns={"mensaje_id", "grupo_id"})})
  * @UniqueEntity(fields={"mensaje","grupo"})
  */
 class MensajeGrupo

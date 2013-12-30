@@ -137,7 +137,7 @@ a img{
 
 
 #cont-wrapper{
-	padding:12px 10px;
+	padding:12px 10px 55px 10px;
         background-color: white;
         min-height: 68%;
 }
@@ -235,16 +235,15 @@ a img{
 .title-wrapper .toggle-collapse{
 	position:absolute;
 	left:-24px;
-	bottom:-4px;
-	border:2px solid #f9a133;
-	width:20px;
-	height:20px;
-	border-radius:10px;
-	background:#fff url('../images/arrows-collapse.png') no-repeat right center;
+	bottom:-7px;
+	border:0px;
+	width:23px;
+	height:23px;
+	background:#fff url('../images/arrow-down.png') no-repeat;
         cursor: pointer;
 }
 .title-wrapper .toggle-collapse.collapsed{
-	background:#fff url('../images/arrows-collapse.png') no-repeat left center;
+	background:#fff url('../images/arrow-right.png') no-repeat;
         cursor: pointer;
 }
 
@@ -266,6 +265,24 @@ a img{
 	margin-top:-9px;
 	top:9px;
 }
+
+#cont a {
+   color: #0B2546;
+   outline: none;
+   text-decoration: none;
+}
+
+#cont a:link, #cont a:visited,
+#cont a:active, #cont a:hover {
+    color: #0B2546;
+}
+
+#cont a:hover {
+    text-decoration: underline;
+}
+
+
+
 
 .breadcrumb {
   padding: 8px 15px;
@@ -515,13 +532,33 @@ ul.adjuntos .text-right{
     margin-top: 12px;
 }
 
-.birthday{
+.birthdays .title, .birthdays a, .notifications .title, .notifications a{
     font-size: 10px;
 }
 
-.birthday.today{
+.birthdays .today, .birthdays .title, .notifications .title{
     font-weight: bold;
 }
+
+
+.home-section {
+    border-bottom: 1px solid #CCC;
+    padding-top: 20px;
+}
+
+.home-section .options ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.home-section .options ul > li {
+  display: inline-block;
+}
+.home-section .options ul > li + li:before {
+  padding: 0 5px;
+  color: #cccccc;
+  content: "|\00a0";
+}
+
 
 
 #error-content{

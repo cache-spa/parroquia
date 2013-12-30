@@ -4,4 +4,4 @@ parroquia_correo_homepage:
 
 ParroquiaCorreoBundle_mensaje:
     resource: "@ParroquiaCorreoBundle/Resources/config/routing/mensaje.yml"
-    prefix:   /mensaje
+    prefix:   /mensaje    

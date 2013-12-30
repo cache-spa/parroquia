@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="certificado")
  * @ORM\HasLifecycleCallbacks
  * @Assert\Callback(methods={
  *     { "Parroquia\CertificadoBundle\Validator\CertificadoValidator", "isCertificadoValid"}

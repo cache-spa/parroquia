@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="grupo_persona_idx", columns={"grupo_id", "persona_id"})})
+ * @ORM\Table(name="grupopersona",uniqueConstraints={@ORM\UniqueConstraint(name="grupo_persona_idx", columns={"grupo_id", "persona_id"})})
  */
 class GrupoPersona
 {
