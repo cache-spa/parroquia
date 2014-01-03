@@ -56,7 +56,12 @@ class Evento
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $todo_el_dia;    
+    protected $todo_el_dia;
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $color;    
     
     /**
      * @ORM\OneToMany(targetEntity="Archivo", mappedBy="evento", cascade={"all"})
@@ -70,6 +75,7 @@ class Evento
 
     public function __construct()
     {
+        $this->color = "00bfbf";
         $this->creacion = new \DateTime();
         $this->archivos = new ArrayCollection();
         $this->imagenes = new ArrayCollection();        
@@ -358,5 +364,28 @@ class Evento
     public function getImagenes()
     {
         return $this->imagenes;
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     * @return Evento
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string 
+     */
+    public function getColor()
+    {
+        return $this->color;
     }
 }

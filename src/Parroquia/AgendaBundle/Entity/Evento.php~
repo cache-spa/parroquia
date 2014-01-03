@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\Table(name="evento")
  */
 class Evento
 {
@@ -23,7 +23,7 @@ class Evento
      */
     protected $nombre;
     
-     /**
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $inicio;
@@ -52,6 +52,16 @@ class Evento
      * @ORM\Column(type="boolean")
      */
     protected $liturgico;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $todo_el_dia;
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $color;    
     
     /**
      * @ORM\OneToMany(targetEntity="Archivo", mappedBy="evento", cascade={"all"})
@@ -124,7 +134,15 @@ class Evento
      */
     public function getInicio()
     {
-        return $this->inicio;
+        if($this->inicio)
+        {
+            return clone $this->inicio;
+        }
+        else
+        {
+            return $this->inicio;
+        }
+        
     }
 
     /**
@@ -147,7 +165,15 @@ class Evento
      */
     public function getTermino()
     {
-        return $this->termino;
+        if($this->termino)
+        {
+            return clone $this->termino;
+        }
+        else
+        {
+            return $this->termino;
+        }
+        
     }
 
     /**
@@ -220,6 +246,29 @@ class Evento
     }
 
     /**
+     * Set todo_el_dia
+     *
+     * @param boolean $todo_el_dia
+     * @return Evento
+     */
+    public function setTodoElDia($todo_el_dia)
+    {
+        $this->todo_el_dia = $todo_el_dia;
+    
+        return $this;
+    }
+
+    /**
+     * Get todo_el_dia
+     *
+     * @return boolean 
+     */
+    public function getTodoElDia()
+    {
+        return $this->todo_el_dia;
+    }
+    
+    /**
      * Set liturgico
      *
      * @param boolean $liturgico
@@ -240,7 +289,7 @@ class Evento
     public function getLiturgico()
     {
         return $this->liturgico;
-    }
+    }    
 
     /**
      * Add archivos
@@ -277,5 +326,42 @@ class Evento
     public function getArchivos()
     {
         return $this->archivos;
+    }
+
+    /**
+     * Add imagenes
+     *
+     * @param \Parroquia\AgendaBundle\Entity\Imagen $imagenes
+     * @return Evento
+     */
+    public function addImagene($imagenes)
+    {
+        if($imagenes instanceof \Parroquia\AgendaBundle\Entity\Imagen)
+        {
+            $imagenes->setEvento($this);
+            $this->imagenes[] = $imagenes;    
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Remove imagenes
+     *
+     * @param \Parroquia\AgendaBundle\Entity\Imagen $imagenes
+     */
+    public function removeImagene(\Parroquia\AgendaBundle\Entity\Imagen $imagenes)
+    {
+        $this->imagenes->removeElement($imagenes);
+    }
+
+    /**
+     * Get imagenes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImagenes()
+    {
+        return $this->imagenes;
     }
 }

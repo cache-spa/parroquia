@@ -41,6 +41,7 @@ class EventoType extends AbstractType
                     'label' => '¿Es litúrgico?',
                     'required'=>false
                 ))
+            ->add('color')
             ->add('archivos','collection',array(
                         'label' => ' ',                
                         'type' => new ArchivoType(),

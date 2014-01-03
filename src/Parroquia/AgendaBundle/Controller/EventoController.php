@@ -352,7 +352,7 @@ class EventoController extends Controller
         $em->persist($evento);
         $em->flush();         
 
-        $response = new JsonResponse(array('id' => $evento->getId(),'url' => $this->generateUrl('evento_edit', array('id' => $evento->getId()))),200); //Ok
+        $response = new JsonResponse(array('id' => $evento->getId(),'color' => '#'.$evento->getColor(),'url' => $this->generateUrl('evento_edit', array('id' => $evento->getId()))),200); //Ok
         return $response;
    }
 }

@@ -50,9 +50,9 @@ class DefaultController extends Controller
                 $evento['url'] = $this->generateUrl('evento_edit', array('id' => $entity->getId()));  
             }
             
-            if($entity->getLiturgico())
+            if($entity->getColor() != "")
             {
-                $evento['color'] = '#13B0C8';
+                $evento['color'] = '#'.$entity->getColor();
             }
             
             $eventos[] = $evento;

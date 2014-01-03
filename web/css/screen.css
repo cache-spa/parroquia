@@ -83,6 +83,10 @@ a img{
     font-size: 20px;
 }
 
+.fos-user-layout #cont-wrapper{
+    padding-bottom: 12px;
+}
+
 
 #main-menu,
 #user-menu{
@@ -504,6 +508,13 @@ ul.adjuntos .text-right{
 }
 
 
+
+.evento-color
+{
+    height: 13px;
+    width: 13px;
+    display: inline-block;
+}
 
 
 .list-unstyled{

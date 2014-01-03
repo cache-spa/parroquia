@@ -25,7 +25,7 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('evento_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.nombre }}</td>
+                <td><div class="evento-color" style="background-color:{{ '#' ~ entity.color }}"></div> {{ entity.nombre }}</td>
                 <td>{% if entity.inicio %}{{ entity.inicio|date('d-m-y H:i') }}{% endif %}</td>
                 <td>{% if entity.termino %}{{ entity.termino|date('d-m-Y H:i') }}{% endif %}</td>
                 <td>{{ entity.lugar }}</td>

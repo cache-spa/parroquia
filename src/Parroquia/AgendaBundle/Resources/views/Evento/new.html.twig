@@ -19,6 +19,7 @@
     {{ form_row(form.lugar) }}
     {{ form_row(form.descripcion) }}
     {{ form_row(form.liturgico) }}
+    {{ form_row(form.color) }}
 
     <div class="collection">
         <label>Archivos</label>
@@ -80,6 +81,8 @@
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/ui-lightness/jquery-ui.parroquia.css') }}">
 <link rel="stylesheet" href="{{ asset('css/jquery-ui-timepicker-addon.css') }}">
+<link rel="stylesheet" href="{{ asset('css/jPicker.css') }}">
+<link rel="stylesheet" href="{{ asset('css/jPicker-1.1.6.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -102,7 +105,43 @@
     };
     $.timepicker.setDefaults($.timepicker.regional['es']);
 
-    $(".datetime").datetimepicker({ 'changeYear' : true });
+    var startDateTextBox = $('#parroquia_agendabundle_evento_inicio');
+    var endDateTextBox = $('#parroquia_agendabundle_evento_termino');
+
+    startDateTextBox.datetimepicker({
+            'changeYear' : true,
+            onClose: function(dateText, inst) {
+                    if (endDateTextBox.val() !== '') {
+                            var testStartDate = startDateTextBox.datetimepicker('getDate');
+                            var testEndDate = endDateTextBox.datetimepicker('getDate');
+                            if (testStartDate > testEndDate)
+                                    endDateTextBox.datetimepicker('setDate', testStartDate);
+                    }
+                    else {
+                            endDateTextBox.val(dateText);
+                    }
+            },
+            onSelect: function (selectedDateTime){
+                    endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );
+            }
+    });
+    endDateTextBox.datetimepicker({ 
+            'changeYear':true,        
+            onClose: function(dateText, inst) {
+                    if (startDateTextBox.val() !== '') {
+                            var testStartDate = startDateTextBox.datetimepicker('getDate');
+                            var testEndDate = endDateTextBox.datetimepicker('getDate');
+                            if (testStartDate > testEndDate)
+                                    startDateTextBox.datetimepicker('setDate', testEndDate);
+                    }
+                    else {
+                            startDateTextBox.val(dateText);
+                    }
+            },
+            onSelect: function (selectedDateTime){
+                    startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate') );
+            }
+    });     
 </script>
 
 <script>
@@ -178,5 +217,41 @@
                 $itemFormLi.remove();
             });
         }        
+</script>
+
+<script src="{{ asset('js/jpicker-1.1.6.js') }}"></script>
+<script type="text/javascript">        
+    $(document).ready(
+            function()
+            {
+                $('#parroquia_agendabundle_evento_color').jPicker(
+                    {
+                        window:
+                        {                                
+                                position:
+                                {
+                                        x: '30px', // acceptable values "left", "center", "right", "screenCenter", or relative px value
+                                        y: 'center', // acceptable values "top", "bottom", "center", or relative px value
+                                }
+                        },
+                        images:
+                        {
+                                clientPath: "{{ asset('images/jPicker/') }}" // Path to image files
+                        },
+                        localization: 
+                        {
+                                text:
+                                {
+                                        title: 'Seleccione un color',
+                                        newColor: 'nuevo',
+                                        currentColor: 'actual',
+                                        ok: 'OK',
+                                        cancel: 'Cancelar'
+                                }
+                        }
+                    }
+                );
+            }
+    );
 </script>
 {% endblock %}

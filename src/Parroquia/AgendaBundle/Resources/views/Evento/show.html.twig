@@ -44,6 +44,10 @@
                 <td>{{ entity.liturgico is empty ? 'No' : 'Sí' }}</td>
             </tr>
             <tr>
+                <th>Color</th>
+                <td><div class="evento-color" style="background-color:{{ '#' ~ entity.color }}"></div> {{ entity.color }}</td>
+            </tr>
+            <tr>
                 <th>Archivos ({{ entity.archivos|length }})</th>
                 <td>
                     {% if entity.archivos|length > 0 %}
