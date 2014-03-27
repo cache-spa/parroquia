@@ -1,0 +1,8 @@
+Para que funcione generación de PDF's:
+-Asegurarse que transferencia de archivos de /vendor/h4cc sean transferidos en binario (aquellos que están en carpetas /bin ) y no ASCII (que es el por defecto de Filezilla).
+-Dichos archivos en carpetas /bin deben tener permisos 744
+-El css asociado se encuentra en /web/css/certificado.css
+-Limpiar caché en caso de haber hecho estas modificaciones y generar nuevos documentos.
+En consola ssh se debe acceder carpeta a /public_html/intranet . Una vez en este directorio, se ejecuta:
+/opt/php53/bin/php app/console cache:clear --env=prod/opt/php53/bin/php app/console cache:clear --env=dev
+/opt/php53/bin/php app/console cache:clear --env=prod/opt/php53/bin/php app/console cache:clear --env=prod
