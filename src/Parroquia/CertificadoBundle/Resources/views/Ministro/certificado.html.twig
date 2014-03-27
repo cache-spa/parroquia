@@ -1,1 +1,38 @@
-<b>Certificado</b>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link href="{{ app.request.getSchemeAndHttpHost() ~ asset('css/certificado.css') }}" type="text/css" rel="stylesheet" />   
+    </head>
+    <body>
+        <div id="header">
+            <div class="left">DIÓCESIS DE SANTIAGO<br/>CHILE</div>
+            <div class="right">PARROQUIA SANTA TERESITA DE<br/>LOS ANDES</div>
+        </div>
+        
+        <div id="cont">
+            <div class="title-wrapper">
+                <h3>CERTIFICADO MINISTRO DE COMUNIÓN</h3>
+                {% if not entity.vigencia %}
+                <h3>NO VIGENTE</h3>
+                {% endif %}
+            </div>
+
+            <p>Certifico que {{ entity.persona.sexo == 'M' ? 'don' : 'doña' }} {{ entity.persona|upper }} ha realizado el curso 
+                de Ministro de Comunión entre los días {{ entity.fechacursoinicio|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }} y
+                {{ entity.fechacursotermino|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}, permitiendo ejercer el rol de
+                <b>Ministro de Comunión entre los días {{ entity.fechavigenciainicio|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }} y
+                {{ entity.fechavigenciatermino|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}</b>, ambas fechas inclusive.
+            </p>
+
+            <p class="doyfe">Doy Fe</p><div class="underline"></div>
+
+            <p>En constancia firmo y sello en Lo Barnechea el {{ fecha_emision|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}.</p>
+        </div>
+            
+        <div id="footer">
+            <div class="left">SELLO PARROQUIAL</div>
+            <div class="right">PÁRROCO</div>         
+        </div>
+    </body>
+</html>

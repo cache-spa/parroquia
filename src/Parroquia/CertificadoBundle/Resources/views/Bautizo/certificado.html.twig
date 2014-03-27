@@ -15,7 +15,7 @@
 
             <p>Certifico que en el Libro de Bautismo Nº {{ entity.libro }} página {{ entity.hoja }} se encuentra la siguiente partida:</p>
 
-            <p>En la Parroquia Santa Teresita de los Andes, a {{ entity.fecha|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }} se bautizó a {{ entity.persona|upper }}, R.U.T. N° {{ entity.persona.rut }}.</p>
+            <p>En la Parroquia Santa Teresita de los Andes, a {{ entity.fecha|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}, se bautizó a {{ entity.persona|upper }}, R.U.T. N° {{ entity.persona.rut }}.</p>
             
             <p>
             {% if entity.persona.sexo == 'M' %}

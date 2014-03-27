@@ -1,1 +1,37 @@
-<b>Certificado</b>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link href="{{ app.request.getSchemeAndHttpHost() ~ asset('css/certificado.css') }}" type="text/css" rel="stylesheet" />   
+    </head>
+    <body>
+        <div id="header">
+            <div class="left">DIÓCESIS DE SANTIAGO<br/>CHILE</div>
+            <div class="right">PARROQUIA SANTA TERESITA DE<br/>LOS ANDES</div>
+        </div>
+        
+        <div id="cont">
+            <div class="title-wrapper"><h3>CERTIFICADO PARTIDA DE CONFIRMACIÓN</h3></div>
+
+            <p>Certifico que en el Libro de Confirmación Nº {{ entity.libro }} página {{ entity.hoja }} se encuentra la siguiente partida:</p>
+
+            <p>En la Parroquia Santa Teresita de los Andes, a {{ entity.fecha|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}, se confirmó a {{ entity.persona|upper }}, R.U.T. N° {{ entity.persona.rut }}.</p>
+            
+            <p>                
+            Siendo padrinos 
+            {% for tupla in entity.confirmacionespadrinos %}
+                {{ tupla.padrino|upper }}{% if loop.index != entity.confirmacionespadrinos|length %}, {% endif %}
+            {% endfor %}.
+            </p>
+
+            <p class="doyfe">Doy Fe</p><div class="underline"></div>
+
+            <p>En constancia firmo y sello en Lo Barnechea el {{ fecha_emision|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}.</p>
+        </div>
+            
+        <div id="footer">
+            <div class="left">SELLO PARROQUIAL</div>
+            <div class="right">PÁRROCO</div>         
+        </div>
+    </body>
+</html>

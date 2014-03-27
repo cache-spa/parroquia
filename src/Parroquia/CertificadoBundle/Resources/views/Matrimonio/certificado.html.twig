@@ -1,1 +1,45 @@
-<b>Certificado</b>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link href="{{ app.request.getSchemeAndHttpHost() ~ asset('css/certificado.css') }}" type="text/css" rel="stylesheet" />   
+    </head>
+    <body>
+        <div id="header">
+            <div class="left">DIÓCESIS DE SANTIAGO<br/>CHILE</div>
+            <div class="right">PARROQUIA SANTA TERESITA DE<br/>LOS ANDES</div>
+        </div>
+        
+        <div id="cont">
+            <div class="title-wrapper"><h3>CERTIFICADO PARTIDA DE MATRIMONIO</h3></div>
+
+            <p>Certifico que en el Libro de Matrimonio Nº {{ entity.libro }} página {{ entity.hoja }} se encuentra la siguiente partida:</p>
+
+            <p>En la Parroquia Santa Teresita de los Andes, a {{ entity.fecha|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}, contrajeron matrimonio                 
+            {% if entity.conyuge1.sexo == 'M' %}
+                don {{ entity.conyuge1|upper }}, R.U.T. N° {{ entity.conyuge1.rut }}, y doña {{ entity.conyuge2|upper }}, R.U.T. Nº {{ entity.conyuge2.rut }}.
+            {% else %}
+                don {{ entity.conyuge2|upper }}, R.U.T. N° {{ entity.conyuge2.rut }}, y doña {{ entity.conyuge1|upper }}, R.U.T. Nº {{ entity.conyuge1.rut }}.
+            {% endif %}
+            </p>
+            
+            <p>                
+            Siendo testigos 
+            {% for tupla in entity.matrimoniostestigos %}
+                {{ tupla.testigo|upper }}{% if loop.index != entity.matrimoniostestigos|length %}, {% endif %}
+            {% endfor %}.
+            </p>
+            
+            <p>El matrimonio civil fue el día {{ entity.fechacivil|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }} con inscripción Nº {{ entity.inscripcioncivil }}.</p>
+
+            <p class="doyfe">Doy Fe</p><div class="underline"></div>
+
+            <p>En constancia firmo y sello en Lo Barnechea el {{ fecha_emision|localizeddate('none', 'none',null,null,"d 'de' MMMM 'del año' Y") }}.</p>
+        </div>
+            
+        <div id="footer">
+            <div class="left">SELLO PARROQUIAL</div>
+            <div class="right">PÁRROCO</div>         
+        </div>
+    </body>
+</html>

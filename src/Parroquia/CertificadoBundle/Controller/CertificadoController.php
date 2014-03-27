@@ -76,6 +76,7 @@ class CertificadoController extends Controller
             {
                 $html = $this->renderView('ParroquiaCertificadoBundle:Confirmacion:certificado.html.twig', array(
                         'entity'      => $persona->getConfirmacion(),
+                        'fecha_emision' => $entity->getFechaEmision()
                     ));
             }
             elseif($tipo == 'Matrimonio')
@@ -88,6 +89,7 @@ class CertificadoController extends Controller
                         {
                             $html = $this->renderView('ParroquiaCertificadoBundle:Matrimonio:certificado.html.twig', array(
                                 'entity'      => $matrimonio,
+                                'fecha_emision' => $entity->getFechaEmision()                                
                             ));
                         }
                     }
@@ -98,6 +100,7 @@ class CertificadoController extends Controller
                     
                     $html = $this->renderView('ParroquiaCertificadoBundle:Matrimonio:certificado.html.twig', array(
                         'entity'      => $matrimonio,
+                        'fecha_emision' => $entity->getFechaEmision()
                     ));                    
                 }
             }

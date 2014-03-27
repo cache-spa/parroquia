@@ -254,7 +254,10 @@ class MinistroController extends Controller
             throw $this->createNotFoundException('Unable to find Ministro entity.');
         }
 
-        $html = $this->renderView('ParroquiaCertificadoBundle:Ministro:certificado.html.twig');
+        $fecha_emision = new \DateTime();
+        
+        $html = $this->renderView('ParroquiaCertificadoBundle:Ministro:certificado.html.twig', 
+                        array('entity' => $entity, 'fecha_emision' => $fecha_emision));
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('page-size' => 'letter')),
