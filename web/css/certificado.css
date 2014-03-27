@@ -1,7 +1,7 @@
 body{
     font-family:Helvetica, Arial, sans-serif;
-    font-size:18px; 
-    margin: 100px 100px;
+    font-size:14px; 
+    margin: 50px 50px;
 }
 
 .left, .right{
@@ -35,13 +35,13 @@ p{
 }
 
 #footer .left, #footer .right{
-    width: 300px;
+    width: 200px;
     border-top: 1px black solid;
     padding-top: 20px
 }
 
 .underline{
-    width: 600px;
+    width: 500px;
     border-bottom: 1px black solid;
     display: inline-block;
 }
