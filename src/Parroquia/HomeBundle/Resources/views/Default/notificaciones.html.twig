@@ -1,0 +1,52 @@
+<ul class="notifications">
+    {% if personas|length > 0%}
+        <li>
+            <div class="title">Últimas Personas agregadas</div>
+            {% for persona in personas %}
+                <div class="person">
+                    <a href="{{ path('persona_show', { 'id' : persona.id }) }}">{{ persona }}</a>
+                </div>
+            {% endfor %}    
+        </li>
+    {% endif %}
+    {% if grupos|length > 0%}
+        <li>
+            <div class="title">Últimos Grupos creados</div>
+            {% for grupo in grupos %}
+                <div class="group">
+                    <a href="{{ path('grupo_show', { 'id' : grupo.id }) }}">{{ grupo }}</a>
+                </div>
+            {% endfor %}    
+        </li>
+    {% endif %}
+    {% if certificados|length > 0%}
+        <li>
+            <div class="title">Últimos Certificados generados</div>
+            {% for certificado in certificados %}
+                <div class="certificate">
+                    <a href="{{ path('certificado_show', { 'id' : certificado.id }) }}">{{ certificado.tipo }} ({{ certificado.persona }})</a>
+                </div>
+            {% endfor %}    
+        </li>
+    {% endif %}
+    {% if mensajes|length > 0%}
+        <li>
+            <div class="title">Últimos Correos enviados</div>
+            {% for mensaje in mensajes %}
+                <div class="message">
+                    <a href="{{ path('mensaje_show', { 'id' : mensaje.id }) }}">{{ mensaje.asunto }}</a>
+                </div>
+            {% endfor %}    
+        </li>
+    {% endif %}
+    {% if eventos|length > 0%}
+        <li>
+            <div class="title">Últimos Eventos agregados</div>
+            {% for evento in eventos %}
+                <div class="evento">
+                    <a href="{{ path('evento_show', { 'id' : evento.id }) }}">{{ evento.nombre }}</a>
+                </div>
+            {% endfor %}    
+        </li>
+    {% endif %}        
+</ul>
