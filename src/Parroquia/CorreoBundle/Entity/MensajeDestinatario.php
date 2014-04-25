@@ -32,7 +32,7 @@ class MensajeDestinatario
     protected $destinatario;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Grupo")
+     * @ORM\ManyToOne(targetEntity="Parroquia\ComunidadBundle\Entity\Grupo", inversedBy="mensajes_destinatarios")
      * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id", nullable=true) 
      * */
     protected $grupo;

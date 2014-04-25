@@ -200,11 +200,11 @@ class MensajeController extends Controller
         
         $emisor_email = $this->container->getParameter('mailer_from_address');
         $emisor_nombre = $this->container->getParameter('mailer_from_sender');
-        if($entity->getEmisor() && $entity->getEmisor()->getEmail())
+        /*if($entity->getEmisor() && $entity->getEmisor()->getEmail())
         {
             $emisor_email = $entity->getEmisor()->getEmail();
             $emisor_nombre = $entity->getEmisor()->__toString();
-        }
+        }*/
         
         $cuerpo_email = $this->renderView('ParroquiaCorreoBundle:Mensaje:plantilla.html.twig', array('cuerpo' => $entity->getCuerpo()));
         

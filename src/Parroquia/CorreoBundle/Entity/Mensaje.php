@@ -324,7 +324,7 @@ class Mensaje
                 $this->addMensajesGrupo($mensaje_grupo);
                 
                 //Agregamos las personas del grupo como destinatarios individuales
-                $this->setDestinatarios($grupo->getPersonas(), $grupo);
+                $this->setDestinatarios($grupo->getPersonas(true), $grupo);
             }
         }
     }    

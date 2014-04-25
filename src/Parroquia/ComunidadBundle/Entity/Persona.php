@@ -108,22 +108,22 @@ class Persona
     protected $grupos_personas;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="persona")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="persona", cascade={"all"})
      **/
     protected $certificados_asociados;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="emisor")
+     * @ORM\OneToMany(targetEntity="Parroquia\CertificadoBundle\Entity\Certificado", mappedBy="emisor", cascade={"all"})
      **/
     protected $certificados_emitidos;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\Mensaje", mappedBy="emisor")
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\Mensaje", mappedBy="emisor", cascade={"all"})
      **/
     protected $mensajes_emitidos;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeDestinatario", mappedBy="destinatario")
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeDestinatario", mappedBy="destinatario", cascade={"all"})
      **/
     protected $mensajes_recibidos;    
     

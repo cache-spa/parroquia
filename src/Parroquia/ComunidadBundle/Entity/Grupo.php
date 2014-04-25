@@ -40,14 +40,20 @@ class Grupo
     protected $padre;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeGrupo", mappedBy="grupo")
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeGrupo", mappedBy="grupo", cascade={"all"})
      **/
     protected $mensajes_recibidos;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parroquia\CorreoBundle\Entity\MensajeDestinatario", mappedBy="grupo", cascade={"all"})
+     **/
+    protected $mensajes_destinatarios;    
     
     public function __construct() {
         $this->grupos_personas = new ArrayCollection();
         $this->hijos = new ArrayCollection();
-        $this->mensajes_recibidos = new ArrayCollection();        
+        $this->mensajes_recibidos = new ArrayCollection(); 
+        $this->mensajes_destinatarios = new ArrayCollection();                
     }    
 
     /**
@@ -121,13 +127,26 @@ class Grupo
         return $this->nombre;
     }
 
-    public function getPersonas()
+    public function getPersonas($subgrupos = false)
     {
         $personas = new ArrayCollection();
         
         foreach($this->grupos_personas as $grupo_persona)
         {
             $personas[] = $grupo_persona->getPersona();
+        }
+        
+        if($subgrupos == true)
+        {
+            foreach($this->hijos as $subgrupo)
+            {
+                $personas_subgrupo = $subgrupo->getPersonas(true);
+                
+                foreach($personas_subgrupo as $persona)
+                {
+                    $personas[] = $persona;
+                }
+            }
         }
 
         return $personas;
