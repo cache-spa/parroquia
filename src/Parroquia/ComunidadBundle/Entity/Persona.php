@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Parroquia\ComunidadBundle\Entity\Repository\PersonaRepository")
  * @ORM\Table(name="persona")
  * @ORM\HasLifecycleCallbacks
  */
@@ -1267,7 +1267,7 @@ class Persona
     
     public function getNombreRut()
     {
-        return $this->nombres.' '.$this->apellido_p.' '.$this->apellido_m. ' (Rut: '.$this->rut.')';
+        return $this->apellido_p.' '.$this->apellido_m.', '.$this->nombres.' (Rut: '.$this->rut.')';
     }
     
     public function getEdad()

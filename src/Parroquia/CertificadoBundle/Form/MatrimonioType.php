@@ -5,6 +5,7 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class MatrimonioType extends AbstractType
 {
@@ -17,10 +18,24 @@ class MatrimonioType extends AbstractType
         $builder
             ->add('conyuge1',null,array(
                         'label' => 'Cónyuge 1',
+                        'class' => 'ParroquiaComunidadBundle:Persona',
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },                
                         'property' => 'nombreRut'
                     ))
             ->add('conyuge2',null,array(
                         'label' => 'Cónyuge 2',
+                        'class' => 'ParroquiaComunidadBundle:Persona',
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },                
                         'property' => 'nombreRut'
                     ))                
             ->add('libro')

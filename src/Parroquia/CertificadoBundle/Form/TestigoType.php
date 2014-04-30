@@ -5,13 +5,22 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class TestigoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('testigo',null,array('label' => ' ', 'property' => 'nombreRut'));
+                ->add('testigo',null,array('label' => ' ',
+                    'class' => 'ParroquiaComunidadBundle:Persona',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('p')
+                            ->orderBy('p.apellido_p', 'ASC')
+                            ->addOrderBy('p.apellido_m', 'ASC')                                    
+                            ->addOrderBy('p.nombres', 'ASC');
+                    },
+                    'property' => 'nombreRut'));
     }
     
     public function getName()

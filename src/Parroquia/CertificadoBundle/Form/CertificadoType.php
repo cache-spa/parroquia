@@ -5,6 +5,7 @@ namespace Parroquia\CertificadoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class CertificadoType extends AbstractType
 {
@@ -22,6 +23,13 @@ class CertificadoType extends AbstractType
                     ))
             ->add('persona',null,array(
                         'label' => 'Nombre de la Persona',
+                        'class' => 'ParroquiaComunidadBundle:Persona',
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },                
                         'property' => 'nombreRut'
                     ))
         ;

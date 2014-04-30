@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Parroquia\ComunidadBundle\Form\EventListener\AddPadreFieldSubscriber;
+use Doctrine\ORM\EntityRepository;
 
 class GrupoType extends AbstractType
 {
@@ -18,7 +19,13 @@ class GrupoType extends AbstractType
         $builder
             ->add('nombre')
             ->add('personas','entity',array(
-                      'class'    => 'ParroquiaComunidadBundle:Persona' ,
+                      'class'    => 'ParroquiaComunidadBundle:Persona',
+                      'query_builder' => function(EntityRepository $er) {
+                          return $er->createQueryBuilder('p')
+                              ->orderBy('p.apellido_p', 'ASC')
+                              ->orderBy('p.apellido_m', 'ASC')                                    
+                              ->orderBy('p.nombres', 'ASC');
+                      },
                       'expanded' => false ,
                       'multiple' => true ,
                       'required' => false,

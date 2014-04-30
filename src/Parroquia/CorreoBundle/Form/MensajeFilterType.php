@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Doctrine\ORM\EntityRepository;
 
 class MensajeFilterType extends AbstractType
 {
@@ -14,7 +15,13 @@ class MensajeFilterType extends AbstractType
         $builder
             ->add('emisor', 'filter_entity',array(                    
                         'label' => 'Emisor',
-                        'class' => 'ParroquiaComunidadBundle:Persona', //debería ser Usuario
+                        'class' => 'ParroquiaComunidadBundle:Persona', //Debería ser Usuario
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },
                         'property' => 'nombreRut'
                     ))
             ->add('fecha_envio', 'filter_date_range',array(

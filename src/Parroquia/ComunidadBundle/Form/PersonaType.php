@@ -40,7 +40,10 @@ class PersonaType extends AbstractType
                         'query_builder' => function(EntityRepository $er) {
                             return $er->createQueryBuilder('p')
                                         ->where('p.sexo = :s')
-                                        ->setParameter('s',"m");
+                                        ->setParameter('s',"m")
+                                        ->orderBy('p.apellido_p', 'ASC')
+                                        ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                        ->addOrderBy('p.nombres', 'ASC');
                             },
                         'property' => 'nombreRut'
                     ))
@@ -50,7 +53,10 @@ class PersonaType extends AbstractType
                         'query_builder' => function(EntityRepository $er) {
                             return $er->createQueryBuilder('p')
                                         ->where('p.sexo = :s')
-                                        ->setParameter('s',"f");
+                                        ->setParameter('s',"f")
+                                        ->orderBy('p.apellido_p', 'ASC')
+                                        ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                        ->addOrderBy('p.nombres', 'ASC');                                    
                             },
                         'property' => 'nombreRut'
                     ))

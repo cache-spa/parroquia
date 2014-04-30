@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Doctrine\ORM\EntityRepository;
 
 class CertificadoFilterType extends AbstractType
 {
@@ -26,6 +27,12 @@ class CertificadoFilterType extends AbstractType
             ->add('emisor', 'filter_entity',array(                    
                         'label' => 'Emitido por',
                         'class' => 'ParroquiaComunidadBundle:Persona',
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },                
                         'property' => 'nombreRut'
                     ))
             ;

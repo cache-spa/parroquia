@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Parroquia\UserBundle\Form\EventListener\AddPasswordFieldSubscriber;
+use Doctrine\ORM\EntityRepository;
 
 class UserType extends AbstractType
 {
@@ -30,7 +31,15 @@ class UserType extends AbstractType
                     'label'     => '¿Administrador?',
                     'required'  => false,                    
                 ))             
-            ->add('persona',null,array('property'=> 'nombreRut'))
+            ->add('persona',null,array(
+                            'class' => 'ParroquiaComunidadBundle:Persona',
+                            'query_builder' => function(EntityRepository $er) {
+                                return $er->createQueryBuilder('p')
+                                    ->orderBy('p.apellido_p', 'ASC')
+                                    ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                    ->addOrderBy('p.nombres', 'ASC');
+                            },
+                            'property'=> 'nombreRut'))
         ;
         
         $builder->addEventSubscriber(new AddPasswordFieldSubscriber());

@@ -5,6 +5,7 @@ namespace Parroquia\CertificadoBundle\Form\EventListener;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Doctrine\ORM\EntityRepository;
 
 class AddConyugeFieldSubscriber implements EventSubscriberInterface
 {
@@ -24,6 +25,13 @@ class AddConyugeFieldSubscriber implements EventSubscriberInterface
         if (!$data || !$data->getId()) {
             $form->add('conyuge2',null,array(
                         'label' => 'Cónyuge',
+                        'class' => 'ParroquiaComunidadBundle:Persona',
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },                
                         'property' => 'nombreRut'
                     ));                   
         }
@@ -35,6 +43,13 @@ class AddConyugeFieldSubscriber implements EventSubscriberInterface
             {
                 $form->add('conyuge1', null, array(
                             'label' => 'Cónyuge',
+                            'class' => 'ParroquiaComunidadBundle:Persona',
+                            'query_builder' => function(EntityRepository $er) {
+                                return $er->createQueryBuilder('p')
+                                    ->orderBy('p.apellido_p', 'ASC')
+                                    ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                    ->addOrderBy('p.nombres', 'ASC');
+                            },                    
                             'property' => 'nombreRut'                    
                     ));
             }
@@ -42,6 +57,13 @@ class AddConyugeFieldSubscriber implements EventSubscriberInterface
             {
                 $form->add('conyuge2', null, array(
                             'label' => 'Cónyuge',
+                            'class' => 'ParroquiaComunidadBundle:Persona',
+                            'query_builder' => function(EntityRepository $er) {
+                                return $er->createQueryBuilder('p')
+                                    ->orderBy('p.apellido_p', 'ASC')
+                                    ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                    ->addOrderBy('p.nombres', 'ASC');
+                            },                    
                             'property' => 'nombreRut'                    
                     ));
             }            

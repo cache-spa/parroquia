@@ -17,7 +17,13 @@ class MensajeType extends AbstractType
     {
         $builder
             ->add('destinatarios','entity',array(
-                      'class'    => 'ParroquiaComunidadBundle:Persona' ,
+                        'class' => 'ParroquiaComunidadBundle:Persona',
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('p')
+                                ->orderBy('p.apellido_p', 'ASC')
+                                ->addOrderBy('p.apellido_m', 'ASC')                                    
+                                ->addOrderBy('p.nombres', 'ASC');
+                        },
                       'expanded' => false ,
                       'multiple' => true ,
                       'required' => false,
